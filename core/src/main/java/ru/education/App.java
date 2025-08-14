@@ -1,34 +1,40 @@
 package ru.education;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
-public class App extends ApplicationAdapter {
+import ru.education.screen.MenuScreen;
+
+public class App extends Game {
+    public static final int sc_wight = 800;
+    public static final int sc_height = 480;
+    public static final String game = "Game";
+    public static final String menu = "Menu";
     private SpriteBatch batch;
-    private Texture image;
+    private MenuScreen menuScreen;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
+        menuScreen = new MenuScreen(this);
+
+        this.setScreen(menuScreen);
     }
 
-    @Override
-    public void render() {
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        batch.begin();
-        batch.draw(image, 140, 210);
-        batch.end();
+    public SpriteBatch getBatch() {
+        return batch;
     }
 
     @Override
     public void dispose() {
+        super.dispose();
+
         batch.dispose();
-        image.dispose();
+        menuScreen.dispose();
     }
 }
