@@ -5,12 +5,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.ui.MenuUserInterface;
+import ru.education.util.AnimationUtil;
 
 public class MenuScreen implements Screen {
     private final MeowGame meowGame;
@@ -18,9 +21,12 @@ public class MenuScreen implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private MenuUserInterface menuUserInterface;
+    private Animation<TextureRegion> cat, enemy;
+    private float curTime;
 
     public MenuScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
+        curTime = 0;
     }
 
     @Override
@@ -36,11 +42,27 @@ public class MenuScreen implements Screen {
             camera,
             () -> meowGame.changeScreen(MeowGame.GAME)
         );
+
+        initAnimation();
+    }
+
+    private void initAnimation() {
+        enemy = AnimationUtil.getAnimationFromAtlas(
+            "enemyatack.atlas",
+            4f
+        );
+        cat = AnimationUtil.getAnimationFromAtlas(
+            "catflysupersmall.atlas",
+            4f
+        );
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.CLEAR);
+
+        float dTime = Gdx.graphics.getDeltaTime();
+        curTime += dTime;
 
         camera.update();
         batch.setProjectionMatrix(camera.combined);
@@ -48,12 +70,22 @@ public class MenuScreen implements Screen {
         batch.begin();
 
         batch.draw(background, 0, 0, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
-        /*meowGame.getFont().draw(
-                batch,
-                "TAP TO START",
-                MeowGame.SCREEN_WIDTH / 2f - 100,
-                MeowGame.SCREEN_HEIGHT / 2f
-        );*/
+
+        batch.draw(
+            cat.getKeyFrame(curTime, true),
+            100,
+            100,
+            80f,
+            200f
+        );
+
+        batch.draw(
+            enemy.getKeyFrame(curTime, true),
+            MeowGame.SCREEN_WIDTH - 220,
+            100,
+            120f,
+            120f
+        );
 
         batch.end();
 
