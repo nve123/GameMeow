@@ -1,0 +1,96 @@
+catwork-0.png
+size: 504, 66
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+_0000_--------------
+  rotate: false
+  xy: 1, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 0
+_0001_--------------
+  rotate: false
+  xy: 73, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 1
+_0002_--------------
+  rotate: false
+  xy: 145, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 2
+_0003_--------------
+  rotate: false
+  xy: 217, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 3
+_0004_--------------
+  rotate: false
+  xy: 289, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 4
+_0005_--------------
+  rotate: false
+  xy: 361, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 5
+_0006_--------------
+  rotate: false
+  xy: 433, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 6
+_0007_--------------
+  rotate: false
+  xy: 433, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 7
+_0008_--------------
+  rotate: false
+  xy: 361, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 8
+_0009_--------------
+  rotate: false
+  xy: 289, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 9
+_0010_--------------
+  rotate: false
+  xy: 217, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 10
+_0011_--------------
+  rotate: false
+  xy: 145, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 11
+_0012_--------------
+  rotate: false
+  xy: 73, 1
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: 12
