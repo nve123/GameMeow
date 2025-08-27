@@ -1,0 +1,159 @@
+enemy-0.png
+size: 1452, 72
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+_0000_----
+  rotate: false
+  xy: 1, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 0
+_0001_----
+  rotate: false
+  xy: 67, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 1
+_0002_----
+  rotate: false
+  xy: 133, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 2
+_0003_----
+  rotate: false
+  xy: 199, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 3
+_0004_----
+  rotate: false
+  xy: 265, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 4
+_0005_----
+  rotate: false
+  xy: 331, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 5
+_0006_----
+  rotate: false
+  xy: 397, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 6
+_0007_----
+  rotate: false
+  xy: 463, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 7
+_0008_----
+  rotate: false
+  xy: 529, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 8
+_0009_----
+  rotate: false
+  xy: 595, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 9
+_0010_----
+  rotate: false
+  xy: 661, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 10
+_0011_----
+  rotate: false
+  xy: 727, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 11
+_0012_----
+  rotate: false
+  xy: 793, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 12
+_0013_----
+  rotate: false
+  xy: 859, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 13
+_0014_----
+  rotate: false
+  xy: 925, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 14
+_0015_----
+  rotate: false
+  xy: 991, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 15
+_0016_----
+  rotate: false
+  xy: 1057, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 16
+_0017_----
+  rotate: false
+  xy: 1123, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 17
+_0018_----
+  rotate: false
+  xy: 1189, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 18
+_0019_----
+  rotate: false
+  xy: 1255, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 19
+_0020_----
+  rotate: false
+  xy: 1321, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 20
+_0021_----
+  rotate: false
+  xy: 1387, 1
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: 21

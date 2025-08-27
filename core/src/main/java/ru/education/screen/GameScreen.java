@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.ui.GameUserInterface;
+import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 
 import java.util.Random;
@@ -29,6 +30,7 @@ public class GameScreen implements Screen {
     private Texture tmpTexture;
     private Vector3 touchPoint;
     private Worker worker;
+    private Enemy enemy;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -61,6 +63,13 @@ public class GameScreen implements Screen {
 
         worker = new Worker(coreTower);
         touchPoint = new Vector3();
+
+        enemy = new Enemy(
+            10,
+            coreTower,
+            WORLD_WIDTH - 100,
+            MeowGame.SCREEN_HEIGHT / 2f
+        );
     }
 
     @Override
@@ -110,6 +119,15 @@ public class GameScreen implements Screen {
                 worker.draw(batch);
             }
             worker.setTimeInState(deltaTime);
+        }
+
+        if (enemy.isAlive()) {
+            enemy.nextXY();
+            if (enemy.getX() > MeowGame.SCREEN_WIDTH && !camera.isLeftState()
+                || enemy.getX() < MeowGame.SCREEN_WIDTH && camera.isLeftState()) {
+                enemy.draw(batch);
+            }
+            enemy.setTimeInState(deltaTime);
         }
 
         batch.end();
