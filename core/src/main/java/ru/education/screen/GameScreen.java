@@ -1,21 +1,24 @@
 package ru.education.screen;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.math.Rectangle;
-
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
+import ru.education.tower.CoreTower;
+import ru.education.tower.resource.Resource;
+import ru.education.tower.resource.ResourceType;
 import ru.education.ui.GameUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
-
-import java.util.Random;
+import ru.education.user.User;
 
 public class GameScreen implements Screen {
     public static final int WORLD_WIDTH = MeowGame.SCREEN_WIDTH * 2;
@@ -25,12 +28,13 @@ public class GameScreen implements Screen {
     private Texture background;
     private GameUserInterface gameUserInterface;
 
-    private Rectangle coreTower;
-    private Rectangle resource;
+    private CoreTower coreTower;
+    private Array<Resource> resourceList;
     private Texture tmpTexture;
     private Vector3 touchPoint;
     private Worker worker;
     private Enemy enemy;
+    private BitmapFont font;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -48,28 +52,40 @@ public class GameScreen implements Screen {
         gameUserInterface = new GameUserInterface(camera);
 
         tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
-        coreTower = new Rectangle(
-            MeowGame.SCREEN_WIDTH - 150 - 50,
-            MeowGame.SCREEN_HEIGHT / 2f - 75,
-            150,
-            150
+        coreTower = new CoreTower(
+            170,
+            226
         );
-        resource = new Rectangle(
+
+        Resource resourceGold, resourceOre, resourceWood;
+        resourceGold = new Resource(
+            50 - 25,
+            480 / 2f - 165 / 2f,
+            new Texture(Gdx.files.internal("gold.png")),
+            ResourceType.GOLD, 170, 119);
+        resourceOre = new Resource(
             50,
-            MeowGame.SCREEN_HEIGHT / 2f - 50,
-            100,
-            100
-        );
+            480 - 150 - 35,
+            new Texture(Gdx.files.internal("ore.png")),
+            ResourceType.ORE, 146, 119);
+        resourceWood = new Resource(
+            55,
+            0 + 15,
+            new Texture(Gdx.files.internal("wood.png")),
+            ResourceType.WOOD, 150, 125);
+        resourceList = Array.with(resourceGold, resourceOre, resourceWood);
 
         worker = new Worker(coreTower);
         touchPoint = new Vector3();
 
         enemy = new Enemy(
             10,
-            coreTower,
+            coreTower.getHitBox(),
             WORLD_WIDTH - 100,
             MeowGame.SCREEN_HEIGHT / 2f
         );
+
+        font = new BitmapFont();
     }
 
     @Override
@@ -89,11 +105,14 @@ public class GameScreen implements Screen {
                 if (worker.getCurrentState() == Worker.StateWorker.CLICKED) {
                     boolean startWorking = false;
 
-                    if (resource.contains(touchPoint.x, touchPoint.y)) {
-                        worker.setWorkingPlace(resource);
-                        worker.setCurrentState(Worker.StateWorker.GO_TO);
-                        worker.setDestination(resource);
-                        startWorking = true;
+                    for (Resource resource : resourceList) {
+
+                        if (resource.contains(touchPoint.x, touchPoint.y)) {
+                            worker.setWorkingPlace(resource);
+                            worker.setCurrentState(Worker.StateWorker.GO_TO);
+                            worker.setDestination(resource.getWorkBox());
+                            startWorking = true;
+                        }
                     }
 
                     if (!startWorking) worker.setCurrentState(Worker.StateWorker.SLEEP);
@@ -108,8 +127,16 @@ public class GameScreen implements Screen {
         batch.draw(background, 0, 0, MeowGame.SCREEN_WIDTH * 2, MeowGame.SCREEN_HEIGHT);
 
         if (camera.isLeftState()) {
-            batch.draw(tmpTexture, coreTower.x, coreTower.y, coreTower.width, coreTower.height);
-            batch.draw(tmpTexture, resource.x, resource.y, resource.width, resource.height);
+            coreTower.draw(batch);
+            for (Resource resource : resourceList) {
+                resource.draw(batch);
+            }
+            font.draw(
+                batch,
+                User.getInstance().fullInfo(),
+                MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
+                coreTower.getY()
+            );
         }
 
         if (worker.isAlive()) {
@@ -140,6 +167,10 @@ public class GameScreen implements Screen {
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();
+
+        for (Resource resource : resourceList) {
+            resource.dispose();
+        }
     }
 
     @Override

@@ -4,11 +4,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+
+import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 
 import java.util.EnumMap;
 
-public class Enemy extends Unit{
+public class Enemy extends Unit {
+
     public static final int TIME_TO_START = 10;
     private int hp;
     private final BitmapFont font = new BitmapFont();
@@ -163,7 +166,7 @@ public class Enemy extends Unit{
                     break;
                 case ATTACK:
                     if ((timeInState - timeLastAttack > 1 || timeLastAttack == -1) && isAlive) {
-                        //TODO: отнимать хп у здания
+                        User.getInstance().getDmg(10);
                         timeLastAttack = timeInState;
                     }
             }
