@@ -1,5 +1,8 @@
 package ru.education.user;
 
+import ru.education.shop.Item;
+import ru.education.shop.Price;
+
 public class User {
     private static User instance;
     private int gold = 0;
@@ -38,6 +41,16 @@ public class User {
 
     public void incGold(int gold) {
         User.getInstance().gold += gold;
+    }
+    public void buyItem(Item curChoice) {
+        Price price = curChoice.getPrice();
+        gold -= price.getGold();
+        wood -= price.getWood();
+        ore -= price.getOre();
+    }
+
+    public boolean canBuy(Price price) {
+        return price.getWood() <= wood && price.getOre() <= ore && price.getGold() <= gold;
     }
 
 }
