@@ -2,9 +2,10 @@ package ru.education.unit;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-
+import com.badlogic.gdx.utils.Array;
 import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 
@@ -12,7 +13,7 @@ import java.util.EnumMap;
 
 public class Enemy extends Unit {
 
-    public static final int TIME_TO_START = 10;
+    public static final int TIME_TO_START = 60;
     private int hp;
     private final BitmapFont font = new BitmapFont();
 
@@ -41,46 +42,53 @@ public class Enemy extends Unit {
 
     @Override
     public void initStateMap() {
+        textureAtlasArray = new Array<>();
         stateAttrMap = new EnumMap<>(StateEnemy.class);
 
+        TextureAtlas atlas = new TextureAtlas("enemystay.atlas");
         stateAttrMap.put(
             StateEnemy.STAY,
             new StateAttribute(
                 60f,
                 60f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "enemystay.atlas",
+                    atlas,
                     2f
                 ),
                 0f
             )
         );
+        textureAtlasArray.add(atlas);
 
+        atlas = new TextureAtlas("enemy.atlas");
         stateAttrMap.put(
             StateEnemy.GO_TO,
             new StateAttribute(
                 60f,
                 60f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "enemy.atlas",
+                    atlas,
                     1f
                 ),
                 0.2f
             )
         );
+        textureAtlasArray.add(atlas);
 
+        atlas = new TextureAtlas("enemyatack.atlas");
         stateAttrMap.put(
             StateEnemy.ATTACK,
             new StateAttribute(
                 60f,
                 60f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "enemyatack.atlas",
+                    atlas,
                     0.75f
                 ),
                 0f
             )
         );
+        textureAtlasArray.add(atlas);
     }
 
     public void setTimeInState(float deltaTime) {

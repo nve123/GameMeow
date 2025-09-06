@@ -2,8 +2,10 @@ package ru.education.unit;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class Unit {
     protected boolean isAlive;
@@ -13,6 +15,7 @@ public abstract class Unit {
     protected float deltaY;
     protected Rectangle destination;
     protected float timeInState;
+    protected Array<TextureAtlas> textureAtlasArray;
 
     protected static class StateAttribute {
         protected final float width;
@@ -53,6 +56,13 @@ public abstract class Unit {
         calcDeltaXAndDeltaY();
     }
 
+    public void dispose() {
+        if (textureAtlasArray != null)
+            for (TextureAtlas atlas : textureAtlasArray) {
+                atlas.dispose();
+            }
+    }
+
     public abstract void initStateMap();
 
     public abstract float getSpeed();
@@ -64,5 +74,4 @@ public abstract class Unit {
     public abstract float getHeight();
 
     public abstract void nextXY();
-
 }

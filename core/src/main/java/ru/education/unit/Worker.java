@@ -2,7 +2,9 @@ package ru.education.unit;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import ru.education.MeowGame;
 import ru.education.tower.CoreTower;
 import ru.education.tower.resource.Resource;
@@ -14,11 +16,7 @@ import java.util.EnumMap;
 
 public class Worker extends Unit {
     private static final float WORKING_TIME = 5f;
-
-    //TODO: экземпляр класса Resource
     private Resource workingPlace;
-
-    //TODO: экземпляр класса CoreTower
     private final CoreTower coreTower;
 
     public enum StateWorker {
@@ -60,98 +58,113 @@ public class Worker extends Unit {
     }
 
     public void initStateMap() {
+        textureAtlasArray = new Array<>();
         stateAttrMap = new EnumMap<>(StateWorker.class);
 
+        TextureAtlas atlas = new TextureAtlas("catflysupersmall.atlas");
         stateAttrMap.put(
             StateWorker.FLY,
             new StateAttribute(
                 42f,
                 75f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "catflysupersmall.atlas",
+                    atlas,
                     2.5f
                 ),
                 0.5f
             )
         );
+        textureAtlasArray.add(atlas);
 
+        atlas = new TextureAtlas("catfall.atlas");
         stateAttrMap.put(
             StateWorker.FALL,
             new StateAttribute(
                 37.8f,
                 67.5f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "catfall.atlas",
+                    atlas,
                     5.5f
                 ),
                 2f
             )
         );
+        textureAtlasArray.add(atlas);
 
+        atlas = new TextureAtlas("catsleep.atlas");
         stateAttrMap.put(
             StateWorker.SLEEP,
             new StateAttribute(
                 45f,
                 39.5f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "catsleep.atlas",
+                    atlas,
                     2f
                 ),
                 0f
             )
         );
+        textureAtlasArray.add(atlas);
 
+        atlas = new TextureAtlas("catshine.atlas");
         stateAttrMap.put(
             StateWorker.CLICKED,
             new StateAttribute(
                 45f,
                 39.5f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "catshine.atlas",
+                    atlas,
                     2f
                 ),
                 0f
             )
         );
+        textureAtlasArray.add(atlas);
 
+        atlas = new TextureAtlas("catwalk.atlas");
         stateAttrMap.put(
             StateWorker.GO_TO,
             new StateAttribute(
                 35f,
                 35f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "catwalk.atlas",
+                    atlas,
                     1f
                 ),
                 0.75f
             )
         );
+        textureAtlasArray.add(atlas);
 
+        atlas = new TextureAtlas("catwork.atlas");
         stateAttrMap.put(
             StateWorker.WORK,
             new StateAttribute(
                 35f,
                 35f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "catwork.atlas",
+                    atlas,
                     0.75f
                 ),
                 0
             )
         );
+        textureAtlasArray.add(atlas);
 
+        atlas = new TextureAtlas("catcarrysupersmall.atlas");
         stateAttrMap.put(
             StateWorker.GO_FROM,
             new StateAttribute(
                 35f,
                 35f,
                 AnimationUtil.getAnimationFromAtlas(
-                    "catcarrysupersmall.atlas",
+                    atlas,
                     1f
                 ),
                 0.75f
             )
         );
+        textureAtlasArray.add(atlas);
     }
 
     public TextureRegion getCurrentFrame() {

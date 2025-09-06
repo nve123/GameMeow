@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.shop.Item;
@@ -24,6 +25,7 @@ import ru.education.ui.GameUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
+import java.util.Random;
 
 public class GameScreen implements Screen {
     public static final int WORLD_WIDTH = MeowGame.SCREEN_WIDTH * 2;
@@ -37,12 +39,16 @@ public class GameScreen implements Screen {
     private Array<Resource> resourceList;
     private Texture tmpTexture;
     private Vector3 touchPoint;
-    private Worker worker;
+    private Array<Worker> workers;
+    private Array<Worker> activeWorkers;
     private Enemy enemy;
     private BitmapFont font;
     private Array<SlotTower> slotTowerArray;
     private Array<DefensiveTower> defensiveTowerArray;
     private Shop shop;
+    private float curTime;
+    private float prevTime;
+    private DebugInfo debugInfo;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -83,7 +89,12 @@ public class GameScreen implements Screen {
             ResourceType.WOOD, 150, 125);
         resourceList = Array.with(resourceGold, resourceOre, resourceWood);
 
-        worker = new Worker(coreTower);
+        workers = new Array<>();
+        activeWorkers = new Array<>();
+        workers.add(new Worker(coreTower));
+        workers.add(new Worker(coreTower));
+        workers.add(new Worker(coreTower));
+
         touchPoint = new Vector3();
 
         enemy = new Enemy(
@@ -112,9 +123,19 @@ public class GameScreen implements Screen {
         slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f - 50 - 100));
 
         defensiveTowerArray = new Array<>();
-        User.getInstance().incOre(50);
-        User.getInstance().incWood(50);
-        User.getInstance().incGold(50);
+
+        curTime = 0f;
+        prevTime = 0f;
+
+        debugInfo = new DebugInfo();
+    }
+
+    public void generateWorker() {
+        float dTime = curTime - prevTime;
+        if (dTime > (new Random().nextInt(4) + 4f) && activeWorkers.size < workers.size) {
+            activeWorkers.add(workers.get(activeWorkers.size));
+            prevTime = curTime;
+        }
     }
 
     @Override
@@ -124,28 +145,32 @@ public class GameScreen implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         float deltaTime = Gdx.graphics.getDeltaTime();
+        curTime += deltaTime;
 
         if (Gdx.input.justTouched()) {
             camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
 
             if (!shop.isActive()) {
-                if (worker.contains(touchPoint.x, touchPoint.y)) {
-                    worker.clicked();
-                } else {
-                    if (worker.getCurrentState() == Worker.StateWorker.CLICKED) {
-                        boolean startWorking = false;
+                for (Worker worker : activeWorkers) {
+                    if (worker.contains(touchPoint.x, touchPoint.y)) {
+                        worker.clicked();
+                    } else {
+                        if (worker.getCurrentState() == Worker.StateWorker.CLICKED) {
+                            boolean startWorking = false;
 
-                        for (Resource resource : resourceList) {
+                            for (Resource resource : resourceList) {
 
-                            if (resource.contains(touchPoint.x, touchPoint.y)) {
-                                worker.setWorkingPlace(resource);
-                                worker.setCurrentState(Worker.StateWorker.GO_TO);
-                                worker.setDestination(resource.getWorkBox());
-                                startWorking = true;
+                                if (resource.contains(touchPoint.x, touchPoint.y)) {
+                                    worker.setWorkingPlace(resource);
+                                    worker.setCurrentState(Worker.StateWorker.GO_TO);
+                                    worker.setDestination(resource.getWorkBox());
+                                    startWorking = true;
+                                }
                             }
-                        }
 
-                        if (!startWorking) worker.setCurrentState(Worker.StateWorker.SLEEP);
+                            if (!startWorking) worker.setCurrentState(Worker.StateWorker.SLEEP);
+                        }
                     }
                 }
 
@@ -204,18 +229,17 @@ public class GameScreen implements Screen {
             for (SlotTower slotTower : slotTowerArray) {
                 slotTower.draw(batch);
             }
-            for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                defensiveTower.draw(batch);
-            }
         }
 
-        if (worker.isAlive()) {
-            worker.sleepSametime();
-            worker.nextXY();
-            if (camera.isLeftState()) {
-                worker.draw(batch);
+        for (Worker worker : activeWorkers) {
+            if (worker.isAlive()) {
+                worker.sleepSametime();
+                worker.nextXY();
+                if (camera.isLeftState()) {
+                    worker.draw(batch);
+                }
+                worker.setTimeInState(deltaTime);
             }
-            worker.setTimeInState(deltaTime);
         }
 
         if (enemy.isAlive()) {
@@ -226,8 +250,15 @@ public class GameScreen implements Screen {
             }
             enemy.setTimeInState(deltaTime);
         }
+        for (DefensiveTower defensiveTower : defensiveTowerArray) {
+            defensiveTower.draw(batch, enemy, curTime);
+        }
+
+        debugInfo.draw(batch);
 
         batch.end();
+
+        generateWorker();
 
         gameUserInterface.drawUI();
     }
@@ -242,6 +273,18 @@ public class GameScreen implements Screen {
             resource.dispose();
         }
         coreTower.dispose();
+
+        for (Worker worker : workers) {
+            worker.dispose();
+        }
+
+        enemy.dispose();
+
+        for (DefensiveTower defensiveTower : defensiveTowerArray) {
+            defensiveTower.dispose();
+        }
+
+        debugInfo.dispose();
     }
 
     @Override
