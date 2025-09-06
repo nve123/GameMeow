@@ -12,7 +12,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
+import ru.education.shop.Item;
+import ru.education.shop.Price;
+import ru.education.shop.Shop;
 import ru.education.tower.CoreTower;
+import ru.education.tower.DefensiveTower;
+import ru.education.tower.SlotTower;
 import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
 import ru.education.ui.GameUserInterface;
@@ -35,6 +40,9 @@ public class GameScreen implements Screen {
     private Worker worker;
     private Enemy enemy;
     private BitmapFont font;
+    private Array<SlotTower> slotTowerArray;
+    private Array<DefensiveTower> defensiveTowerArray;
+    private Shop shop;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -86,6 +94,27 @@ public class GameScreen implements Screen {
         );
 
         font = new BitmapFont();
+
+        shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
+        shop.addItem(
+            new Item(
+                new Texture(Gdx.files.internal("towerShop50x50.png")),
+                new Price(10, 20, 15)
+            )
+        );
+
+        slotTowerArray = new Array<>(6);
+        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150, 480 / 2f + 50));
+        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f + 50));
+        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150, 480 / 2f - 50 - 100));
+        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f - 50 - 100));
+        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f + 50));
+        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f - 50 - 100));
+
+        defensiveTowerArray = new Array<>();
+        User.getInstance().incOre(50);
+        User.getInstance().incWood(50);
+        User.getInstance().incGold(50);
     }
 
     @Override
@@ -99,26 +128,59 @@ public class GameScreen implements Screen {
         if (Gdx.input.justTouched()) {
             camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
-            if (worker.contains(touchPoint.x, touchPoint.y)) {
-                worker.clicked();
-            } else {
-                if (worker.getCurrentState() == Worker.StateWorker.CLICKED) {
-                    boolean startWorking = false;
+            if (!shop.isActive()) {
+                if (worker.contains(touchPoint.x, touchPoint.y)) {
+                    worker.clicked();
+                } else {
+                    if (worker.getCurrentState() == Worker.StateWorker.CLICKED) {
+                        boolean startWorking = false;
 
-                    for (Resource resource : resourceList) {
+                        for (Resource resource : resourceList) {
 
-                        if (resource.contains(touchPoint.x, touchPoint.y)) {
-                            worker.setWorkingPlace(resource);
-                            worker.setCurrentState(Worker.StateWorker.GO_TO);
-                            worker.setDestination(resource.getWorkBox());
-                            startWorking = true;
+                            if (resource.contains(touchPoint.x, touchPoint.y)) {
+                                worker.setWorkingPlace(resource);
+                                worker.setCurrentState(Worker.StateWorker.GO_TO);
+                                worker.setDestination(resource.getWorkBox());
+                                startWorking = true;
+                            }
                         }
-                    }
 
-                    if (!startWorking) worker.setCurrentState(Worker.StateWorker.SLEEP);
+                        if (!startWorking) worker.setCurrentState(Worker.StateWorker.SLEEP);
+                    }
+                }
+
+                for (Item item : shop.getItems()) {
+                    if (item.getHitBox().contains(touchPoint.x, touchPoint.y)) {
+                        for (SlotTower slotTower : slotTowerArray) {
+                            if (slotTower.isFree()) slotTower.setVisible(true);
+                        }
+                        shop.setCurChoice(item);
+                        shop.setActive(true);
+                    }
+                }
+            } else {
+                for (SlotTower slotTower : slotTowerArray) {
+                    if (
+                        slotTower.getHitBox().contains(touchPoint.x, touchPoint.y)
+                            && slotTower.isFree()
+                            && User.getInstance().canBuy(shop.getCurChoice().getPrice())
+                    ) {
+                        defensiveTowerArray.add(new DefensiveTower(
+                            slotTower.getHitBox().x,
+                            slotTower.getHitBox().y,
+                            70, 125,
+                            new Texture(Gdx.files.internal("tower.png"))
+                        ));
+                        slotTower.setFree(false);
+                        slotTower.setVisible(false);
+                        User.getInstance().buyItem(shop.getCurChoice());
+                    }
+                }
+                shop.setActive(false);
+                for (SlotTower slotTower : slotTowerArray) {
+                    if (slotTower.isVisible()) slotTower.setVisible(false);
                 }
             }
-
 
         }
 
@@ -137,6 +199,14 @@ public class GameScreen implements Screen {
                 MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
                 coreTower.getY()
             );
+        } else {
+            shop.draw(batch);
+            for (SlotTower slotTower : slotTowerArray) {
+                slotTower.draw(batch);
+            }
+            for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                defensiveTower.draw(batch);
+            }
         }
 
         if (worker.isAlive()) {
@@ -171,6 +241,7 @@ public class GameScreen implements Screen {
         for (Resource resource : resourceList) {
             resource.dispose();
         }
+        coreTower.dispose();
     }
 
     @Override
