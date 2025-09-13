@@ -3,8 +3,9 @@ package ru.education.shop;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 
-public class Shop {
+public class Shop implements Disposable {
     private final float x;
     private final float y;
     private float xNext;
@@ -63,5 +64,13 @@ public class Shop {
 
     public Item getCurChoice() {
         return curChoice;
+    }
+
+    @Override
+    public void dispose() {
+        font.dispose();
+        for (Item item : items) {
+            item.dispose();
+        }
     }
 }

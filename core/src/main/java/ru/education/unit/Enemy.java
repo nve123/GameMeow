@@ -180,4 +180,10 @@ public class Enemy extends Unit {
             }
         }
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        font.dispose();
+    }
 }

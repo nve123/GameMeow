@@ -33,7 +33,7 @@ public class CoreTower extends Tower {
         batch.draw(texture, x, y, width, height);
 
         //Отладочная информация
-        batch.draw(new Texture(Gdx.files.internal("tmp.png")), hitBox.x, hitBox.y, hitBox.width, hitBox.height);
-        batch.draw(new Texture(Gdx.files.internal("tmp.png")), storageBox.x, storageBox.y, storageBox.width, storageBox.height);
+        batch.draw(debugTexture, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
+        batch.draw(debugTexture, storageBox.x, storageBox.y, storageBox.width, storageBox.height);
     }
 }

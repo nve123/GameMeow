@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import ru.education.util.AnimationUtil;
 import ru.education.unit.Enemy;
+import com.badlogic.gdx.utils.Disposable;
 
 public class DefensiveTower extends Tower {
     private float lastShot;
@@ -33,20 +34,22 @@ public class DefensiveTower extends Tower {
 
     public void draw(SpriteBatch batch, Enemy enemy, float curTime) {
         batch.draw(texture, x, y, width, height);
-        batch.draw(new Texture("tmp.png"), range.x, range.y, range.width, range.height);
+        batch.draw(debugTexture, range.x, range.y, range.width, range.height);
+
         if (curTime - lastShot > 5 && range.contains(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
             lastShot = curTime;
             shotArray.add(new Shot(enemy));
         }
+
         for (Shot shot : shotArray) {
-            if (!shot.inTarget) {
+            if (!shot.inTarget && enemy.isAlive()) {
                 batch.draw(shot.getCurrentFrame(curTime), shot.x, shot.y);
                 shot.nextXY();
             }
         }
     }
 
-    public class Shot {
+    public class Shot implements Disposable {
         private boolean inTarget;
         private Rectangle target;
 
@@ -57,19 +60,21 @@ public class DefensiveTower extends Tower {
         private float x, y;
         private final Animation<TextureRegion> animations;
         private final Enemy enemy;
+        private final Texture texture;
 
         public Shot(Enemy enemy) {
             this.enemy = enemy;
             this.x = DefensiveTower.this.x + DefensiveTower.this.width / 2f;
             this.y = DefensiveTower.this.y + DefensiveTower.this.height / 2f;
+            texture = new Texture("spark16.png");
             animations = AnimationUtil.getAnimationFromTexture(
-                new Texture("spark16.png"),
+                texture,
                 5,
                 1,
                 0.5f
             );
-            width = new Texture("spark16.png").getWidth() / 5f;
-            height = new Texture("spark16.png").getHeight();
+            width = texture.getWidth() / 5f;
+            height = texture.getHeight();
             setDestination(
                 enemy.getX() + enemy.getWidth() / 4f + enemy.getDeltaX() * 60,
                 enemy.getY() + enemy.getHeight() / 2f + enemy.getDeltaY() * 60
@@ -122,6 +127,19 @@ public class DefensiveTower extends Tower {
 
         public TextureRegion getCurrentFrame(float time) {
             return animations.getKeyFrame(time, true);
+        }
+
+        @Override
+        public void dispose() {
+            texture.dispose();
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        for (Shot shot : shotArray) {
+            shot.dispose();
         }
     }
 }

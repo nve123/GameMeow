@@ -31,6 +31,7 @@ public class SlotTower extends Tower {
     public void setVisible(boolean visible) {
         isVisible = visible;
     }
+
     public boolean isFree() {
         return isFree;
     }
