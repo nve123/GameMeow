@@ -42,6 +42,7 @@ public class User {
     public void incGold(int gold) {
         User.getInstance().gold += gold;
     }
+
     public void buyItem(Item curChoice) {
         Price price = curChoice.getPrice();
         gold -= price.getGold();

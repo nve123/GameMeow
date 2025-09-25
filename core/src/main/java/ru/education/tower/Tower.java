@@ -3,6 +3,7 @@ package ru.education.tower;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Gdx;
 
 public abstract class Tower {
     protected final float x;
@@ -10,6 +11,7 @@ public abstract class Tower {
     protected final float width;
     protected final float height;
     protected final Texture texture;
+    protected final Texture debugTexture;
     protected final Rectangle hitBox;
 
     public Tower(
@@ -24,6 +26,7 @@ public abstract class Tower {
         this.y = y;
         this.width = width;
         this.height = height;
+        debugTexture = new Texture(Gdx.files.internal("tmp.png"));
     }
 
     public Rectangle getHitBox() {
@@ -54,6 +57,7 @@ public abstract class Tower {
 
     public void dispose() {
         texture.dispose();
+        debugTexture.dispose();
     }
 
 }

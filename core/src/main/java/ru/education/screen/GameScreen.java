@@ -268,6 +268,7 @@ public class GameScreen implements Screen {
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();
+        font.dispose();
 
         for (Resource resource : resourceList) {
             resource.dispose();
@@ -283,6 +284,12 @@ public class GameScreen implements Screen {
         for (DefensiveTower defensiveTower : defensiveTowerArray) {
             defensiveTower.dispose();
         }
+
+        for (SlotTower slotTower : slotTowerArray) {
+            slotTower.dispose();
+        }
+
+        shop.dispose();
 
         debugInfo.dispose();
     }
