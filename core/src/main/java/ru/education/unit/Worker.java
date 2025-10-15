@@ -6,18 +6,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import ru.education.MeowGame;
-import ru.education.tower.CoreTower;
+import ru.education.tower.Core;
 import ru.education.tower.resource.Resource;
 import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 import ru.education.util.MathUtil;
-
 import java.util.EnumMap;
 
 public class Worker extends Unit {
     private static final float WORKING_TIME = 5f;
     private Resource workingPlace;
-    private final CoreTower coreTower;
+    private final Core coreTower;
 
     public enum StateWorker {
         FLY,
@@ -35,7 +34,7 @@ public class Worker extends Unit {
     //нужно ли развернуть спрайт по оси Х (если движение в обратном направлении)
     private boolean rightPosition;
 
-    public Worker(CoreTower coreTower) {
+    public Worker(Core coreTower) {
 
         initStateMap();
         this.coreTower = coreTower;

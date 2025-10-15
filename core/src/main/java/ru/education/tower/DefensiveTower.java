@@ -6,14 +6,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+
 import ru.education.util.AnimationUtil;
 import ru.education.unit.Enemy;
+
 import com.badlogic.gdx.utils.Disposable;
 
 public class DefensiveTower extends Tower {
+    public static final int ATTACK_SPEED = 1;
     private float lastShot;
     private final Rectangle range;
     private final Array<Shot> shotArray;
+    private int dmg;
+
 
     public DefensiveTower(
         float x, float y,
@@ -36,7 +41,7 @@ public class DefensiveTower extends Tower {
         batch.draw(texture, x, y, width, height);
         batch.draw(debugTexture, range.x, range.y, range.width, range.height);
 
-        if (curTime - lastShot > 5 && range.contains(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
+        if (curTime - lastShot > ATTACK_SPEED && range.contains(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
             lastShot = curTime;
             shotArray.add(new Shot(enemy));
         }
@@ -49,10 +54,18 @@ public class DefensiveTower extends Tower {
         }
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        for (Shot shot : shotArray) {
+            shot.dispose();
+        }
+    }
+
     public class Shot implements Disposable {
         private boolean inTarget;
-        private Rectangle target;
 
+        private Rectangle target;
         private final float width;
         private final float height;
         private float deltaX;
@@ -99,7 +112,7 @@ public class DefensiveTower extends Tower {
 
         public void nextXY() {
 
-            //TODO: сделать проверку на пересечение хитбоксов, а не на левый угол
+            //TODO: сделать проверку на пересечение хитбоксов, а не на левый угол или нет
             if (!target.contains(x, y)) {
 
                 if (target.y + target.height / 2f > y) y += deltaY;
@@ -114,7 +127,8 @@ public class DefensiveTower extends Tower {
 
             } else {
                 Rectangle enemyHitBox = new Rectangle(
-                    enemy.getX(), enemy.getY(),
+                    enemy.getX(),
+                    enemy.getY(),
                     enemy.getWidth(),
                     enemy.getHeight()
                 );
@@ -129,17 +143,13 @@ public class DefensiveTower extends Tower {
             return animations.getKeyFrame(time, true);
         }
 
+
         @Override
         public void dispose() {
             texture.dispose();
         }
+
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        for (Shot shot : shotArray) {
-            shot.dispose();
-        }
-    }
+
 }
