@@ -5,9 +5,9 @@ import ru.education.shop.Price;
 
 public class User {
     private static User instance;
-    private int gold = 0;
-    private int ore = 0;
-    private int wood = 0;
+    private int gold = 100;
+    private int ore = 200;
+    private int wood = 150;
     private int hp = 100;
 
     private User() {

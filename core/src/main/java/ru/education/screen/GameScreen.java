@@ -10,13 +10,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+
 import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.shop.Item;
 import ru.education.shop.Price;
 import ru.education.shop.Shop;
-import ru.education.tower.CoreTower;
+import ru.education.tower.Core;
 import ru.education.tower.DefensiveTower;
 import ru.education.tower.SlotTower;
 import ru.education.tower.resource.Resource;
@@ -25,6 +26,7 @@ import ru.education.ui.GameUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
+
 import java.util.Random;
 
 public class GameScreen implements Screen {
@@ -35,7 +37,7 @@ public class GameScreen implements Screen {
     private Texture background;
     private GameUserInterface gameUserInterface;
 
-    private CoreTower coreTower;
+    private Core coreTower;
     private Array<Resource> resourceList;
     private Texture tmpTexture;
     private Vector3 touchPoint;
@@ -49,6 +51,7 @@ public class GameScreen implements Screen {
     private float curTime;
     private float prevTime;
     private DebugInfo debugInfo;
+    private int plusHP = 0;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -66,7 +69,7 @@ public class GameScreen implements Screen {
         gameUserInterface = new GameUserInterface(camera);
 
         tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
-        coreTower = new CoreTower(
+        coreTower = new Core(
             170,
             226
         );
@@ -98,7 +101,7 @@ public class GameScreen implements Screen {
         touchPoint = new Vector3();
 
         enemy = new Enemy(
-            10,
+            2,
             coreTower.getHitBox(),
             WORLD_WIDTH - 100,
             MeowGame.SCREEN_HEIGHT / 2f
@@ -110,7 +113,15 @@ public class GameScreen implements Screen {
         shop.addItem(
             new Item(
                 new Texture(Gdx.files.internal("towerShop50x50.png")),
-                new Price(10, 20, 15)
+                new Price(10, 20, 15),
+                false
+            )
+        );
+        shop.addItem(
+            new Item(
+                new Texture(Gdx.files.internal("test50x50.png")),
+                new Price(20, 40, 30),
+                true
             )
         );
 
@@ -176,37 +187,53 @@ public class GameScreen implements Screen {
 
                 for (Item item : shop.getItems()) {
                     if (item.getHitBox().contains(touchPoint.x, touchPoint.y)) {
-                        for (SlotTower slotTower : slotTowerArray) {
-                            if (slotTower.isFree()) slotTower.setVisible(true);
+                        if (!item.isUpdate()) {
+                            for (SlotTower slotTower : slotTowerArray) {
+                                if (slotTower.isFree()) slotTower.setVisible(true);
+                            }
+                        } else {
+                            for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                                defensiveTower.setTexture(new Texture("towershine.png"));
+                            }
                         }
                         shop.setCurChoice(item);
                         shop.setActive(true);
                     }
                 }
             } else {
-                for (SlotTower slotTower : slotTowerArray) {
-                    if (
-                        slotTower.getHitBox().contains(touchPoint.x, touchPoint.y)
-                            && slotTower.isFree()
-                            && User.getInstance().canBuy(shop.getCurChoice().getPrice())
-                    ) {
-                        defensiveTowerArray.add(new DefensiveTower(
-                            slotTower.getHitBox().x,
-                            slotTower.getHitBox().y,
-                            70, 125,
-                            new Texture(Gdx.files.internal("tower.png"))
-                        ));
-                        slotTower.setFree(false);
-                        slotTower.setVisible(false);
-                        User.getInstance().buyItem(shop.getCurChoice());
+                if (!shop.getCurChoice().isUpdate()) {
+                    for (SlotTower slotTower : slotTowerArray) {
+                        if (
+                            slotTower.getHitBox().contains(touchPoint.x, touchPoint.y)
+                                && slotTower.isFree()
+                                && User.getInstance().canBuy(shop.getCurChoice().getPrice())
+                        ) {
+                            defensiveTowerArray.add(new DefensiveTower(
+                                slotTower.getHitBox().x,
+                                slotTower.getHitBox().y,
+                                70, 125,
+                                new Texture(Gdx.files.internal("tower.png"))
+                            ));
+                            slotTower.setFree(false);
+                            slotTower.setVisible(false);
+                            User.getInstance().buyItem(shop.getCurChoice());
+                        }
+                    }
+                    for (SlotTower slotTower : slotTowerArray) {
+                        if (slotTower.isVisible()) slotTower.setVisible(false);
+                    }
+                } else {
+                    for (DefensiveTower defensiveTower : defensiveTowerArray){
+                        if (
+                            defensiveTower.getHitBox().contains(touchPoint.x, touchPoint.y)
+                            //&&
+                        ){
+
+                        }
                     }
                 }
                 shop.setActive(false);
-                for (SlotTower slotTower : slotTowerArray) {
-                    if (slotTower.isVisible()) slotTower.setVisible(false);
-                }
             }
-
         }
 
         batch.begin();
@@ -250,6 +277,19 @@ public class GameScreen implements Screen {
             }
             enemy.setTimeInState(deltaTime);
         }
+        if (!enemy.isAlive() && plusHP < 20) {
+            plusHP += 2;
+        }
+
+        if (!enemy.isAlive()) {
+            enemy = new Enemy(
+                2 + plusHP,
+                coreTower.getHitBox(),
+                WORLD_WIDTH - 100,
+                MeowGame.SCREEN_HEIGHT / 2f
+            );
+        }
+
         for (DefensiveTower defensiveTower : defensiveTowerArray) {
             defensiveTower.draw(batch, enemy, curTime);
         }
