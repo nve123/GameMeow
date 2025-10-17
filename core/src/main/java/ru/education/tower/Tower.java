@@ -5,42 +5,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.Gdx;
 
+import java.util.EnumMap;
+
 import ru.education.MeowGame;
 
 public abstract class Tower {
     protected final float x;
     protected final float y;
-    protected final float width;
-    protected final float height;
-    protected  Texture texture;
+    protected final EnumMap<TowerState, TowerStateAttribute> attributeEnumMap;
+    protected TowerState curState;
     protected final Texture debugTexture;
-    protected final Rectangle hitBox;
 
     public Tower(
-        float x, float y,
-        float width, float height,
-        Texture texture,
-        Rectangle hitBox
+        float x, float y, EnumMap<TowerState, TowerStateAttribute> attributeEnumMap
     ) {
-        this.hitBox = hitBox;
-        this.texture = texture;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.attributeEnumMap = attributeEnumMap;
+        this.curState = TowerState.DEFAULT;
         debugTexture = new Texture(Gdx.files.internal("tmp.png"));
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
-
-    public Rectangle getHitBox() {
-        return hitBox;
-    }
-
-    public Texture getTexture() {
-        return texture;
     }
 
     public float getX() {
@@ -51,18 +34,19 @@ public abstract class Tower {
         return y;
     }
 
-    public float getWidth() {
-        return width;
+    public TowerState getCurState() {
+        return curState;
     }
 
-    public float getHeight() {
-        return height;
+    public EnumMap<TowerState, TowerStateAttribute> getAttributeEnumMap() {
+        return attributeEnumMap;
     }
 
-    public abstract void draw(SpriteBatch batch);
+    public void setCurState(TowerState curState) {
+        this.curState = curState;
+    }
 
     public void dispose() {
-        texture.dispose();
         debugTexture.dispose();
     }
 

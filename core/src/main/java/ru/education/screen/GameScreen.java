@@ -20,12 +20,14 @@ import ru.education.shop.Shop;
 import ru.education.tower.Core;
 import ru.education.tower.DefensiveTower;
 import ru.education.tower.SlotTower;
+import ru.education.tower.TowerState;
 import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
 import ru.education.ui.GameUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
+import ru.education.util.TowerUtil;
 
 import java.util.Random;
 
@@ -193,7 +195,7 @@ public class GameScreen implements Screen {
                             }
                         } else {
                             for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                                defensiveTower.setTexture(new Texture("towershine.png"));
+                                defensiveTower.setCurState(TowerState.CLICKED);
                             }
                         }
                         shop.setCurChoice(item);
@@ -208,12 +210,12 @@ public class GameScreen implements Screen {
                                 && slotTower.isFree()
                                 && User.getInstance().canBuy(shop.getCurChoice().getPrice())
                         ) {
-                            defensiveTowerArray.add(new DefensiveTower(
-                                slotTower.getHitBox().x,
-                                slotTower.getHitBox().y,
-                                70, 125,
-                                new Texture(Gdx.files.internal("tower.png"))
-                            ));
+                            defensiveTowerArray.add(
+                                TowerUtil.getDefensiveTower(
+                                    slotTower.getHitBox().x,
+                                    slotTower.getHitBox().y
+                                )
+                            );
                             slotTower.setFree(false);
                             slotTower.setVisible(false);
                             User.getInstance().buyItem(shop.getCurChoice());
@@ -225,8 +227,9 @@ public class GameScreen implements Screen {
                 } else {
                     for (DefensiveTower defensiveTower : defensiveTowerArray){
                         if (
-                            defensiveTower.getHitBox().contains(touchPoint.x, touchPoint.y)
+                            //defensiveTower.getHitBox().contains(touchPoint.x, touchPoint.y)
                             //&&
+                        1 == 1
                         ){
 
                         }

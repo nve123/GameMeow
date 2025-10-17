@@ -6,42 +6,42 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-
 import ru.education.util.AnimationUtil;
 import ru.education.unit.Enemy;
-
 import com.badlogic.gdx.utils.Disposable;
 
+import java.util.EnumMap;
+
 public class DefensiveTower extends Tower {
-    public static final int ATTACK_SPEED = 1;
     private float lastShot;
     private final Rectangle range;
     private final Array<Shot> shotArray;
-    private int dmg;
+
 
 
     public DefensiveTower(
         float x, float y,
-        float width, float height,
-        Texture texture
+        EnumMap<TowerState, TowerStateAttribute> attributeEnumMap
     ) {
-        super(x, y, width, height, texture, new Rectangle(x, y, width, height));
+        super(x, y, attributeEnumMap);
 
         shotArray = new Array<>();
-        range = new Rectangle(x, y - 200f, hitBox.width, 200f + hitBox.height + 200f);
+        range = new Rectangle(x, y - 200f, attributeEnumMap.get(curState).getWidth(),
+            200f + attributeEnumMap.get(curState).getHeight() + 200f);
         lastShot = -1;
     }
 
-    @Override
-    public void draw(SpriteBatch batch) {
-        batch.draw(texture, x, y, width, height);
-    }
-
     public void draw(SpriteBatch batch, Enemy enemy, float curTime) {
-        batch.draw(texture, x, y, width, height);
+        batch.draw(attributeEnumMap.get(curState).getTexture(),
+            x,
+            y,
+            attributeEnumMap.get(curState).getWidth(),
+            attributeEnumMap.get(curState).getWidth());
         batch.draw(debugTexture, range.x, range.y, range.width, range.height);
 
-        if (curTime - lastShot > ATTACK_SPEED && range.contains(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
+        if (curTime - lastShot > attributeEnumMap.get(curState).getAttackSpeed()
+            && range.contains(enemy.getX(), enemy.getY())
+            && enemy.isAlive()) {
             lastShot = curTime;
             shotArray.add(new Shot(enemy));
         }
@@ -77,8 +77,8 @@ public class DefensiveTower extends Tower {
 
         public Shot(Enemy enemy) {
             this.enemy = enemy;
-            this.x = DefensiveTower.this.x + DefensiveTower.this.width / 2f;
-            this.y = DefensiveTower.this.y + DefensiveTower.this.height / 2f;
+            this.x = DefensiveTower.this.x + attributeEnumMap.get(curState).getWidth() / 2f;
+            this.y = DefensiveTower.this.y + attributeEnumMap.get(curState).getHeight() / 2f;
             texture = new Texture("spark16.png");
             animations = AnimationUtil.getAnimationFromTexture(
                 texture,
