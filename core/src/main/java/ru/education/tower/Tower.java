@@ -14,6 +14,7 @@ public abstract class Tower {
     protected final float y;
     protected final EnumMap<TowerState, TowerStateAttribute> attributeEnumMap;
     protected TowerState curState;
+    protected TowerState prevState;
     protected final Texture debugTexture;
 
     public Tower(
@@ -43,7 +44,12 @@ public abstract class Tower {
     }
 
     public void setCurState(TowerState curState) {
+        prevState =  this.curState;
         this.curState = curState;
+    }
+
+    public TowerState getPrevState() {
+        return prevState;
     }
 
     public void dispose() {

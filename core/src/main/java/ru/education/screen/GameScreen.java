@@ -227,11 +227,16 @@ public class GameScreen implements Screen {
                 } else {
                     for (DefensiveTower defensiveTower : defensiveTowerArray){
                         if (
-                            //defensiveTower.getHitBox().contains(touchPoint.x, touchPoint.y)
-                            //&&
-                        1 == 1
+                            User.getInstance().canBuy(shop.getCurChoice().getPrice())
+                            && defensiveTower.getAttributeEnumMap().get(defensiveTower.getCurState()).getHitBox().contains(touchPoint.x, touchPoint.y)
                         ){
-
+                            defensiveTower.setCurState(TowerState.DMG_UP);
+                            User.getInstance().buyItem(shop.getCurChoice());
+                        }
+                    }
+                    for (DefensiveTower defensiveTower : defensiveTowerArray){
+                        if ( defensiveTower.getCurState() == TowerState.CLICKED){
+                            defensiveTower.setCurState(defensiveTower.getPrevState());
                         }
                     }
                 }

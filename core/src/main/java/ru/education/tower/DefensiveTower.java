@@ -133,7 +133,7 @@ public class DefensiveTower extends Tower {
                     enemy.getHeight()
                 );
                 if (enemyHitBox.contains(x, y))
-                    enemy.getDmg(2);
+                    enemy.getDmg(attributeEnumMap.get(curState).getDmg());
                 inTarget = true;
             }
 
