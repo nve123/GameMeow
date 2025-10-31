@@ -15,6 +15,7 @@ import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.shop.Item;
+import ru.education.shop.ItemType;
 import ru.education.shop.Price;
 import ru.education.shop.Shop;
 import ru.education.tower.Core;
@@ -116,14 +117,21 @@ public class GameScreen implements Screen {
             new Item(
                 new Texture(Gdx.files.internal("towerShop50x50.png")),
                 new Price(10, 20, 15),
-                false
+                ItemType.TOWER
             )
         );
         shop.addItem(
             new Item(
                 new Texture(Gdx.files.internal("test50x50.png")),
                 new Price(20, 40, 30),
-                true
+                ItemType.UPDATE_DMG
+            )
+        );
+        shop.addItem(
+            new Item(
+                new Texture(Gdx.files.internal("speed_up_50x50.png")),
+                new Price(20, 40, 30),
+                ItemType.UPDATE_SPEED
             )
         );
 
@@ -189,13 +197,21 @@ public class GameScreen implements Screen {
 
                 for (Item item : shop.getItems()) {
                     if (item.getHitBox().contains(touchPoint.x, touchPoint.y)) {
-                        if (!item.isUpdate()) {
+                        if (item.getItemType() == ItemType.TOWER) {
                             for (SlotTower slotTower : slotTowerArray) {
                                 if (slotTower.isFree()) slotTower.setVisible(true);
                             }
-                        } else {
+                        } else if (item.getItemType() == ItemType.UPDATE_DMG) {
                             for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                                defensiveTower.setCurState(TowerState.CLICKED);
+                                if (defensiveTower.getCurState() == TowerState.DEFAULT || defensiveTower.getCurState() == TowerState.SPEED_UP) {
+                                    defensiveTower.setCurState(TowerState.CLICKED);
+                                }
+                            }
+                        } else if (item.getItemType() == ItemType.UPDATE_SPEED) {
+                            for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                                if (defensiveTower.getCurState() == TowerState.DEFAULT || defensiveTower.getCurState() == TowerState.DMG_UP) {
+                                    defensiveTower.setCurState(TowerState.CLICKED);
+                                }
                             }
                         }
                         shop.setCurChoice(item);
@@ -203,7 +219,7 @@ public class GameScreen implements Screen {
                     }
                 }
             } else {
-                if (!shop.getCurChoice().isUpdate()) {
+                if (shop.getCurChoice().getItemType() == ItemType.TOWER) {
                     for (SlotTower slotTower : slotTowerArray) {
                         if (
                             slotTower.getHitBox().contains(touchPoint.x, touchPoint.y)
@@ -224,18 +240,43 @@ public class GameScreen implements Screen {
                     for (SlotTower slotTower : slotTowerArray) {
                         if (slotTower.isVisible()) slotTower.setVisible(false);
                     }
-                } else {
-                    for (DefensiveTower defensiveTower : defensiveTowerArray){
+                } else if (shop.getCurChoice().getItemType() == ItemType.UPDATE_DMG) {
+                    for (DefensiveTower defensiveTower : defensiveTowerArray) {
                         if (
                             User.getInstance().canBuy(shop.getCurChoice().getPrice())
-                            && defensiveTower.getAttributeEnumMap().get(defensiveTower.getCurState()).getHitBox().contains(touchPoint.x, touchPoint.y)
-                        ){
-                            defensiveTower.setCurState(TowerState.DMG_UP);
-                            User.getInstance().buyItem(shop.getCurChoice());
+                                && defensiveTower.getAttributeEnumMap().get(defensiveTower.getCurState()).getHitBox().contains(touchPoint.x, touchPoint.y)
+                        ) {
+                            if (defensiveTower.getPrevState() == TowerState.DEFAULT) {
+                                defensiveTower.setCurState(TowerState.DMG_UP);
+                                User.getInstance().buyItem(shop.getCurChoice());
+                            } else if (defensiveTower.getPrevState() == TowerState.SPEED_UP){
+                                defensiveTower.setCurState(TowerState.DMG_SPEED_UP);
+                                User.getInstance().buyItem(shop.getCurChoice());
+                            }
                         }
                     }
-                    for (DefensiveTower defensiveTower : defensiveTowerArray){
-                        if ( defensiveTower.getCurState() == TowerState.CLICKED){
+                    for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                        if (defensiveTower.getCurState() == TowerState.CLICKED) {
+                            defensiveTower.setCurState(defensiveTower.getPrevState());
+                        }
+                    }
+                } else if (shop.getCurChoice().getItemType() == ItemType.UPDATE_SPEED) {
+                    for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                        if (
+                            User.getInstance().canBuy(shop.getCurChoice().getPrice())
+                                && defensiveTower.getAttributeEnumMap().get(defensiveTower.getCurState()).getHitBox().contains(touchPoint.x, touchPoint.y)
+                        ) {
+                            if (defensiveTower.getPrevState() == TowerState.DEFAULT) {
+                                defensiveTower.setCurState(TowerState.SPEED_UP);
+                                User.getInstance().buyItem(shop.getCurChoice());
+                            } else if (defensiveTower.getPrevState() == TowerState.DMG_UP){
+                                defensiveTower.setCurState(TowerState.DMG_SPEED_UP);
+                                User.getInstance().buyItem(shop.getCurChoice());
+                            }
+                        }
+                    }
+                    for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                        if (defensiveTower.getCurState() == TowerState.CLICKED) {
                             defensiveTower.setCurState(defensiveTower.getPrevState());
                         }
                     }

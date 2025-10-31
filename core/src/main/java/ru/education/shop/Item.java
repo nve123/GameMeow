@@ -10,12 +10,12 @@ public class Item implements Disposable {
     private float x;
     private float y;
     private final Price price;
-    private boolean isUpdate;
+    private ItemType itemType;
 
-    public Item(Texture texture, Price price, boolean isUpdate) {
+    public Item(Texture texture, Price price, ItemType itemType) {
         this.texture = texture;
         this.price = price;
-        this.isUpdate = isUpdate;
+        this.itemType = itemType;
     }
 
     public Rectangle getHitBox() {
@@ -44,8 +44,8 @@ public class Item implements Disposable {
         return price;
     }
 
-    public boolean isUpdate() {
-        return isUpdate;
+    public ItemType getItemType() {
+        return itemType;
     }
 
     @Override
