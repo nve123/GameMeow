@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
+import ru.education.service.ShopService;
+import ru.education.service.WorkerService;
 import ru.education.shop.Item;
 import ru.education.shop.ItemType;
 import ru.education.shop.Price;
@@ -52,9 +54,10 @@ public class GameScreen implements Screen {
     private Array<DefensiveTower> defensiveTowerArray;
     private Shop shop;
     private float curTime;
-    private float prevTime;
     private DebugInfo debugInfo;
     private int plusHP = 0;
+    private ShopService shopService;
+    private WorkerService workerService;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -100,11 +103,14 @@ public class GameScreen implements Screen {
         workers.add(new Worker(coreTower));
         workers.add(new Worker(coreTower));
         workers.add(new Worker(coreTower));
+        workers.add(new Worker(coreTower));
+        workers.add(new Worker(coreTower));
+        workers.add(new Worker(coreTower));
 
         touchPoint = new Vector3();
 
         enemy = new Enemy(
-            2,
+            10,
             coreTower.getHitBox(),
             WORLD_WIDTH - 100,
             MeowGame.SCREEN_HEIGHT / 2f
@@ -146,17 +152,11 @@ public class GameScreen implements Screen {
         defensiveTowerArray = new Array<>();
 
         curTime = 0f;
-        prevTime = 0f;
+
+        shopService = new ShopService(slotTowerArray, defensiveTowerArray, shop);
+        workerService = new WorkerService(resourceList, workers, activeWorkers);
 
         debugInfo = new DebugInfo();
-    }
-
-    public void generateWorker() {
-        float dTime = curTime - prevTime;
-        if (dTime > (new Random().nextInt(4) + 4f) && activeWorkers.size < workers.size) {
-            activeWorkers.add(workers.get(activeWorkers.size));
-            prevTime = curTime;
-        }
     }
 
     @Override
@@ -173,51 +173,8 @@ public class GameScreen implements Screen {
             debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
 
             if (!shop.isActive()) {
-                for (Worker worker : activeWorkers) {
-                    if (worker.contains(touchPoint.x, touchPoint.y)) {
-                        worker.clicked();
-                    } else {
-                        if (worker.getCurrentState() == Worker.StateWorker.CLICKED) {
-                            boolean startWorking = false;
-
-                            for (Resource resource : resourceList) {
-
-                                if (resource.contains(touchPoint.x, touchPoint.y)) {
-                                    worker.setWorkingPlace(resource);
-                                    worker.setCurrentState(Worker.StateWorker.GO_TO);
-                                    worker.setDestination(resource.getWorkBox());
-                                    startWorking = true;
-                                }
-                            }
-
-                            if (!startWorking) worker.setCurrentState(Worker.StateWorker.SLEEP);
-                        }
-                    }
-                }
-
-                for (Item item : shop.getItems()) {
-                    if (item.getHitBox().contains(touchPoint.x, touchPoint.y)) {
-                        if (item.getItemType() == ItemType.TOWER) {
-                            for (SlotTower slotTower : slotTowerArray) {
-                                if (slotTower.isFree()) slotTower.setVisible(true);
-                            }
-                        } else if (item.getItemType() == ItemType.UPDATE_DMG) {
-                            for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                                if (defensiveTower.getCurState() == TowerState.DEFAULT || defensiveTower.getCurState() == TowerState.SPEED_UP) {
-                                    defensiveTower.setCurState(TowerState.CLICKED);
-                                }
-                            }
-                        } else if (item.getItemType() == ItemType.UPDATE_SPEED) {
-                            for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                                if (defensiveTower.getCurState() == TowerState.DEFAULT || defensiveTower.getCurState() == TowerState.DMG_UP) {
-                                    defensiveTower.setCurState(TowerState.CLICKED);
-                                }
-                            }
-                        }
-                        shop.setCurChoice(item);
-                        shop.setActive(true);
-                    }
-                }
+                workerService.workerClickProcessing(touchPoint);
+                shopService.shopItemClickProcessing(touchPoint);
             } else {
                 if (shop.getCurChoice().getItemType() == ItemType.TOWER) {
                     for (SlotTower slotTower : slotTowerArray) {
@@ -326,13 +283,13 @@ public class GameScreen implements Screen {
             }
             enemy.setTimeInState(deltaTime);
         }
-        if (!enemy.isAlive() && plusHP < 20) {
-            plusHP += 2;
+        if (!enemy.isAlive() && plusHP < 139) {
+            plusHP += 10;
         }
 
         if (!enemy.isAlive()) {
             enemy = new Enemy(
-                2 + plusHP,
+                10 + plusHP,
                 coreTower.getHitBox(),
                 WORLD_WIDTH - 100,
                 MeowGame.SCREEN_HEIGHT / 2f
@@ -347,7 +304,7 @@ public class GameScreen implements Screen {
 
         batch.end();
 
-        generateWorker();
+        workerService.generateWorker(curTime);
 
         gameUserInterface.drawUI();
     }

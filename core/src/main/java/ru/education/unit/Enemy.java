@@ -13,7 +13,7 @@ import java.util.EnumMap;
 
 public class Enemy extends Unit {
 
-    public static final int TIME_TO_START = 10;
+    public static final int TIME_TO_START = 4;
     private int hp;
     private final BitmapFont font = new BitmapFont();
 
