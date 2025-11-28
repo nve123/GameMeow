@@ -43,6 +43,10 @@ public abstract class Tower {
         return attributeEnumMap;
     }
 
+    public Rectangle getHitbox() {
+        return getAttributeEnumMap().get(getCurState()).getHitBox();
+    }
+
     public void setCurState(TowerState curState) {
         prevState =  this.curState;
         this.curState = curState;

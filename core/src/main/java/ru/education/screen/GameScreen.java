@@ -176,68 +176,7 @@ public class GameScreen implements Screen {
                 workerService.workerClickProcessing(touchPoint);
                 shopService.shopItemClickProcessing(touchPoint);
             } else {
-                if (shop.getCurChoice().getItemType() == ItemType.TOWER) {
-                    for (SlotTower slotTower : slotTowerArray) {
-                        if (
-                            slotTower.getHitBox().contains(touchPoint.x, touchPoint.y)
-                                && slotTower.isFree()
-                                && User.getInstance().canBuy(shop.getCurChoice().getPrice())
-                        ) {
-                            defensiveTowerArray.add(
-                                TowerUtil.getDefensiveTower(
-                                    slotTower.getHitBox().x,
-                                    slotTower.getHitBox().y
-                                )
-                            );
-                            slotTower.setFree(false);
-                            slotTower.setVisible(false);
-                            User.getInstance().buyItem(shop.getCurChoice());
-                        }
-                    }
-                    for (SlotTower slotTower : slotTowerArray) {
-                        if (slotTower.isVisible()) slotTower.setVisible(false);
-                    }
-                } else if (shop.getCurChoice().getItemType() == ItemType.UPDATE_DMG) {
-                    for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                        if (
-                            User.getInstance().canBuy(shop.getCurChoice().getPrice())
-                                && defensiveTower.getAttributeEnumMap().get(defensiveTower.getCurState()).getHitBox().contains(touchPoint.x, touchPoint.y)
-                        ) {
-                            if (defensiveTower.getPrevState() == TowerState.DEFAULT) {
-                                defensiveTower.setCurState(TowerState.DMG_UP);
-                                User.getInstance().buyItem(shop.getCurChoice());
-                            } else if (defensiveTower.getPrevState() == TowerState.SPEED_UP){
-                                defensiveTower.setCurState(TowerState.DMG_SPEED_UP);
-                                User.getInstance().buyItem(shop.getCurChoice());
-                            }
-                        }
-                    }
-                    for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                        if (defensiveTower.getCurState() == TowerState.CLICKED) {
-                            defensiveTower.setCurState(defensiveTower.getPrevState());
-                        }
-                    }
-                } else if (shop.getCurChoice().getItemType() == ItemType.UPDATE_SPEED) {
-                    for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                        if (
-                            User.getInstance().canBuy(shop.getCurChoice().getPrice())
-                                && defensiveTower.getAttributeEnumMap().get(defensiveTower.getCurState()).getHitBox().contains(touchPoint.x, touchPoint.y)
-                        ) {
-                            if (defensiveTower.getPrevState() == TowerState.DEFAULT) {
-                                defensiveTower.setCurState(TowerState.SPEED_UP);
-                                User.getInstance().buyItem(shop.getCurChoice());
-                            } else if (defensiveTower.getPrevState() == TowerState.DMG_UP){
-                                defensiveTower.setCurState(TowerState.DMG_SPEED_UP);
-                                User.getInstance().buyItem(shop.getCurChoice());
-                            }
-                        }
-                    }
-                    for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                        if (defensiveTower.getCurState() == TowerState.CLICKED) {
-                            defensiveTower.setCurState(defensiveTower.getPrevState());
-                        }
-                    }
-                }
+                shopService.shoppingProcess(touchPoint);
                 shop.setActive(false);
             }
         }
