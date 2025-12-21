@@ -81,21 +81,9 @@ public class GameScreen implements Screen {
         );
 
         Resource resourceGold, resourceOre, resourceWood;
-        resourceGold = new Resource(
-            50 - 25,
-            480 / 2f - 165 / 2f,
-            new Texture(Gdx.files.internal("gold.png")),
-            ResourceType.GOLD, 170, 119);
-        resourceOre = new Resource(
-            50,
-            480 - 150 - 35,
-            new Texture(Gdx.files.internal("ore.png")),
-            ResourceType.ORE, 146, 119);
-        resourceWood = new Resource(
-            55,
-            0 + 15,
-            new Texture(Gdx.files.internal("wood.png")),
-            ResourceType.WOOD, 150, 125);
+        resourceGold = new Resource(50 - 25, 480 / 2f - 165 / 2f, ResourceType.GOLD);
+        resourceOre = new Resource(50, 480 - 150 - 35, ResourceType.ORE);
+        resourceWood = new Resource(55, 0 + 15, ResourceType.WOOD);
         resourceList = Array.with(resourceGold, resourceOre, resourceWood);
 
         workers = new Array<>();
@@ -119,27 +107,9 @@ public class GameScreen implements Screen {
         font = new BitmapFont();
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
-        shop.addItem(
-            new Item(
-                new Texture(Gdx.files.internal("towerShop50x50.png")),
-                new Price(10, 20, 15),
-                ItemType.TOWER
-            )
-        );
-        shop.addItem(
-            new Item(
-                new Texture(Gdx.files.internal("test50x50.png")),
-                new Price(20, 40, 30),
-                ItemType.UPDATE_DMG
-            )
-        );
-        shop.addItem(
-            new Item(
-                new Texture(Gdx.files.internal("speed_up_50x50.png")),
-                new Price(20, 40, 30),
-                ItemType.UPDATE_SPEED
-            )
-        );
+        shop.addItem(ItemType.TOWER);
+        shop.addItem(ItemType.UPDATE_DMG);
+        shop.addItem(ItemType.UPDATE_SPEED);
 
         slotTowerArray = new Array<>(6);
         slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150, 480 / 2f + 50));

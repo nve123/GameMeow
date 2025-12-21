@@ -1,20 +1,34 @@
 package ru.education.shop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Disposable;
 
 public class Item implements Disposable {
     private Rectangle hitBox;
-    private final Texture texture;
+    private Texture texture;
     private float x;
     private float y;
-    private final Price price;
+    private Price price;
     private ItemType itemType;
 
-    public Item(Texture texture, Price price, ItemType itemType) {
-        this.texture = texture;
-        this.price = price;
+    public Item(ItemType itemType) {
+        switch (itemType) {
+            case TOWER -> {
+                texture = new Texture(Gdx.files.internal("towerShop50x50.png"));
+                price = new Price(10, 20, 15);
+            }
+            case UPDATE_DMG -> {
+                texture = new Texture(Gdx.files.internal("test50x50.png"));
+                price = new Price(20, 40, 30);
+            }
+            case UPDATE_SPEED -> {
+                texture = new Texture(Gdx.files.internal("speed_up_50x50.png"));
+                price = new Price(20, 40, 30);
+            }
+        }
+
         this.itemType = itemType;
     }
 

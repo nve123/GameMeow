@@ -7,21 +7,35 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Resource {
     private final Rectangle hitBox;
-    private final Texture texture;
+    private Texture texture;
     private final ResourceType type;
     private final float x;
     private final float y;
-    private final float width;
-    private final float height;
+    private float width;
+    private float height;
     private final Rectangle workBox;
 
-    public Resource(float x, float y, Texture texture, ResourceType type, float width, float height) {
-        this.texture = texture;
+    public Resource(float x, float y, ResourceType type) {
+        switch (type) {
+            case ORE -> {
+                texture = new Texture(Gdx.files.internal("ore.png"));
+                width = 146;
+                height = 119;
+            }
+            case GOLD -> {
+                texture = new Texture(Gdx.files.internal("gold.png"));
+                width = 170;
+                height = 119;
+            }
+            case WOOD -> {
+                texture = new Texture(Gdx.files.internal("wood.png"));
+                width = 150;
+                height = 125;
+            }
+        }
         this.x = x;
         this.y = y;
         this.type = type;
-        this.width = width;
-        this.height = height;
         hitBox = new Rectangle(x, y, this.width, this.height);
         workBox = new Rectangle(x + width - 20, y, 15f, 15f);
     }
