@@ -10,7 +10,7 @@ public class SlotTower {
     protected final float y;
     protected final float width;
     protected final float height;
-    protected  Texture texture;
+    protected Texture texture;
     protected final Rectangle hitBox;
     private boolean isFree;
     private boolean isVisible;
@@ -70,7 +70,7 @@ public class SlotTower {
         if (isFree && isVisible) batch.draw(texture, x, y, width, height);
     }
 
-    public void dispose(){
+    public void dispose() {
         texture.dispose();
     }
 }

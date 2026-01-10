@@ -10,7 +10,7 @@ import ru.education.tower.TowerState;
 import ru.education.tower.TowerStateAttribute;
 
 public class TowerUtil {
-    public static DefensiveTower getDefensiveTower(float x, float y){
+    public static DefensiveTower getDefensiveTower(float x, float y) {
         TowerStateAttribute towerStateAttributeDefault = new TowerStateAttribute(
             new Texture("tower.png"),
             70,

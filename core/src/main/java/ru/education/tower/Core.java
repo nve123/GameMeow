@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+
 import ru.education.MeowGame;
 
 public class Core {
@@ -11,7 +12,7 @@ public class Core {
     protected final float y;
     protected final float width;
     protected final float height;
-    protected  Texture texture;
+    protected Texture texture;
     protected final Texture debugTexture;
     protected final Rectangle hitBox;
     private final Rectangle storageBox;
@@ -31,7 +32,6 @@ public class Core {
         debugTexture = new Texture(Gdx.files.internal("tmp.png"));
         storageBox = new Rectangle(x - 10, y + height / 6, 25, 25);
     }
-
 
 
     public Rectangle getStorageBox() {

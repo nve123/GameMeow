@@ -48,7 +48,7 @@ public abstract class Tower {
     }
 
     public void setCurState(TowerState curState) {
-        prevState =  this.curState;
+        prevState = this.curState;
         this.curState = curState;
     }
 

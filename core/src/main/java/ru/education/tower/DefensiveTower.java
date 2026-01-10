@@ -75,6 +75,7 @@ public class DefensiveTower extends Tower {
         private final Enemy enemy;
         private final Texture texture;
 
+
         public Shot(Enemy enemy) {
             this.enemy = enemy;
             this.x = DefensiveTower.this.x + attributeEnumMap.get(curState).getWidth() / 2f;
@@ -112,7 +113,7 @@ public class DefensiveTower extends Tower {
 
         public void nextXY() {
 
-            //TODO: сделать проверку на пересечение хитбоксов, а не на левый угол или нет
+            //TODO: сделать проверку на пересечение хитбоксов, а не на левый угол
             if (!target.contains(x, y)) {
 
                 if (target.y + target.height / 2f > y) y += deltaY;
