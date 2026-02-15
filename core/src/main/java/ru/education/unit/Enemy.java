@@ -10,12 +10,15 @@ import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 
 import java.util.EnumMap;
+import java.util.Stack;
 
 public class Enemy extends Unit {
 
     public static final int TIME_TO_START = 4;
+    private Stack<Rectangle> path;
     private int hp;
     private final BitmapFont font = new BitmapFont();
+    private Rectangle curDestination;
 
     public enum StateEnemy {
         STAY, GO_TO, ATTACK
@@ -25,7 +28,7 @@ public class Enemy extends Unit {
     private float timeLastAttack;
     private EnumMap<StateEnemy, StateAttribute> stateAttrMap;
 
-    public Enemy(int hp, Rectangle destination, float x, float y) {
+    public Enemy(int hp, Rectangle destination, float x, float y, Array<Rectangle> pathPoints) {
         initStateMap();
 
         this.x = x;
@@ -36,7 +39,13 @@ public class Enemy extends Unit {
 
         setCurrentState(StateEnemy.STAY);
         setDestination(destination);
-
+        path = new Stack<>();
+        path.push(destination);
+        for (int i = pathPoints.size - 1; i < 0; i--) {
+            path.push(pathPoints.get(i));
+        }
+        curDestination = pathPoints.get(0);
+        //calcDeltaXAndDeltaY(curDestination);
         timeLastAttack = -1;
     }
 
@@ -159,12 +168,21 @@ public class Enemy extends Unit {
         if (currentState != StateEnemy.STAY
             && currentState != StateEnemy.ATTACK
             && !destination.contains(x, y)) {
+           /* if (!curDestination.contains(x, y)) {
+                if (curDestination.y + curDestination.height / 2f > y) y += deltaY;
+                if (curDestination.y + curDestination.height / 2f < y) y -= deltaY;
+
+                if (curDestination.x + curDestination.width / 2f >= x) x += deltaX;
+                if (curDestination.x + curDestination.width / 2f < x) x -= deltaX;
+            } else {
+                curDestination = path.peek();
+                calcDeltaXAndDeltaY(curDestination);
+            }*/
             if (destination.y + destination.height / 2f > y) y += deltaY;
             if (destination.y + destination.height / 2f < y) y -= deltaY;
 
             if (destination.x + destination.width / 2f >= x) x += deltaX;
             if (destination.x + destination.width / 2f < x) x -= deltaX;
-
         } else {
             switch (currentState) {
                 case STAY:

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,23 +17,17 @@ import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.service.ShopService;
 import ru.education.service.WorkerService;
-import ru.education.shop.Item;
 import ru.education.shop.ItemType;
-import ru.education.shop.Price;
 import ru.education.shop.Shop;
 import ru.education.tower.Core;
 import ru.education.tower.DefensiveTower;
 import ru.education.tower.SlotTower;
-import ru.education.tower.TowerState;
 import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
 import ru.education.ui.GameUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
-import ru.education.util.TowerUtil;
-
-import java.util.Random;
 
 public class GameScreen implements Screen {
     public static final int WORLD_WIDTH = MeowGame.SCREEN_WIDTH * 2;
@@ -58,6 +53,7 @@ public class GameScreen implements Screen {
     private int plusHP = 0;
     private ShopService shopService;
     private WorkerService workerService;
+    private Array<Rectangle> enemyPathPoint;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -97,11 +93,17 @@ public class GameScreen implements Screen {
 
         touchPoint = new Vector3();
 
+        enemyPathPoint = new Array<>();
+        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f - 50 - 100, 10, 10));
+        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f + 50, 10, 10));
+        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150, 480 / 2f - 50 - 100, 10, 10));
+
         enemy = new Enemy(
             10,
             coreTower.getHitBox(),
             WORLD_WIDTH - 100,
-            MeowGame.SCREEN_HEIGHT / 2f
+            MeowGame.SCREEN_HEIGHT / 2f,
+            enemyPathPoint
         );
 
         font = new BitmapFont();
@@ -201,7 +203,8 @@ public class GameScreen implements Screen {
                 10 + plusHP,
                 coreTower.getHitBox(),
                 WORLD_WIDTH - 100,
-                MeowGame.SCREEN_HEIGHT / 2f
+                MeowGame.SCREEN_HEIGHT / 2f,
+                enemyPathPoint
             );
         }
 

@@ -36,7 +36,7 @@ public abstract class Unit {
         }
     }
 
-    private void calcDeltaXAndDeltaY() {
+    protected void calcDeltaXAndDeltaY(Rectangle destination) {
         float s = (float) Math.sqrt(
             (x - (destination.x + destination.width / 2f)) * (x - (destination.x + destination.width / 2f)) +
                 (y - (destination.y + destination.height / 2f)) * (y - (destination.y + destination.height / 2f))
@@ -48,12 +48,12 @@ public abstract class Unit {
 
     public void setDestination(float destinationX, float destinationY) {
         destination = new Rectangle(destinationX - 12f, destinationY - 12f, 24f, 24f);
-        calcDeltaXAndDeltaY();
+        calcDeltaXAndDeltaY(destination);
     }
 
     public void setDestination(Rectangle destination) {
         this.destination = destination;
-        calcDeltaXAndDeltaY();
+        calcDeltaXAndDeltaY(destination);
     }
 
     public void dispose() {
