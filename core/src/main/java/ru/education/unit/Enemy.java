@@ -41,11 +41,11 @@ public class Enemy extends Unit {
         setDestination(destination);
         path = new Stack<>();
         path.push(destination);
-        for (int i = pathPoints.size - 1; i < 0; i--) {
+        for (int i = pathPoints.size - 1; i > 0; i--) {
             path.push(pathPoints.get(i));
         }
         curDestination = pathPoints.get(0);
-        //calcDeltaXAndDeltaY(curDestination);
+        calcDeltaXAndDeltaY(curDestination);
         timeLastAttack = -1;
     }
 
@@ -168,27 +168,22 @@ public class Enemy extends Unit {
         if (currentState != StateEnemy.STAY
             && currentState != StateEnemy.ATTACK
             && !destination.contains(x, y)) {
-           /* if (!curDestination.contains(x, y)) {
+           if (!curDestination.contains(x, y)) {
                 if (curDestination.y + curDestination.height / 2f > y) y += deltaY;
                 if (curDestination.y + curDestination.height / 2f < y) y -= deltaY;
 
                 if (curDestination.x + curDestination.width / 2f >= x) x += deltaX;
                 if (curDestination.x + curDestination.width / 2f < x) x -= deltaX;
             } else {
-                curDestination = path.peek();
+                curDestination = path.pop();
                 calcDeltaXAndDeltaY(curDestination);
-            }*/
-            if (destination.y + destination.height / 2f > y) y += deltaY;
-            if (destination.y + destination.height / 2f < y) y -= deltaY;
-
-            if (destination.x + destination.width / 2f >= x) x += deltaX;
-            if (destination.x + destination.width / 2f < x) x -= deltaX;
+            }
         } else {
             switch (currentState) {
                 case STAY:
                     if (timeInState > TIME_TO_START) {
                         setCurrentState(StateEnemy.GO_TO);
-                        setDestination(destination);
+                        calcDeltaXAndDeltaY(curDestination);
                     }
                     break;
                 case GO_TO:
