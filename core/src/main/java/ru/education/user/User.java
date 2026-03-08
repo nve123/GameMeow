@@ -4,7 +4,7 @@ import ru.education.shop.Item;
 import ru.education.shop.Price;
 
 public class User {
-    public static User instance;
+    private static User instance;
     private int gold = 100;
     private int ore = 200;
     private int wood = 150;

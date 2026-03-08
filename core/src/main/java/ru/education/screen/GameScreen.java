@@ -75,7 +75,9 @@ public class GameScreen implements Screen {
         tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
         coreTower = new Core(
             170,
-            226
+            226,
+            MeowGame.SCREEN_WIDTH - 170 * 2,
+            MeowGame.SCREEN_HEIGHT / 2f - 226 / 4
         );
 
         Resource resourceGold, resourceOre, resourceWood;
@@ -216,7 +218,7 @@ public class GameScreen implements Screen {
 
         gameUserInterface.drawUI();
 
-        if (User.instance.getHp() < 0) {
+        if (User.getInstance().getHp() < 0) {
             meowGame.changeScreen(MeowGame.MENU);
         }
     }
