@@ -1,6 +1,5 @@
 package ru.education.screen;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -29,8 +28,9 @@ import ru.education.ui.MenuUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
+import ru.education.unit.Worker;
 
-public class GameScreen implements Screen {
+public class GameScreenLvl2 implements Screen {
     public static final int WORLD_WIDTH = MeowGame.SCREEN_WIDTH * 2;
     private final MeowGame meowGame;
     private OrthographicCameraWithLeftRightState camera;
@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint;
 
-    public GameScreen(MeowGame meowGame) {
+    public GameScreenLvl2(MeowGame meowGame) {
         this.meowGame = meowGame;
     }
 
@@ -68,7 +68,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
-        background = new Texture(Gdx.files.internal("game_back.png"));
+        background = new Texture(Gdx.files.internal("game_back_lvl_2.png"));
 
         gameUserInterface = new GameUserInterface(camera, this);
 
@@ -222,6 +222,26 @@ public class GameScreen implements Screen {
     }
 
     @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
     public void dispose() {
         background.dispose();
         gameUserInterface.dispose();
@@ -250,25 +270,5 @@ public class GameScreen implements Screen {
         shop.dispose();
 
         debugInfo.dispose();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
     }
 }

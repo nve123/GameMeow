@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.education.MeowGame;
+import ru.education.ui.BtnStartListener;
 import ru.education.ui.MenuUserInterface;
 import ru.education.util.AnimationUtil;
 
@@ -41,7 +42,12 @@ public class MenuScreen implements Screen {
 
         menuUserInterface = new MenuUserInterface(
             camera,
-            () -> meowGame.changeScreen(MeowGame.GAME)
+            new BtnStartListener() {
+                @Override
+                public void onClick() {
+                    meowGame.changeScreen(MeowGame.GAME);
+                }
+            }
         );
 
         initAnimation();

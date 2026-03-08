@@ -1,6 +1,7 @@
 package ru.education.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,16 +19,19 @@ public class GameUserInterface {
     private final ImageButton btnGoToLeftScreen;
     private final ImageButton btnGoToRightScreen;
     private final OrthographicCameraWithLeftRightState camera;
+    private Screen screen;
     private final Stage stage;
 
-    public GameUserInterface(OrthographicCameraWithLeftRightState camera) {
+    public GameUserInterface(OrthographicCameraWithLeftRightState camera, Screen screen) {
         this.camera = camera;
+        this.screen = screen;
 
         Drawable leftArrowDrawable = new TextureRegionDrawable(new Texture("btn_to_left.png"));
         Drawable rightArrowDrawable = new TextureRegionDrawable(new Texture("btn_to_right.png"));
 
         btnGoToLeftScreen = new ImageButton(leftArrowDrawable);
         btnGoToRightScreen = new ImageButton(rightArrowDrawable);
+
 
         btnGoToLeftScreen.setPosition(
             MeowGame.SCREEN_WIDTH + 24,

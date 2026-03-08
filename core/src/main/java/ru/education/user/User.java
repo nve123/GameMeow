@@ -4,7 +4,7 @@ import ru.education.shop.Item;
 import ru.education.shop.Price;
 
 public class User {
-    private static User instance;
+    public static User instance;
     private int gold = 100;
     private int ore = 200;
     private int wood = 150;
@@ -29,6 +29,14 @@ public class User {
 
     public void getDmg(int dmg) {
         User.getInstance().hp -= dmg;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     public void incOre(int ore) {

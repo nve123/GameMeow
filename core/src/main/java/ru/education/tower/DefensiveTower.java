@@ -31,6 +31,23 @@ public class DefensiveTower extends Tower {
         lastShot = -1;
     }
 
+    //TODO:вычислить рэндж по формуле от 06.03.2026
+    /*public DefensiveTower(
+        float x, float y,
+        EnumMap<TowerState, TowerStateAttribute> attributeEnumMap,
+        float widthRange, float heightRange
+    ) {
+        super(x, y, attributeEnumMap);
+
+        shotArray = new Array<>();
+        range = new Rectangle(attributeEnumMap.get(curState).getWidth() / 2 - widthRange / 2,
+            attributeEnumMap.get(curState).getHeight() / 2 - heightRange,
+            widthRange,
+            heightRange
+        );
+        lastShot = -1;
+    }*/
+
     public void draw(SpriteBatch batch, Enemy enemy, float curTime) {
         batch.draw(attributeEnumMap.get(curState).getTexture(),
             x,
