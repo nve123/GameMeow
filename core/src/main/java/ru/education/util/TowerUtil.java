@@ -57,6 +57,6 @@ public class TowerUtil {
         stateAttributeEnumMap.put(TowerState.DMG_UP, towerStateAttributeDmgUp);
         stateAttributeEnumMap.put(TowerState.DMG_SPEED_UP, towerStateAttributeSpdDmg);
         stateAttributeEnumMap.put(TowerState.SPEED_UP, towerStateAttributeSpeedUp);
-        return new DefensiveTower(x, y, stateAttributeEnumMap);
+        return new DefensiveTower(x, y, stateAttributeEnumMap,200, 300);
     }
 }

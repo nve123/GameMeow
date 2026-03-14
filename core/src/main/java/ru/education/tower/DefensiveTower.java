@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+
 import ru.education.util.AnimationUtil;
 import ru.education.unit.Enemy;
+
 import com.badlogic.gdx.utils.Disposable;
 
 import java.util.EnumMap;
@@ -16,7 +18,6 @@ public class DefensiveTower extends Tower {
     private float lastShot;
     private final Rectangle range;
     private final Array<Shot> shotArray;
-
 
 
     public DefensiveTower(
@@ -32,7 +33,7 @@ public class DefensiveTower extends Tower {
     }
 
     //TODO:вычислить рэндж по формуле от 06.03.2026
-    /*public DefensiveTower(
+    public DefensiveTower(
         float x, float y,
         EnumMap<TowerState, TowerStateAttribute> attributeEnumMap,
         float widthRange, float heightRange
@@ -40,13 +41,14 @@ public class DefensiveTower extends Tower {
         super(x, y, attributeEnumMap);
 
         shotArray = new Array<>();
-        range = new Rectangle(attributeEnumMap.get(curState).getWidth() / 2 - widthRange / 2,
-            attributeEnumMap.get(curState).getHeight() / 2 - heightRange,
+        range = new Rectangle(x + attributeEnumMap.get(curState).getWidth() / 2 - widthRange / 2,
+            y + attributeEnumMap.get(curState).getHeight() / 2 - heightRange / 2,
             widthRange,
             heightRange
         );
+
         lastShot = -1;
-    }*/
+    }
 
     public void draw(SpriteBatch batch, Enemy enemy, float curTime) {
         batch.draw(attributeEnumMap.get(curState).getTexture(),
@@ -54,7 +56,7 @@ public class DefensiveTower extends Tower {
             y,
             attributeEnumMap.get(curState).getWidth(),
             attributeEnumMap.get(curState).getWidth());
-//        batch.draw(debugTexture, range.x, range.y, range.width, range.height);
+        batch.draw(debugTexture, range.x, range.y, range.width, range.height);
 
         if (curTime - lastShot > attributeEnumMap.get(curState).getAttackSpeed()
             && range.contains(enemy.getX(), enemy.getY())

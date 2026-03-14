@@ -44,7 +44,7 @@ public class GameScreenLvl2 implements Screen {
     private Vector3 touchPoint;
     private Array<Worker> workers;
     private Array<Worker> activeWorkers;
-    private Enemy enemy;
+    private Array<Enemy> enemies;
     private BitmapFont font;
     private Array<SlotTower> slotTowerArray;
     private Array<DefensiveTower> defensiveTowerArray;
@@ -57,6 +57,7 @@ public class GameScreenLvl2 implements Screen {
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint;
     private ShopService shopService2;
+    private Enemy enemy;
 
     public GameScreenLvl2(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -100,15 +101,15 @@ public class GameScreenLvl2 implements Screen {
         touchPoint = new Vector3();
 
         enemyPathPoint = new Array<>();
-        enemyPathPoint.add(new Rectangle(132, 480-44, 10, 10));
-        enemyPathPoint.add(new Rectangle(695, 480-44, 10, 10));
-        enemyPathPoint.add(new Rectangle(695, 480-417, 10, 10));
-        enemyPathPoint.add(new Rectangle(1554, 480-417, 10, 10));
-        enemyPathPoint.add(new Rectangle(1554, 480-214, 10, 10));
-        enemyPathPoint.add(new Rectangle(840, 480-214, 10, 10));
-        enemyPathPoint.add(new Rectangle(840, 480-29, 10, 10));
+        enemyPathPoint.add(new Rectangle(840 - 5, 480 - 29 - 5, 10, 10));
+        enemyPathPoint.add(new Rectangle(840 - 5, 480 - 214 - 5, 10, 10));
+        enemyPathPoint.add(new Rectangle(1554 - 5, 480 - 214 - 5, 10, 10));
+        enemyPathPoint.add(new Rectangle(1554 - 5, 480 - 417 - 5, 10, 10));
+        enemyPathPoint.add(new Rectangle(695 - 5, 480 - 417 - 5, 10, 10));
+        enemyPathPoint.add(new Rectangle(695 - 5, 480 - 44 - 5, 10, 10));
+        enemyPathPoint.add(new Rectangle(132 - 5, 480 - 44 - 5, 10, 10));
 
-
+        //enemies = new Array<>();
         enemy = new Enemy(
             10,
             coreTower.getHitBox(),
@@ -187,6 +188,9 @@ public class GameScreenLvl2 implements Screen {
         if (camera.isLeftState()) {
             coreTower.draw(batch);
             shop2.draw(batch);
+            for (SlotTower slotTower : slotTowerArray) {
+                slotTower.draw(batch);
+            }
             for (Resource resource : resourceList) {
                 resource.draw(batch);
             }
@@ -226,9 +230,9 @@ public class GameScreenLvl2 implements Screen {
             plusHP += 10;
         }
 
-        if (!enemy.isAlive()) {
-            meowGame.changeScreen(MeowGame.GAMELVL2);
-        }
+        //if (!enemy.isAlive()) {
+        //    meowGame.changeScreen(MeowGame.GAMELVL2);
+        //}
 
         for (DefensiveTower defensiveTower : defensiveTowerArray) {
             defensiveTower.draw(batch, enemy, curTime);
