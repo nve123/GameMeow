@@ -28,7 +28,6 @@ import ru.education.ui.MenuUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
-import ru.education.unit.Worker;
 
 public class GameScreenLvl2 implements Screen {
     public static final int WORLD_WIDTH = MeowGame.SCREEN_WIDTH * 2;
@@ -57,7 +56,7 @@ public class GameScreenLvl2 implements Screen {
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint;
     private ShopService shopService2;
-    private Enemy enemy;
+    //private Enemy enemy;
 
     public GameScreenLvl2(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -109,14 +108,9 @@ public class GameScreenLvl2 implements Screen {
         enemyPathPoint.add(new Rectangle(695 - 5, 480 - 44 - 5, 10, 10));
         enemyPathPoint.add(new Rectangle(132 - 5, 480 - 44 - 5, 10, 10));
 
-        //enemies = new Array<>();
-        enemy = new Enemy(
-            10,
-            coreTower.getHitBox(),
-            1554,
-            417,
-            enemyPathPoint
-        );
+        enemies = new Array<>();
+        enemies.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
+        enemies.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
 
         font = new BitmapFont();
 
@@ -218,24 +212,40 @@ public class GameScreenLvl2 implements Screen {
             }
         }
 
-        if (enemy.isAlive()) {
-            enemy.nextXY();
-            if (enemy.getX() > MeowGame.SCREEN_WIDTH && !camera.isLeftState()
-                || enemy.getX() < MeowGame.SCREEN_WIDTH && camera.isLeftState()) {
-                enemy.draw(batch);
+        for (Enemy enemy : enemies) {
+            if (enemy.isAlive()) {
+                enemy.nextXY();
+                if (enemy.getX() > MeowGame.SCREEN_WIDTH && !camera.isLeftState()
+                    || enemy.getX() < MeowGame.SCREEN_WIDTH && camera.isLeftState()) {
+                    enemy.draw(batch);
+                }
+                enemy.setTimeInState(deltaTime);
             }
-            enemy.setTimeInState(deltaTime);
-        }
-        if (!enemy.isAlive() && plusHP < 139) {
-            plusHP += 10;
+            if (!enemy.isAlive() && enemies.size < 3) {
+                enemies.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
+                enemies.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
+                enemies.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint));
+            }
+            if (!enemy.isAlive() && enemies.size < 6 && enemies.size > 3) {
+                enemies.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
+                enemies.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
+                enemies.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint));
+                enemies.add(new Enemy(10, coreTower.getHitBox(), 1704, 417, enemyPathPoint));
+                enemies.add(new Enemy(10, coreTower.getHitBox(), 1754, 417, enemyPathPoint));
+            }
+            if (!enemy.isAlive() && enemies.size < 11 && enemies.size > 6) {
+                enemies.add(new Enemy(1000, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
+            }
         }
 
         //if (!enemy.isAlive()) {
         //    meowGame.changeScreen(MeowGame.GAMELVL2);
         //}
 
-        for (DefensiveTower defensiveTower : defensiveTowerArray) {
-            defensiveTower.draw(batch, enemy, curTime);
+        for (Enemy enemy : enemies) {
+            for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                defensiveTower.draw(batch, enemy, curTime);
+            }
         }
 
         debugInfo.draw(batch);
@@ -287,7 +297,9 @@ public class GameScreenLvl2 implements Screen {
             worker.dispose();
         }
 
-        enemy.dispose();
+        for (Enemy enemy : enemies) {
+            enemy.dispose();
+        }
 
         for (DefensiveTower defensiveTower : defensiveTowerArray) {
             defensiveTower.dispose();

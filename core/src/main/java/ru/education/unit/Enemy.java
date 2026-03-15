@@ -27,6 +27,7 @@ public class Enemy extends Unit {
     private StateEnemy currentState;
     private float timeLastAttack;
     private EnumMap<StateEnemy, StateAttribute> stateAttrMap;
+    private boolean rightPosition;
 
     public Enemy(int hp, Rectangle destination, float x, float y, Array<Rectangle> pathPoints) {
         initStateMap();
@@ -34,7 +35,7 @@ public class Enemy extends Unit {
         this.x = x;
         this.y = y;
         this.hp = hp;
-
+        rightPosition = true;
         isAlive = true;
 
         setCurrentState(StateEnemy.STAY);
@@ -159,7 +160,13 @@ public class Enemy extends Unit {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(getCurrentFrame(), x, y, getWidth(), getHeight());
+        batch.draw(
+            getCurrentFrame(),
+            rightPosition ? x + getWidth() : x,
+            y,
+            rightPosition ? -getWidth() : getWidth(),
+            getHeight()
+        );
         font.draw(batch, String.valueOf(hp), x, y + getHeight());
     }
 
@@ -172,8 +179,14 @@ public class Enemy extends Unit {
                 if (curDestination.y + curDestination.height / 2f > y) y += deltaY;
                 if (curDestination.y + curDestination.height / 2f < y) y -= deltaY;
 
-                if (curDestination.x + curDestination.width / 2f >= x) x += deltaX;
-                if (curDestination.x + curDestination.width / 2f < x) x -= deltaX;
+                if (curDestination.x + curDestination.width / 2f >= x){
+                    x += deltaX;
+                    rightPosition = true;
+                }
+                if (curDestination.x + curDestination.width / 2f < x){
+                    x -= deltaX;
+                    rightPosition = false;
+                }
             } else {
                 curDestination = path.pop();
                 calcDeltaXAndDeltaY(curDestination);
