@@ -38,6 +38,9 @@ public class User {
     public void setHp(int hp) {
         this.hp = hp;
     }
+    public void setGold(int gold) {this.gold = gold;}
+    public void setOre(int ore) {this.ore = ore;}
+    public void setWood(int wood) {this.wood = wood;}
 
     public void incOre(int ore) {
         User.getInstance().ore += ore;

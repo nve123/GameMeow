@@ -62,7 +62,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        User.getInstance().setHp(100);
         batch = meowGame.getSpriteBatch();
 
         camera = new OrthographicCameraWithLeftRightState();
@@ -203,6 +202,10 @@ public class GameScreen implements Screen {
         }
 
         if (!enemy.isAlive()) {
+            User.getInstance().setHp(100);
+            User.getInstance().setGold(100);
+            User.getInstance().setOre(200);
+            User.getInstance().setWood(150);
             meowGame.changeScreen(MeowGame.GAMELVL2);
         }
 
@@ -219,6 +222,10 @@ public class GameScreen implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
+            User.getInstance().setHp(100);
+            User.getInstance().setGold(100);
+            User.getInstance().setOre(200);
+            User.getInstance().setWood(150);
             meowGame.changeScreen(MeowGame.MENU);
         }
     }
