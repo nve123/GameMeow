@@ -76,18 +76,29 @@ public class GameScreenLvl2 implements Screen {
 
         gameUserInterface = new GameUserInterface(camera, this);
 
+        Rectangle hitBoxCoreTower = new Rectangle(
+            115,
+            300,
+            25,
+            25
+        );
+
         tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
         coreTower = new Core(
             170,
             226,
             20,
-            140
+            140,
+            hitBoxCoreTower
         );
 
         Resource resourceGold, resourceOre, resourceWood;
-        resourceGold = new Resource(20, 1, ResourceType.GOLD);
-        resourceOre = new Resource(200, 480 - 420, ResourceType.ORE);
-        resourceWood = new Resource(300, 480 - 322, ResourceType.WOOD);
+        Rectangle workBoxGold = new Rectangle(20 + 170 / 2, 1 + 119, 15f, 15f);
+        resourceGold = new Resource(20, 1, ResourceType.GOLD, workBoxGold);
+        Rectangle workBoxOre = new Rectangle(200, 480 - 420 + 119 - 40, 15f, 15f);
+        resourceOre = new Resource(200, 480 - 420, ResourceType.ORE, workBoxOre);
+        Rectangle workBoxWood = new Rectangle(300, 480 - 322+ 20, 15f, 15f);
+        resourceWood = new Resource(300, 480 - 322, ResourceType.WOOD, workBoxWood);
         resourceList = Array.with(resourceGold, resourceOre, resourceWood);
 
         workers = new Array<>();

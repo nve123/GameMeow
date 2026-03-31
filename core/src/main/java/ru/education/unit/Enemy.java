@@ -35,7 +35,7 @@ public class Enemy extends Unit {
         this.x = x;
         this.y = y;
         this.hp = hp;
-        rightPosition = true;
+        rightPosition = false;
         isAlive = true;
 
         setCurrentState(StateEnemy.STAY);

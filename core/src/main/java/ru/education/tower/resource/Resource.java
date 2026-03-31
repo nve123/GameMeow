@@ -13,10 +13,10 @@ public class Resource {
     private final float y;
     private float width;
     private float height;
-    private final Rectangle workBox;
+    private Rectangle workBox;
     private Texture debugResourceTexture;
 
-    public Resource(float x, float y, ResourceType type) {
+    public Resource(float x, float y, ResourceType type, Rectangle workBox) {
         switch (type) {
             case ORE -> {
                 texture = new Texture(Gdx.files.internal("ore.png"));
@@ -39,7 +39,7 @@ public class Resource {
         this.type = type;
         this.debugResourceTexture = new Texture(Gdx.files.internal("tmp.png"));
         hitBox = new Rectangle(x, y, this.width, this.height);
-        workBox = new Rectangle(x + width - 20, y, 15f, 15f);
+        this.workBox = workBox;
     }
 
     public Rectangle getHitBox() {

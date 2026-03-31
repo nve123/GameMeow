@@ -17,13 +17,8 @@ public class Core {
     protected final Rectangle hitBox;
     private final Rectangle storageBox;
 
-    public Core(float width, float height, float x, float y) {
-        this.hitBox = new Rectangle(
-            (MeowGame.SCREEN_WIDTH - width * 2) + width - 30,
-            (MeowGame.SCREEN_HEIGHT / 2f - height / 4) + height / 5,
-            25,
-            25
-        );
+    public Core(float width, float height, float x, float y, Rectangle hitBox ) {
+        this.hitBox = hitBox;
         this.texture = new Texture(Gdx.files.internal("coretower.png"));
         this.x = x;
         this.y = y;

@@ -71,18 +71,29 @@ public class GameScreen implements Screen {
 
         gameUserInterface = new GameUserInterface(camera, this);
 
+        Rectangle hitBoxCoreTower = new Rectangle(
+            (MeowGame.SCREEN_WIDTH - 170 * 2) + 170 - 30,
+            (MeowGame.SCREEN_HEIGHT / 2f - 226 / 4) + 226 / 5,
+            25,
+            25
+        );
+
         tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
         coreTower = new Core(
             170,
             226,
             MeowGame.SCREEN_WIDTH - 170 * 2,
-            MeowGame.SCREEN_HEIGHT / 2f - 226 / 4
+            MeowGame.SCREEN_HEIGHT / 2f - 226 / 4,
+            hitBoxCoreTower
         );
 
         Resource resourceGold, resourceOre, resourceWood;
-        resourceGold = new Resource(50 - 25, 480 / 2f - 165 / 2f, ResourceType.GOLD);
-        resourceOre = new Resource(50, 480 - 150 - 35, ResourceType.ORE);
-        resourceWood = new Resource(55, 0 + 15, ResourceType.WOOD);
+        Rectangle workBoxGold = new Rectangle(50 - 25 + 170 - 20, 480 / 2f - 165 / 2f, 15f, 15f);
+        resourceGold = new Resource(50 - 25, 480 / 2f - 165 / 2f, ResourceType.GOLD, workBoxGold);
+        Rectangle workBoxOre = new Rectangle(50 - 25 + 146 - 20, 480 - 150 - 35, 15f, 15f);
+        resourceOre = new Resource(50, 480 - 150 - 35, ResourceType.ORE, workBoxOre);
+        Rectangle workBoxWood = new Rectangle(50 - 25 + 150 - 20, 0 + 15, 15f, 15f);
+        resourceWood = new Resource(55, 0 + 15, ResourceType.WOOD, workBoxWood);
         resourceList = Array.with(resourceGold, resourceOre, resourceWood);
 
         workers = new Array<>();
