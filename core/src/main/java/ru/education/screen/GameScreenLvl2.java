@@ -52,7 +52,6 @@ public class GameScreenLvl2 implements Screen {
     private Shop shop2;
     private float curTime;
     private DebugInfo debugInfo;
-    private int plusHP = 0;
     private ShopService shopService;
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint;

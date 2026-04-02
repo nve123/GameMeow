@@ -24,6 +24,7 @@ import ru.education.tower.DefensiveTower;
 import ru.education.tower.SlotTower;
 import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
+import ru.education.ui.ChangeLevelUserInterface;
 import ru.education.ui.GameUserInterface;
 import ru.education.ui.MenuUserInterface;
 import ru.education.unit.Enemy;
@@ -51,10 +52,11 @@ public class GameScreen implements Screen {
     private Shop shop;
     private float curTime;
     private DebugInfo debugInfo;
-    private int plusHP = 0;
     private ShopService shopService;
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint;
+    private ChangeLevelUserInterface changeLevelUserInterface;
+    private Texture btnlvl2Texture;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -63,9 +65,10 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         batch = meowGame.getSpriteBatch();
-
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
+        changeLevelUserInterface = new ChangeLevelUserInterface(meowGame, camera);
+        btnlvl2Texture = new Texture("btn_lvl2.png");
 
         background = new Texture(Gdx.files.internal("game_back.png"));
 
@@ -208,16 +211,14 @@ public class GameScreen implements Screen {
             }
             enemy.setTimeInState(deltaTime);
         }
-        if (!enemy.isAlive() && plusHP < 139) {
-            plusHP += 10;
-        }
 
         if (!enemy.isAlive()) {
             User.getInstance().setHp(100);
             User.getInstance().setGold(100);
             User.getInstance().setOre(200);
             User.getInstance().setWood(150);
-            meowGame.changeScreen(MeowGame.GAMELVL2);
+            meowGame.unlockLevel((byte) 1);
+            meowGame.changeScreen(MeowGame.CHANGELVL);
         }
 
         for (DefensiveTower defensiveTower : defensiveTowerArray) {

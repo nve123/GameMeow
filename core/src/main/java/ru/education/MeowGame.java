@@ -3,10 +3,13 @@ package ru.education;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
+import ru.education.screen.ChangeLevelScreen;
 import ru.education.screen.GameScreen;
 import ru.education.screen.GameScreenLvl2;
 import ru.education.screen.MenuScreen;
+import ru.education.ui.ChangeLevelUserInterface;
 
 public class MeowGame extends Game {
     public static final int SCREEN_WIDTH = 800;
@@ -14,10 +17,14 @@ public class MeowGame extends Game {
     public static final String GAME = "Game";
     public static final String GAMELVL2 = "GameLvl2";
     public static final String MENU = "Menu";
+    public static final String CHANGELVL = "ChangeLvl";
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
     private GameScreenLvl2 gameScreenLvl2;
+    private ChangeLevelScreen changeLevelScreen;
     private SpriteBatch spriteBatch;
+    private Array<Boolean> lockedLvls;
+    private ChangeLevelUserInterface changeLevelUserInterface;
     private BitmapFont font;
 
     @Override
@@ -25,6 +32,11 @@ public class MeowGame extends Game {
         menuScreen = new MenuScreen(this);
         gameScreen = new GameScreen(this);
         gameScreenLvl2 = new GameScreenLvl2(this);
+        changeLevelScreen = new ChangeLevelScreen(this);
+        lockedLvls = new Array<>(3);
+        lockedLvls.add(false);
+        lockedLvls.add(true);
+        lockedLvls.add(true);
 
         spriteBatch = new SpriteBatch();
         font = new BitmapFont();
@@ -48,7 +60,17 @@ public class MeowGame extends Game {
             setScreen(menuScreen);
         } else if (screenName.equalsIgnoreCase(GAMELVL2)) {
             setScreen(gameScreenLvl2);
+        } else if (screenName.equalsIgnoreCase(CHANGELVL)) {
+            setScreen(changeLevelScreen);
         }
+    }
+
+    public Array<Boolean> getLockedLvls() {
+        return lockedLvls;
+    }
+
+    public void unlockLevel(byte numberLevel){
+        lockedLvls.set(numberLevel, false);
     }
 
     @Override
@@ -61,5 +83,6 @@ public class MeowGame extends Game {
         menuScreen.dispose();
         gameScreen.dispose();
         gameScreenLvl2.dispose();
+        changeLevelScreen.dispose();
     }
 }

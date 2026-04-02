@@ -45,7 +45,7 @@ public class MenuScreen implements Screen {
             new BtnStartListener() {
                 @Override
                 public void onClick() {
-                    meowGame.changeScreen(MeowGame.GAME);
+                    meowGame.changeScreen(MeowGame.CHANGELVL);
                 }
             }
         );
