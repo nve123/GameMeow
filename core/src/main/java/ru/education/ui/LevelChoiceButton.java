@@ -46,8 +46,8 @@ public class LevelChoiceButton {
                     case 1:
                         if (!lock) meowGame.changeScreen(MeowGame.GAMELVL2);
                         break;
-                    case 3:
-                        //TODO: доделать как будет готов 3й уровень
+                    case 2:
+                        if (!lock) meowGame.changeScreen(MeowGame.GAMELVL3);
                         break;
                 }
             }

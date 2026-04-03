@@ -1,6 +1,5 @@
 package ru.education.screen;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -12,10 +11,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
+import ru.education.debug.DebugInfo;
 import ru.education.service.ShopService;
+import ru.education.service.WaveService;
 import ru.education.service.WorkerService;
 import ru.education.shop.ItemType;
 import ru.education.shop.Shop;
@@ -24,14 +24,13 @@ import ru.education.tower.DefensiveTower;
 import ru.education.tower.SlotTower;
 import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
-import ru.education.ui.ChangeLevelUserInterface;
 import ru.education.ui.GameUserInterface;
-import ru.education.ui.MenuUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
+import ru.education.wave.Wave;
 
-public class GameScreen implements Screen {
+public class GameScreenLvl3 implements Screen {
     public static final int WORLD_WIDTH = MeowGame.SCREEN_WIDTH * 2;
     private final MeowGame meowGame;
     private OrthographicCameraWithLeftRightState camera;
@@ -45,38 +44,42 @@ public class GameScreen implements Screen {
     private Vector3 touchPoint;
     private Array<Worker> workers;
     private Array<Worker> activeWorkers;
-    private Enemy enemy;
+    private Array<Wave> waves;
     private BitmapFont font;
     private Array<SlotTower> slotTowerArray;
     private Array<DefensiveTower> defensiveTowerArray;
     private Shop shop;
+    private Shop shop2;
     private float curTime;
     private DebugInfo debugInfo;
     private ShopService shopService;
     private WorkerService workerService;
-    private Array<Rectangle> enemyPathPoint;
-    private ChangeLevelUserInterface changeLevelUserInterface;
-    private Texture btnlvl2Texture;
+    private Array<Rectangle> enemyPathPoint1;
+    private Array<Rectangle> enemyPathPoint2;
+    private Array<Rectangle> enemyPathPoint3;
+    private ShopService shopService2;
+    private WaveService waveService;
+    //private Enemy enemy;
 
-    public GameScreen(MeowGame meowGame) {
+    public GameScreenLvl3(MeowGame meowGame) {
         this.meowGame = meowGame;
     }
 
     @Override
     public void show() {
+        User.getInstance().setHp(100);
         batch = meowGame.getSpriteBatch();
+
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
-        changeLevelUserInterface = new ChangeLevelUserInterface(meowGame, camera);
-        btnlvl2Texture = new Texture("btn_lvl2.png");
 
-        background = new Texture(Gdx.files.internal("game_back.png"));
+        background = new Texture(Gdx.files.internal("game_back_lvl_3.png"));
 
         gameUserInterface = new GameUserInterface(camera, this);
 
         Rectangle hitBoxCoreTower = new Rectangle(
-            (MeowGame.SCREEN_WIDTH - 170 * 2) + 170 - 30,
-            (MeowGame.SCREEN_HEIGHT / 2f - 226 / 4) + 226 / 5,
+            190+ 200,
+            480 - 300,
             25,
             25
         );
@@ -85,18 +88,18 @@ public class GameScreen implements Screen {
         coreTower = new Core(
             170,
             226,
-            MeowGame.SCREEN_WIDTH - 170 * 2,
-            MeowGame.SCREEN_HEIGHT / 2f - 226 / 4,
+            190,
+            480 - 300,
             hitBoxCoreTower
         );
 
         Resource resourceGold, resourceOre, resourceWood;
-        Rectangle workBoxGold = new Rectangle(50 - 25 + 170 - 20, 480 / 2f - 165 / 2f, 15f, 15f);
-        resourceGold = new Resource(50 - 25, 480 / 2f - 165 / 2f, ResourceType.GOLD, workBoxGold);
-        Rectangle workBoxOre = new Rectangle(50 - 25 + 146 - 20, 480 - 150 - 35, 15f, 15f);
-        resourceOre = new Resource(50, 480 - 150 - 35, ResourceType.ORE, workBoxOre);
-        Rectangle workBoxWood = new Rectangle(50 - 25 + 150 - 20, 0 + 15, 15f, 15f);
-        resourceWood = new Resource(55, 0 + 15, ResourceType.WOOD, workBoxWood);
+        Rectangle workBoxGold = new Rectangle(130, 0, 15f, 15f);
+        resourceGold = new Resource(130, 0, ResourceType.GOLD, workBoxGold);
+        Rectangle workBoxOre = new Rectangle(130, 480 - 120, 15f, 15f);
+        resourceOre = new Resource(130, 480 - 120, ResourceType.ORE, workBoxOre);
+        Rectangle workBoxWood = new Rectangle(34, 480 - 300, 15f, 15f);
+        resourceWood = new Resource(34, 480 - 300, ResourceType.WOOD, workBoxWood);
         resourceList = Array.with(resourceGold, resourceOre, resourceWood);
 
         workers = new Array<>();
@@ -110,39 +113,74 @@ public class GameScreen implements Screen {
 
         touchPoint = new Vector3();
 
-        enemyPathPoint = new Array<>();
-        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f - 50 - 100, 10, 10));
-        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f + 50, 10, 10));
-        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150, 480 / 2f - 50 - 100, 10, 10));
+        enemyPathPoint1 = new Array<>();
+        enemyPathPoint1.add(new Rectangle(691, 480 - 467, 10, 10));
+        enemyPathPoint1.add(new Rectangle(795, 480 - 260, 10, 10));
+        enemyPathPoint2 = new Array<>();
+        enemyPathPoint2.add(new Rectangle(795, 480 - 260, 10, 10));
+        enemyPathPoint3 = new Array<>();
+        enemyPathPoint3.add(new Rectangle(691, 480 - 86, 10, 10));
+        enemyPathPoint3.add(new Rectangle(795, 480 - 260, 10, 10));
 
-        enemy = new Enemy(
-            10,
-            coreTower.getHitBox(),
-            WORLD_WIDTH - 100,
-            MeowGame.SCREEN_HEIGHT / 2f,
-            enemyPathPoint
-        );
+        Array<Enemy> enemiesWave0 = new Array<>();
+        Array<Enemy> enemiesWave1 = new Array<>();
+        Array<Enemy> enemiesWave2 = new Array<>();
+        Array<Enemy> enemiesWave3 = new Array<>();
+
+        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 467, enemyPathPoint1));
+        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
+
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 467, enemyPathPoint1));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 86, enemyPathPoint3));
+
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1700, 480 - 86, enemyPathPoint3));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 467, enemyPathPoint1));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1700, 480 - 467, enemyPathPoint1));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 86, enemyPathPoint3));
+
+        enemiesWave3.add(new Enemy(500, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
+
+        Wave wave0 = new Wave(enemiesWave0);
+        Wave wave1 = new Wave(enemiesWave1);
+        Wave wave2 = new Wave(enemiesWave2);
+        Wave wave3 = new Wave(enemiesWave3);
+
+        waves = new Array<>(4);
+        waves.add(wave0, wave1, wave2, wave3);
+
+        waveService = new WaveService(waves);
+
 
         font = new BitmapFont();
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
+        shop2 = new Shop(24 + 300, 24);
         shop.addItem(ItemType.TOWER);
+        shop2.addItem(ItemType.TOWER);
         shop.addItem(ItemType.UPDATE_DMG);
+        shop2.addItem(ItemType.UPDATE_DMG);
         shop.addItem(ItemType.UPDATE_SPEED);
+        shop2.addItem(ItemType.UPDATE_SPEED);
 
-        slotTowerArray = new Array<>(6);
-        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150, 480 / 2f + 50));
-        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f + 50));
-        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150, 480 / 2f - 50 - 100));
-        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f - 50 - 100));
-        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f + 50));
-        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f - 50 - 100));
+        slotTowerArray = new Array<>(8);
+        slotTowerArray.add(new SlotTower(410, 480 - 205));
+        slotTowerArray.add(new SlotTower(850, 480 - 205));
+        slotTowerArray.add(new SlotTower(1150, 480 - 205));
+        slotTowerArray.add(new SlotTower(410, 480 - 440));
+        slotTowerArray.add(new SlotTower(850, 480 - 440));
+        slotTowerArray.add(new SlotTower(1150, 480 - 440));
+        slotTowerArray.add(new SlotTower(1450, 480 - 205));
+        slotTowerArray.add(new SlotTower(1450, 480 - 440));
+
 
         defensiveTowerArray = new Array<>();
 
         curTime = 0f;
 
         shopService = new ShopService(slotTowerArray, defensiveTowerArray, shop);
+        shopService2 = new ShopService(slotTowerArray, defensiveTowerArray, shop2);
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
         debugInfo = new DebugInfo();
@@ -168,6 +206,13 @@ public class GameScreen implements Screen {
                 shopService.shoppingProcess(touchPoint);
                 shop.setActive(false);
             }
+            if (!shop2.isActive()) {
+                workerService.workerClickProcessing(touchPoint);
+                shopService2.shopItemClickProcessing(touchPoint);
+            } else {
+                shopService2.shoppingProcess(touchPoint);
+                shop2.setActive(false);
+            }
         }
 
         batch.begin();
@@ -176,6 +221,10 @@ public class GameScreen implements Screen {
 
         if (camera.isLeftState()) {
             coreTower.draw(batch);
+            shop2.draw(batch);
+            for (SlotTower slotTower : slotTowerArray) {
+                slotTower.draw(batch);
+            }
             for (Resource resource : resourceList) {
                 resource.draw(batch);
             }
@@ -203,26 +252,34 @@ public class GameScreen implements Screen {
             }
         }
 
-        if (enemy.isAlive()) {
-            enemy.nextXY();
-            if (enemy.getX() > MeowGame.SCREEN_WIDTH && !camera.isLeftState()
-                || enemy.getX() < MeowGame.SCREEN_WIDTH && camera.isLeftState()) {
-                enemy.draw(batch);
+        for (Enemy enemy : waveService.getCurWave().getEnemies()) {
+            if (enemy.isAlive()) {
+                enemy.nextXY();
+                if (enemy.getX() > MeowGame.SCREEN_WIDTH && !camera.isLeftState()
+                    || enemy.getX() < MeowGame.SCREEN_WIDTH && camera.isLeftState()) {
+                    enemy.draw(batch);
+                }
+                enemy.setTimeInState(deltaTime);
             }
-            enemy.setTimeInState(deltaTime);
+            if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
+                waveService.nextWave();
+            }
+            else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 1) {
+                waveService.nextWave();
+            }
+            else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
+                waveService.nextWave();
+            }
         }
 
-        if (!enemy.isAlive()) {
-            User.getInstance().setHp(100);
-            User.getInstance().setGold(1000);
-            User.getInstance().setOre(2000);
-            User.getInstance().setWood(1500);
-            meowGame.unlockLevel((byte) 1);
-            meowGame.changeScreen(MeowGame.CHANGELVL);
-        }
+        //if (!enemy.isAlive()) {
+        //    meowGame.changeScreen(MeowGame.GAMELVL2);
+        //}
 
-        for (DefensiveTower defensiveTower : defensiveTowerArray) {
-            defensiveTower.draw(batch, enemy, curTime);
+        for (Enemy enemy : waveService.getCurWave().getEnemies()) {
+            for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                defensiveTower.draw(batch, enemy, curTime);
+            }
         }
 
         debugInfo.draw(batch);
@@ -243,37 +300,6 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void dispose() {
-        background.dispose();
-        gameUserInterface.dispose();
-        tmpTexture.dispose();
-        font.dispose();
-
-        for (Resource resource : resourceList) {
-            resource.dispose();
-        }
-        coreTower.dispose();
-
-        for (Worker worker : workers) {
-            worker.dispose();
-        }
-
-        enemy.dispose();
-
-        for (DefensiveTower defensiveTower : defensiveTowerArray) {
-            defensiveTower.dispose();
-        }
-
-        for (SlotTower slotTower : slotTowerArray) {
-            slotTower.dispose();
-        }
-
-        shop.dispose();
-
-        debugInfo.dispose();
-    }
-
-    @Override
     public void resize(int width, int height) {
 
     }
@@ -291,5 +317,36 @@ public class GameScreen implements Screen {
     @Override
     public void hide() {
 
+    }
+
+    @Override
+    public void dispose() {
+        background.dispose();
+        gameUserInterface.dispose();
+        tmpTexture.dispose();
+        font.dispose();
+
+        for (Resource resource : resourceList) {
+            resource.dispose();
+        }
+        coreTower.dispose();
+
+        for (Worker worker : workers) {
+            worker.dispose();
+        }
+
+        for (DefensiveTower defensiveTower : defensiveTowerArray) {
+            defensiveTower.dispose();
+        }
+
+        for (SlotTower slotTower : slotTowerArray) {
+            slotTower.dispose();
+        }
+
+        shop.dispose();
+        shop2.dispose();
+        waveService.dispose();
+
+        debugInfo.dispose();
     }
 }

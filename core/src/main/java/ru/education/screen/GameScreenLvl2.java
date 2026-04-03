@@ -268,12 +268,15 @@ public class GameScreenLvl2 implements Screen {
             }
             else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
                 waveService.nextWave();
+            }else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 3) {
+                User.getInstance().setHp(100);
+                User.getInstance().setGold(100);
+                User.getInstance().setOre(200);
+                User.getInstance().setWood(150);
+                meowGame.unlockLevel((byte) 2);
+                meowGame.changeScreen(MeowGame.CHANGELVL);
             }
         }
-
-        //if (!enemy.isAlive()) {
-        //    meowGame.changeScreen(MeowGame.GAMELVL2);
-        //}
 
         for (Enemy enemy : waveService.getCurWave().getEnemies()) {
             for (DefensiveTower defensiveTower : defensiveTowerArray) {

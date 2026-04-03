@@ -28,8 +28,10 @@ public class ChangeLevelUserInterface {
         btns = new Array<>(3);
         Texture btnlvl1Texture = new Texture("btn_lvl1.png");
         Texture btnlvl2Texture = new Texture("btn_lvl2.png");
+        Texture btnlvl3Texture = new Texture("btn_lvl3.png");
 
-       LevelChoiceButton btnlvl1 = new LevelChoiceButton(btnlvl1Texture,
+       LevelChoiceButton btnlvl1 = new LevelChoiceButton
+           (btnlvl1Texture,
            MeowGame.SCREEN_WIDTH / 2f - btnlvl1Texture.getWidth() / 2f,
            MeowGame.SCREEN_HEIGHT / 2f - btnlvl1Texture.getHeight() / 2f,
            (byte) 0,
@@ -38,7 +40,8 @@ public class ChangeLevelUserInterface {
 
        btns.add(btnlvl1);
 
-       LevelChoiceButton btnlvl2 = new LevelChoiceButton(btnlvl2Texture,
+       LevelChoiceButton btnlvl2 = new LevelChoiceButton(
+           btnlvl2Texture,
            MeowGame.SCREEN_WIDTH / 2f - btnlvl2Texture.getWidth() / 2f + 50,
            MeowGame.SCREEN_HEIGHT / 2f - btnlvl2Texture.getHeight() / 2f,
            (byte) 1,
@@ -46,6 +49,16 @@ public class ChangeLevelUserInterface {
        );
 
        btns.add(btnlvl2);
+
+        LevelChoiceButton btnlvl3 = new LevelChoiceButton(
+            btnlvl3Texture,
+            MeowGame.SCREEN_WIDTH / 2f - btnlvl3Texture.getWidth() / 2f + 100,
+            MeowGame.SCREEN_HEIGHT / 2f - btnlvl3Texture.getHeight() / 2f,
+            (byte) 2,
+            meowGame
+        );
+
+        btns.add(btnlvl3);
 
         Viewport fitViewport = new StretchViewport(MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT, camera);
         stage = new Stage(fitViewport);
@@ -69,5 +82,8 @@ public class ChangeLevelUserInterface {
 
     public void dispose() {
         stage.dispose();
+        for (LevelChoiceButton btn : btns) {
+            btn.dispose();
+        }
     }
 }

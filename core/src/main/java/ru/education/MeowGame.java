@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import ru.education.screen.ChangeLevelScreen;
 import ru.education.screen.GameScreen;
 import ru.education.screen.GameScreenLvl2;
+import ru.education.screen.GameScreenLvl3;
 import ru.education.screen.MenuScreen;
 import ru.education.ui.ChangeLevelUserInterface;
 
@@ -16,11 +17,13 @@ public class MeowGame extends Game {
     public static final int SCREEN_HEIGHT = 480;
     public static final String GAME = "Game";
     public static final String GAMELVL2 = "GameLvl2";
+    public static final String GAMELVL3 = "GameLvl3";
     public static final String MENU = "Menu";
     public static final String CHANGELVL = "ChangeLvl";
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
     private GameScreenLvl2 gameScreenLvl2;
+    private GameScreenLvl3 gameScreenLvl3;
     private ChangeLevelScreen changeLevelScreen;
     private SpriteBatch spriteBatch;
     private Array<Boolean> lockedLvls;
@@ -32,6 +35,7 @@ public class MeowGame extends Game {
         menuScreen = new MenuScreen(this);
         gameScreen = new GameScreen(this);
         gameScreenLvl2 = new GameScreenLvl2(this);
+        gameScreenLvl3 = new GameScreenLvl3(this);
         changeLevelScreen = new ChangeLevelScreen(this);
         lockedLvls = new Array<>(3);
         lockedLvls.add(false);
@@ -60,6 +64,8 @@ public class MeowGame extends Game {
             setScreen(menuScreen);
         } else if (screenName.equalsIgnoreCase(GAMELVL2)) {
             setScreen(gameScreenLvl2);
+        } else if (screenName.equalsIgnoreCase(GAMELVL3)) {
+            setScreen(gameScreenLvl3);
         } else if (screenName.equalsIgnoreCase(CHANGELVL)) {
             setScreen(changeLevelScreen);
         }
@@ -83,6 +89,7 @@ public class MeowGame extends Game {
         menuScreen.dispose();
         gameScreen.dispose();
         gameScreenLvl2.dispose();
+        gameScreenLvl3.dispose();
         changeLevelScreen.dispose();
     }
 }
