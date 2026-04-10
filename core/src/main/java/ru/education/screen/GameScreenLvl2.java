@@ -112,13 +112,13 @@ public class GameScreenLvl2 implements Screen {
         touchPoint = new Vector3();
 
         enemyPathPoint = new Array<>();
-        enemyPathPoint.add(new Rectangle(840 - 5, 480 - 29 - 5, 10, 10));
-        enemyPathPoint.add(new Rectangle(840 - 5, 480 - 214 - 5, 10, 10));
-        enemyPathPoint.add(new Rectangle(1554 - 5, 480 - 214 - 5, 10, 10));
-        enemyPathPoint.add(new Rectangle(1554 - 5, 480 - 417 - 5, 10, 10));
-        enemyPathPoint.add(new Rectangle(695 - 5, 480 - 417 - 5, 10, 10));
-        enemyPathPoint.add(new Rectangle(695 - 5, 480 - 44 - 5, 10, 10));
-        enemyPathPoint.add(new Rectangle(132 - 5, 480 - 44 - 5, 10, 10));
+        enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 29 - 30, 10, 10));
+        enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 214 - 23, 10, 10));
+        enemyPathPoint.add(new Rectangle(1554- 30, 480 - 214 - 10, 10, 10));
+        enemyPathPoint.add(new Rectangle(1554 - 5- 30, 480 - 417 - 10, 10, 10));
+        enemyPathPoint.add(new Rectangle(695 - 10- 30, 480 - 417 - 10, 10, 10));
+        enemyPathPoint.add(new Rectangle(695 - 10- 30, 480 - 44 - 10, 10, 10));
+        enemyPathPoint.add(new Rectangle(132 - 10- 30, 480 - 44 - 10, 10, 10));
 
         Array<Enemy> enemiesWave0 = new Array<>();
         Array<Enemy> enemiesWave1 = new Array<>();
@@ -159,8 +159,6 @@ public class GameScreenLvl2 implements Screen {
         shop2.addItem(ItemType.TOWER);
         shop.addItem(ItemType.UPDATE_DMG);
         shop2.addItem(ItemType.UPDATE_DMG);
-        shop.addItem(ItemType.UPDATE_SPEED);
-        shop2.addItem(ItemType.UPDATE_SPEED);
 
         slotTowerArray = new Array<>(6);
         slotTowerArray.add(new SlotTower(604, 480 - 408));

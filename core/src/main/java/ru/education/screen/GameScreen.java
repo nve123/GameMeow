@@ -127,8 +127,6 @@ public class GameScreen implements Screen {
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
         shop.addItem(ItemType.TOWER);
-        shop.addItem(ItemType.UPDATE_DMG);
-        shop.addItem(ItemType.UPDATE_SPEED);
 
         slotTowerArray = new Array<>(6);
         slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150, 480 / 2f + 50));

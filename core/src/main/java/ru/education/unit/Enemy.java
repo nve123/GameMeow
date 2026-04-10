@@ -28,15 +28,48 @@ public class Enemy extends Unit {
     private float timeLastAttack;
     private EnumMap<StateEnemy, StateAttribute> stateAttrMap;
     private boolean rightPosition;
+    private TextureAtlas atlasStay;
+    private TextureAtlas atlasGoTo;
+    private TextureAtlas atlasAttack;
 
     public Enemy(int hp, Rectangle destination, float x, float y, Array<Rectangle> pathPoints) {
-        initStateMap();
 
         this.x = x;
         this.y = y;
         this.hp = hp;
         rightPosition = false;
         isAlive = true;
+
+        atlasStay = new TextureAtlas("enemystay.atlas");
+        atlasGoTo = new TextureAtlas("enemy.atlas");
+        atlasAttack = new TextureAtlas("enemyatack.atlas");
+
+        initStateMap();
+
+        setCurrentState(StateEnemy.STAY);
+        setDestination(destination);
+        path = new Stack<>();
+        path.push(destination);
+        for (int i = pathPoints.size - 1; i > 0; i--) {
+            path.push(pathPoints.get(i));
+        }
+        curDestination = pathPoints.get(0);
+        calcDeltaXAndDeltaY(curDestination);
+        timeLastAttack = -1;
+    }
+    public Enemy(int hp, Rectangle destination, float x, float y, Array<Rectangle> pathPoints, TextureAtlas atlasStay, TextureAtlas atlasGoTo, TextureAtlas atlasAttack) {
+
+        this.x = x;
+        this.y = y;
+        this.hp = hp;
+        rightPosition = false;
+        isAlive = true;
+
+        this.atlasStay = atlasStay;
+        this.atlasGoTo = atlasGoTo;
+        this.atlasAttack = atlasAttack;
+
+        initStateMap();
 
         setCurrentState(StateEnemy.STAY);
         setDestination(destination);
@@ -55,7 +88,7 @@ public class Enemy extends Unit {
         textureAtlasArray = new Array<>();
         stateAttrMap = new EnumMap<>(StateEnemy.class);
 
-        TextureAtlas atlas = new TextureAtlas("enemystay.atlas");
+        TextureAtlas atlas = atlasStay;
         stateAttrMap.put(
             StateEnemy.STAY,
             new StateAttribute(
@@ -70,7 +103,7 @@ public class Enemy extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("enemy.atlas");
+        atlas = atlasGoTo;
         stateAttrMap.put(
             StateEnemy.GO_TO,
             new StateAttribute(
@@ -85,7 +118,7 @@ public class Enemy extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("enemyatack.atlas");
+        atlas = atlasAttack;
         stateAttrMap.put(
             StateEnemy.ATTACK,
             new StateAttribute(

@@ -79,7 +79,7 @@ public class GameScreenLvl3 implements Screen {
 
         Rectangle hitBoxCoreTower = new Rectangle(
             190+ 200,
-            480 - 300,
+            480 - 260,
             25,
             25
         );
@@ -114,13 +114,13 @@ public class GameScreenLvl3 implements Screen {
         touchPoint = new Vector3();
 
         enemyPathPoint1 = new Array<>();
-        enemyPathPoint1.add(new Rectangle(691, 480 - 467, 10, 10));
-        enemyPathPoint1.add(new Rectangle(795, 480 - 260, 10, 10));
+        enemyPathPoint1.add(new Rectangle(795 - 10 - 30, 480 - 467 - 5, 10, 10));
+        enemyPathPoint1.add(new Rectangle(621 - 10 - 30, 480 - 260 - 5, 10, 10));
         enemyPathPoint2 = new Array<>();
-        enemyPathPoint2.add(new Rectangle(795, 480 - 260, 10, 10));
+        enemyPathPoint2.add(new Rectangle(621 - 10 - 30, 480 - 260 - 5, 10, 10));
         enemyPathPoint3 = new Array<>();
-        enemyPathPoint3.add(new Rectangle(691, 480 - 86, 10, 10));
-        enemyPathPoint3.add(new Rectangle(795, 480 - 260, 10, 10));
+        enemyPathPoint3.add(new Rectangle(795 - 10 - 30, 480 - 26 - 5, 10, 10));
+        enemyPathPoint3.add(new Rectangle(621 - 10 - 30, 480 - 260 - 5, 10, 10));
 
         Array<Enemy> enemiesWave0 = new Array<>();
         Array<Enemy> enemiesWave1 = new Array<>();
@@ -132,13 +132,13 @@ public class GameScreenLvl3 implements Screen {
 
         enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
         enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 467, enemyPathPoint1));
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 86, enemyPathPoint3));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 26, enemyPathPoint3));
 
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1700, 480 - 86, enemyPathPoint3));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1700, 480 - 26, enemyPathPoint3));
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 467, enemyPathPoint1));
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1700, 480 - 467, enemyPathPoint1));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 86, enemyPathPoint3));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 26, enemyPathPoint3));
 
         enemiesWave3.add(new Enemy(500, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
 
