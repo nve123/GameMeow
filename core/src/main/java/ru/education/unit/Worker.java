@@ -1,22 +1,29 @@
 package ru.education.unit;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+
 import ru.education.MeowGame;
 import ru.education.tower.Core;
 import ru.education.tower.resource.Resource;
 import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 import ru.education.util.MathUtil;
+
 import java.util.EnumMap;
 
 public class Worker extends Unit {
     private static final float WORKING_TIME = 5f;
     private Resource workingPlace;
     private final Core coreTower;
+    private Sound sleapSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hrap.mp3"));
+    private Sound popBollunSound = Gdx.audio.newSound(Gdx.files.internal("sounds/a-short-clear-sound-of-a-bursting-balloon.mp3"));
+    private Sound meowSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cat-meow_fyvriu4d.mp3"));
 
     public enum StateWorker {
         FLY,
@@ -70,7 +77,8 @@ public class Worker extends Unit {
                     atlas,
                     2.5f
                 ),
-                0.5f
+                0.5f,
+                null
             )
         );
         textureAtlasArray.add(atlas);
@@ -85,7 +93,8 @@ public class Worker extends Unit {
                     atlas,
                     5.5f
                 ),
-                2f
+                2f,
+                popBollunSound
             )
         );
         textureAtlasArray.add(atlas);
@@ -100,7 +109,8 @@ public class Worker extends Unit {
                     atlas,
                     2f
                 ),
-                0f
+                0f,
+                sleapSound
             )
         );
         textureAtlasArray.add(atlas);
@@ -115,7 +125,8 @@ public class Worker extends Unit {
                     atlas,
                     2f
                 ),
-                0f
+                0f,
+                meowSound
             )
         );
         textureAtlasArray.add(atlas);
@@ -130,7 +141,8 @@ public class Worker extends Unit {
                     atlas,
                     1f
                 ),
-                0.75f
+                0.75f,
+                null
             )
         );
         textureAtlasArray.add(atlas);
@@ -145,7 +157,8 @@ public class Worker extends Unit {
                     atlas,
                     0.75f
                 ),
-                0
+                0,
+                null
             )
         );
         textureAtlasArray.add(atlas);
@@ -160,7 +173,8 @@ public class Worker extends Unit {
                     atlas,
                     1f
                 ),
-                0.75f
+                0.75f,
+                null
             )
         );
         textureAtlasArray.add(atlas);
@@ -175,8 +189,14 @@ public class Worker extends Unit {
     }
 
     public void setCurrentState(StateWorker currentState) {
-        this.currentState = currentState;
-        timeInState = 0;
+        if (this.currentState != null) {
+            Sound currentSound = getStateSound();
+            if (currentSound != null) {
+                currentSound.stop();
+            }
+        }
+        this.currentState = currentState;timeInState = 0;
+        playSound();
     }
 
     public void setTimeInState(float deltaTimeInState) {
@@ -189,6 +209,10 @@ public class Worker extends Unit {
 
     public float getHeight() {
         return stateAttrMap.get(currentState).height;
+    }
+
+    public Sound getStateSound() {
+        return stateAttrMap.get(currentState).sound;
     }
 
     public boolean isAlive() {
@@ -298,11 +322,30 @@ public class Worker extends Unit {
         );
     }
 
+    public void playSound() {
+        Sound sound = getStateSound();
+        if (sound != null) {
+            if (currentState == StateWorker.SLEEP) {
+                sound.loop(0.2f);
+            } else {
+                sound.play(0.2f);
+            }
+        }
+    }
+
     public void sleepSametime() {
         if ((getCurrentState() == StateWorker.GO_TO)
             && Math.random() < 0.0005
         ) {
             setCurrentState(StateWorker.SLEEP);
         }
+    }
+
+    @Override
+    public void dispose() {
+        if (sleapSound != null) sleapSound.dispose();
+        if (popBollunSound != null) popBollunSound.dispose();
+        if (meowSound != null) meowSound.dispose();
+        super.dispose();
     }
 }

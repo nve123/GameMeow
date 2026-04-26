@@ -114,7 +114,7 @@ public class GameScreenLvl2 implements Screen {
         enemyPathPoint = new Array<>();
         enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 29 - 30, 10, 10));
         enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 214 - 23, 10, 10));
-        enemyPathPoint.add(new Rectangle(1554- 30, 480 - 214 - 10, 10, 10));
+        enemyPathPoint.add(new Rectangle(1554- 30, 480 - 214 - 20, 10, 10));
         enemyPathPoint.add(new Rectangle(1554 - 5- 30, 480 - 417 - 10, 10, 10));
         enemyPathPoint.add(new Rectangle(695 - 10- 30, 480 - 417 - 10, 10, 10));
         enemyPathPoint.add(new Rectangle(695 - 10- 30, 480 - 44 - 10, 10, 10));
@@ -348,5 +348,7 @@ public class GameScreenLvl2 implements Screen {
         waveService.dispose();
 
         debugInfo.dispose();
+
+        User.getInstance().dispose();
     }
 }

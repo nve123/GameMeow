@@ -1,5 +1,6 @@
 package ru.education.unit;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,18 +23,22 @@ public abstract class Unit {
         protected final float height;
         protected final Animation<TextureRegion> animation;
         protected final float speed;
+        protected final Sound sound;
 
         public StateAttribute(
             float width,
             float height,
             Animation<TextureRegion> animation,
-            float speed
+            float speed,
+            Sound sound
         ) {
             this.width = width;
             this.height = height;
             this.animation = animation;
             this.speed = speed;
+            this.sound = sound;
         }
+
     }
 
     protected void calcDeltaXAndDeltaY(Rectangle destination) {

@@ -1,6 +1,7 @@
 package ru.education;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
@@ -29,6 +30,7 @@ public class MeowGame extends Game {
     private Array<Boolean> lockedLvls;
     private ChangeLevelUserInterface changeLevelUserInterface;
     private BitmapFont font;
+
 
     @Override
     public void create() {

@@ -2,6 +2,7 @@ package ru.education.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,7 @@ public class MenuScreen implements Screen {
     private Animation<TextureRegion> cat, enemy;
     protected Array<TextureAtlas> textureAtlasArray;
     private float curTime;
+    public Music backgroundMusic;
 
     public MenuScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -37,6 +39,10 @@ public class MenuScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backGr_Music.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.2f);
+        backgroundMusic.play();
 
         background = new Texture(Gdx.files.internal("menu_back.png"));
 
@@ -45,7 +51,7 @@ public class MenuScreen implements Screen {
             new BtnStartListener() {
                 @Override
                 public void onClick() {
-                    meowGame.changeScreen(MeowGame.CHANGELVL);
+                    meowGame.changeScreen(MeowGame.GAME);
                 }
             }
         );
@@ -113,6 +119,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        backgroundMusic.dispose();
         background.dispose();
         menuUserInterface.dispose();
         for (TextureAtlas atlas : textureAtlasArray) {

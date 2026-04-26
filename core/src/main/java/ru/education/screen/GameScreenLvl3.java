@@ -348,5 +348,7 @@ public class GameScreenLvl3 implements Screen {
         waveService.dispose();
 
         debugInfo.dispose();
+
+        User.getInstance().dispose();
     }
 }

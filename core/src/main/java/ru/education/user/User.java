@@ -1,5 +1,8 @@
 package ru.education.user;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+
 import ru.education.shop.Item;
 import ru.education.shop.Price;
 
@@ -9,8 +12,10 @@ public class User {
     private int ore = 200;
     private int wood = 150;
     private int hp = 100;
+    public Sound plaseSound;
 
     private User() {
+        plaseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/blockPlace2.ogg"));
     }
 
     public static User getInstance() {
@@ -59,10 +64,14 @@ public class User {
         gold -= price.getGold();
         wood -= price.getWood();
         ore -= price.getOre();
+        plaseSound.play(0.2f);
     }
 
     public boolean canBuy(Price price) {
         return price.getWood() <= wood && price.getOre() <= ore && price.getGold() <= gold;
     }
 
+    public void dispose(){
+     plaseSound.dispose();
+    }
 }

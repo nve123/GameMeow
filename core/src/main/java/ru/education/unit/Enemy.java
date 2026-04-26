@@ -1,11 +1,14 @@
 package ru.education.unit;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+
 import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 
@@ -31,6 +34,7 @@ public class Enemy extends Unit {
     private TextureAtlas atlasStay;
     private TextureAtlas atlasGoTo;
     private TextureAtlas atlasAttack;
+    public Sound explosionSound;
 
     public Enemy(int hp, Rectangle destination, float x, float y, Array<Rectangle> pathPoints) {
 
@@ -43,7 +47,7 @@ public class Enemy extends Unit {
         atlasStay = new TextureAtlas("enemystay.atlas");
         atlasGoTo = new TextureAtlas("enemy.atlas");
         atlasAttack = new TextureAtlas("enemyatack.atlas");
-
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/destroy.mp3"));
         initStateMap();
 
         setCurrentState(StateEnemy.STAY);
@@ -98,7 +102,8 @@ public class Enemy extends Unit {
                     atlas,
                     2f
                 ),
-                0f
+                0f,
+                null
             )
         );
         textureAtlasArray.add(atlas);
@@ -113,7 +118,8 @@ public class Enemy extends Unit {
                     atlas,
                     1f
                 ),
-                0.2f
+                0.2f,
+                null
             )
         );
         textureAtlasArray.add(atlas);
@@ -128,7 +134,8 @@ public class Enemy extends Unit {
                     atlas,
                     0.75f
                 ),
-                0f
+                0f,
+                null
             )
         );
         textureAtlasArray.add(atlas);
@@ -169,7 +176,10 @@ public class Enemy extends Unit {
 
     public void getDmg(int dmg) {
         hp -= dmg;
-        if (hp <= 0) isAlive = false;
+        if (hp <= 0) {
+            isAlive = false;
+            explosionSound.play(0.2f);
+        }
     }
 
     public int getHp() {
@@ -248,5 +258,6 @@ public class Enemy extends Unit {
     public void dispose() {
         super.dispose();
         font.dispose();
+        explosionSound.dispose();
     }
 }

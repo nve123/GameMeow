@@ -3,6 +3,7 @@ package ru.education.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -144,6 +145,7 @@ public class GameScreen implements Screen {
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
         debugInfo = new DebugInfo();
+
     }
 
     @Override
@@ -269,6 +271,9 @@ public class GameScreen implements Screen {
         shop.dispose();
 
         debugInfo.dispose();
+
+        User.getInstance().dispose();
+
     }
 
     @Override
