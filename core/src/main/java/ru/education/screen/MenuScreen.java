@@ -41,7 +41,7 @@ public class MenuScreen implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backGr_Music.mp3"));
         backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.2f);
+        backgroundMusic.setVolume(0.0f);
         backgroundMusic.play();
 
         background = new Texture(Gdx.files.internal("menu_back.png"));

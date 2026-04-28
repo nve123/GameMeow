@@ -272,8 +272,6 @@ public class GameScreen implements Screen {
 
         debugInfo.dispose();
 
-        User.getInstance().dispose();
-
     }
 
     @Override

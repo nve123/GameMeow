@@ -60,12 +60,15 @@ public class ShopService {
     }
 
     private void buyTower(SlotTower slotTower) {
-        defensiveTowerArray.add(
-            TowerUtil.getDefensiveTower(
-                slotTower.getHitBox().x,
-                slotTower.getHitBox().y
-            )
+
+        DefensiveTower defensiveTower = TowerUtil.getDefensiveTower(
+            slotTower.getHitBox().x,
+            slotTower.getHitBox().y
         );
+        defensiveTowerArray.add(
+            defensiveTower
+        );
+        defensiveTower.playSound();
         slotTower.setFree(false);
         slotTower.setVisible(false);
         User.getInstance().buyItem(shop.getCurChoice());

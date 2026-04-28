@@ -1,5 +1,7 @@
 package ru.education.tower;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,7 +20,7 @@ public class DefensiveTower extends Tower {
     private float lastShot;
     private final Rectangle range;
     private final Array<Shot> shotArray;
-
+    public Sound plaseSound;
 
     public DefensiveTower(
         float x, float y,
@@ -26,6 +28,7 @@ public class DefensiveTower extends Tower {
     ) {
         super(x, y, attributeEnumMap);
 
+        plaseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/blockPlace2.ogg"));
         shotArray = new Array<>();
         range = new Rectangle(x, y - 200f, attributeEnumMap.get(curState).getWidth(),
             200f + attributeEnumMap.get(curState).getHeight() + 200f);
@@ -71,6 +74,10 @@ public class DefensiveTower extends Tower {
                 shot.nextXY();
             }
         }
+    }
+
+    public void playSound (){
+        plaseSound.play(0.2f);
     }
 
     @Override
@@ -162,7 +169,6 @@ public class DefensiveTower extends Tower {
         public TextureRegion getCurrentFrame(float time) {
             return animations.getKeyFrame(time, true);
         }
-
 
         @Override
         public void dispose() {
