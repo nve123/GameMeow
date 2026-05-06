@@ -1,0 +1,42 @@
+GAMBLING.png
+size: 960, 60
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+FARMING
+  bounds: 0, 0, 80, 60
+  index: 1
+FARMING
+  bounds: 80, 0, 80, 60
+  index: 2
+FARMING
+  bounds: 160, 0, 80, 60
+  index: 3
+FARMING
+  bounds: 240, 0, 80, 60
+  index: 4
+FARMING
+  bounds: 320, 0, 80, 60
+  index: 5
+FARMING
+  bounds: 400, 0, 80, 60
+  index: 6
+FARMING
+  bounds: 480, 0, 80, 60
+  index: 7
+FARMING
+  bounds: 560, 0, 80, 60
+  index: 8
+FARMING
+  bounds: 640, 0, 80, 60
+  index: 9
+FARMING
+  bounds: 720, 0, 80, 60
+  index: 10
+FARMING
+  bounds: 800, 0, 80, 60
+  index: 11
+FARMING
+  bounds: 880, 0, 80, 60
+  index: 12

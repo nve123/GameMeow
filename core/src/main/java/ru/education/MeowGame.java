@@ -11,6 +11,7 @@ import ru.education.screen.GameScreen;
 import ru.education.screen.GameScreenLvl2;
 import ru.education.screen.GameScreenLvl3;
 import ru.education.screen.MenuScreen;
+import ru.education.service.MemoryService;
 import ru.education.ui.ChangeLevelUserInterface;
 
 public class MeowGame extends Game {
@@ -43,6 +44,7 @@ public class MeowGame extends Game {
         lockedLvls.add(false);
         lockedLvls.add(true);
         lockedLvls.add(true);
+        MemoryService.saveUnlocks(lockedLvls);
 
         spriteBatch = new SpriteBatch();
         font = new BitmapFont();
@@ -80,6 +82,7 @@ public class MeowGame extends Game {
     public void unlockLevel(byte numberLevel){
         lockedLvls.set(numberLevel, false);
     }
+
 
     @Override
     public void dispose() {

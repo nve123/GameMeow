@@ -2,6 +2,7 @@ package ru.education.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -59,6 +60,7 @@ public class GameScreenLvl3 implements Screen {
     private Array<Rectangle> enemyPathPoint3;
     private ShopService shopService2;
     private WaveService waveService;
+    public Music backgroundMusic;
     //private Enemy enemy;
 
     public GameScreenLvl3(MeowGame meowGame) {
@@ -74,6 +76,10 @@ public class GameScreenLvl3 implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
         background = new Texture(Gdx.files.internal("game_back_lvl_3.png"));
+        backgroundMusic = null;
+        //backgroundMusic.setLooping(true);
+        //backgroundMusic.setVolume(0.0f);
+        //backgroundMusic.play();
 
         gameUserInterface = new GameUserInterface(camera, this);
 
@@ -273,6 +279,7 @@ public class GameScreenLvl3 implements Screen {
         }
 
         //if (!enemy.isAlive()) {
+        //    backgroundMusic.stop();
         //    meowGame.changeScreen(MeowGame.GAMELVL2);
         //}
 
@@ -321,6 +328,7 @@ public class GameScreenLvl3 implements Screen {
 
     @Override
     public void dispose() {
+        backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();
@@ -348,7 +356,5 @@ public class GameScreenLvl3 implements Screen {
         waveService.dispose();
 
         debugInfo.dispose();
-
-        User.getInstance().dispose();
     }
 }

@@ -67,12 +67,12 @@ public class Worker extends Unit {
         textureAtlasArray = new Array<>();
         stateAttrMap = new EnumMap<>(StateWorker.class);
 
-        TextureAtlas atlas = new TextureAtlas("catflysupersmall.atlas");
+        TextureAtlas atlas = new TextureAtlas("flying_cat.atlas");
         stateAttrMap.put(
             StateWorker.FLY,
             new StateAttribute(
-                42f,
-                75f,
+                50f,
+                95f,
                 AnimationUtil.getAnimationFromAtlas(
                     atlas,
                     2.5f
@@ -83,15 +83,15 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("catfall.atlas");
+        atlas = new TextureAtlas("ohno_cat.atlas");
         stateAttrMap.put(
             StateWorker.FALL,
             new StateAttribute(
-                37.8f,
-                67.5f,
+                50f,
+                95f,
                 AnimationUtil.getAnimationFromAtlas(
                     atlas,
-                    5.5f
+                    3.0f
                 ),
                 2f,
                 popBollunSound
@@ -99,12 +99,12 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("catsleep.atlas");
+        atlas = new TextureAtlas("on_sleepy.atlas");
         stateAttrMap.put(
             StateWorker.SLEEP,
             new StateAttribute(
-                45f,
-                39.5f,
+                75f,
+                50f,
                 AnimationUtil.getAnimationFromAtlas(
                     atlas,
                     2f
@@ -115,12 +115,12 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("catshine.atlas");
+        atlas = new TextureAtlas("Z_Cat.atlas");
         stateAttrMap.put(
             StateWorker.CLICKED,
             new StateAttribute(
-                45f,
-                39.5f,
+                75f,
+                50f,
                 AnimationUtil.getAnimationFromAtlas(
                     atlas,
                     2f
@@ -131,12 +131,12 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("catwalk.atlas");
+        atlas = new TextureAtlas("cat_walk.atlas");
         stateAttrMap.put(
             StateWorker.GO_TO,
             new StateAttribute(
-                35f,
-                35f,
+                60f,
+                60f,
                 AnimationUtil.getAnimationFromAtlas(
                     atlas,
                     1f
@@ -147,12 +147,12 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("catwork.atlas");
+        atlas = new TextureAtlas("CAT_HARD.atlas");
         stateAttrMap.put(
             StateWorker.WORK,
             new StateAttribute(
-                35f,
-                35f,
+                60f,
+                60f,
                 AnimationUtil.getAnimationFromAtlas(
                     atlas,
                     0.75f
@@ -163,12 +163,12 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("catcarrysupersmall.atlas");
+        atlas = new TextureAtlas("GAMBLING.atlas");
         stateAttrMap.put(
             StateWorker.GO_FROM,
             new StateAttribute(
-                35f,
-                35f,
+                60f,
+                60f,
                 AnimationUtil.getAnimationFromAtlas(
                     atlas,
                     1f
@@ -315,9 +315,9 @@ public class Worker extends Unit {
     public void draw(SpriteBatch batch) {
         batch.draw(
             getCurrentFrame(),
-            rightPosition ? x + getWidth() : x,
+            !rightPosition ? x + getWidth() : x,
             y,
-            rightPosition ? -getWidth() : getWidth(),
+            !rightPosition ? -getWidth() : getWidth(),
             getHeight()
         );
     }
@@ -330,6 +330,13 @@ public class Worker extends Unit {
             } else {
                 sound.play(0.2f);
             }
+        }
+    }
+
+    public void stopSound() {
+        Sound sound = getStateSound();
+        if (sound != null) {
+            sound.pause();
         }
     }
 

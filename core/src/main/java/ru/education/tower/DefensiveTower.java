@@ -43,6 +43,8 @@ public class DefensiveTower extends Tower {
     ) {
         super(x, y, attributeEnumMap);
 
+        plaseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/blockPlace2.ogg"));
+
         shotArray = new Array<>();
         range = new Rectangle(x + attributeEnumMap.get(curState).getWidth() / 2 - widthRange / 2,
             y + attributeEnumMap.get(curState).getHeight() / 2 - heightRange / 2,

@@ -1,6 +1,8 @@
 package ru.education.screen;
 
 
+import static ru.education.service.MemoryService.saveUnlocks;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -27,7 +29,6 @@ import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
 import ru.education.ui.ChangeLevelUserInterface;
 import ru.education.ui.GameUserInterface;
-import ru.education.ui.MenuUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
@@ -58,6 +59,7 @@ public class GameScreen implements Screen {
     private Array<Rectangle> enemyPathPoint;
     private ChangeLevelUserInterface changeLevelUserInterface;
     private Texture btnlvl2Texture;
+    public Music backgroundMusic;
 
     public GameScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -72,6 +74,10 @@ public class GameScreen implements Screen {
         btnlvl2Texture = new Texture("btn_lvl2.png");
 
         background = new Texture(Gdx.files.internal("game_back.png"));
+        backgroundMusic = null;
+        //backgroundMusic.setLooping(true);
+        //backgroundMusic.setVolume(0.0f);
+        //backgroundMusic.play();
 
         gameUserInterface = new GameUserInterface(camera, this);
 
@@ -93,7 +99,7 @@ public class GameScreen implements Screen {
 
         Resource resourceGold, resourceOre, resourceWood;
         Rectangle workBoxGold = new Rectangle(50 - 25 + 170 - 20, 480 / 2f - 165 / 2f, 15f, 15f);
-        resourceGold = new Resource(50 - 25, 480 / 2f - 165 / 2f, ResourceType.GOLD, workBoxGold);
+        resourceGold = new Resource(50, 480 / 2f - 165 / 2f, ResourceType.GOLD, workBoxGold);
         Rectangle workBoxOre = new Rectangle(50 - 25 + 146 - 20, 480 - 150 - 35, 15f, 15f);
         resourceOre = new Resource(50, 480 - 150 - 35, ResourceType.ORE, workBoxOre);
         Rectangle workBoxWood = new Rectangle(50 - 25 + 150 - 20, 0 + 15, 15f, 15f);
@@ -213,11 +219,16 @@ public class GameScreen implements Screen {
         }
 
         if (!enemy.isAlive()) {
+            for (Worker worker : workers) {
+                worker.stopSound();
+            }
+            //backgroundMusic.stop();
             User.getInstance().setHp(100);
             User.getInstance().setGold(1000);
             User.getInstance().setOre(2000);
             User.getInstance().setWood(1500);
             meowGame.unlockLevel((byte) 1);
+            saveUnlocks(meowGame.getLockedLvls());
             meowGame.changeScreen(MeowGame.CHANGELVL);
         }
 
@@ -244,6 +255,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();

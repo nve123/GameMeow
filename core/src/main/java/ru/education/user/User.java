@@ -37,6 +37,9 @@ public class User {
     public int getHp() {
         return hp;
     }
+    public int getGold(){return gold;}
+    public int getOre(){return ore;}
+    public int getWood(){return wood;}
 
     public void setHp(int hp) {
         this.hp = hp;

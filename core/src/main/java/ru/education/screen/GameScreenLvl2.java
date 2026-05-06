@@ -1,7 +1,10 @@
 package ru.education.screen;
 
+import static ru.education.service.MemoryService.saveUnlocks;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -57,6 +60,7 @@ public class GameScreenLvl2 implements Screen {
     private Array<Rectangle> enemyPathPoint;
     private ShopService shopService2;
     private WaveService waveService;
+    public Music backgroundMusic;
     //private Enemy enemy;
 
     public GameScreenLvl2(MeowGame meowGame) {
@@ -72,6 +76,10 @@ public class GameScreenLvl2 implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
         background = new Texture(Gdx.files.internal("game_back_lvl_2.png"));
+        backgroundMusic = null;
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.0f);
+        backgroundMusic.play();
 
         gameUserInterface = new GameUserInterface(camera, this);
 
@@ -267,11 +275,13 @@ public class GameScreenLvl2 implements Screen {
             else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
                 waveService.nextWave();
             }else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 3) {
+                //backgroundMusic.stop();
                 User.getInstance().setHp(100);
                 User.getInstance().setGold(100);
                 User.getInstance().setOre(200);
                 User.getInstance().setWood(150);
                 meowGame.unlockLevel((byte) 2);
+                saveUnlocks(meowGame.getLockedLvls());
                 meowGame.changeScreen(MeowGame.CHANGELVL);
             }
         }
@@ -321,6 +331,7 @@ public class GameScreenLvl2 implements Screen {
 
     @Override
     public void dispose() {
+        backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();
@@ -348,7 +359,5 @@ public class GameScreenLvl2 implements Screen {
         waveService.dispose();
 
         debugInfo.dispose();
-
-        User.getInstance().dispose();
     }
 }

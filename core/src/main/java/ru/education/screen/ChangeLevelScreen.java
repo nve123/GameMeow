@@ -2,6 +2,7 @@ package ru.education.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ public class ChangeLevelScreen implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private ChangeLevelUserInterface changeLevelUserInterface;
+    public Music backgroundMusic;
 
     public ChangeLevelScreen(MeowGame meowGame) {this.meowGame = meowGame;}
 
@@ -26,6 +28,10 @@ public class ChangeLevelScreen implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
         background = new Texture(Gdx.files.internal("chenge_lvl_back.png"));
+        backgroundMusic = null;
+        //backgroundMusic.setLooping(true);
+        //backgroundMusic.setVolume(0.0f);
+        //backgroundMusic.play();
 
         changeLevelUserInterface = new ChangeLevelUserInterface(
             meowGame,
@@ -67,6 +73,7 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void dispose() {
+        backgroundMusic.dispose();
         background.dispose();
         changeLevelUserInterface.dispose();
     }
