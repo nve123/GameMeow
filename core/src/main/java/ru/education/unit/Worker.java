@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 import ru.education.MeowGame;
+import ru.education.service.MemoryService;
 import ru.education.tower.Core;
 import ru.education.tower.resource.Resource;
 import ru.education.user.User;
@@ -274,12 +275,15 @@ public class Worker extends Unit {
                         switch (workingPlace.getType()) {
                             case GOLD:
                                 User.getInstance().incGold(10);
+                                //MemoryService.saveUser();
                                 break;
                             case ORE:
                                 User.getInstance().incOre(20);
+                                //MemoryService.saveUser();
                                 break;
                             case WOOD:
                                 User.getInstance().incWood(15);
+                                //MemoryService.saveUser();
                                 break;
                         }
 

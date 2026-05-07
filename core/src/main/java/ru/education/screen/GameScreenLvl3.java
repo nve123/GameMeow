@@ -75,7 +75,7 @@ public class GameScreenLvl3 implements Screen {
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
-        background = new Texture(Gdx.files.internal("game_back_lvl_3.png"));
+        background = new Texture(Gdx.files.internal("3_iiii_0004.png"));
         backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);
@@ -275,6 +275,17 @@ public class GameScreenLvl3 implements Screen {
             }
             else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
                 waveService.nextWave();
+            }else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 3) {
+                for (Worker worker : workers) {
+                    worker.stopSound();
+                }
+                //backgroundMusic.stop();
+                User.getInstance().setHp(100);
+                User.getInstance().setGold(100);
+                User.getInstance().setOre(200);
+                User.getInstance().setWood(150);
+                meowGame.unlockLevel((byte) 2);
+                meowGame.changeScreen(MeowGame.CHANGELVL);
             }
         }
 
@@ -328,7 +339,7 @@ public class GameScreenLvl3 implements Screen {
 
     @Override
     public void dispose() {
-        backgroundMusic.dispose();
+        //backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();

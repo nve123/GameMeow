@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
+import ru.education.service.MemoryService;
 import ru.education.service.ShopService;
 import ru.education.service.WorkerService;
 import ru.education.shop.ItemType;
@@ -73,7 +74,7 @@ public class GameScreen implements Screen {
         changeLevelUserInterface = new ChangeLevelUserInterface(meowGame, camera);
         btnlvl2Texture = new Texture("btn_lvl2.png");
 
-        background = new Texture(Gdx.files.internal("game_back.png"));
+        background = new Texture(Gdx.files.internal("1_locasion22_0002.png"));
         backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);
@@ -222,13 +223,12 @@ public class GameScreen implements Screen {
             for (Worker worker : workers) {
                 worker.stopSound();
             }
-            //backgroundMusic.stop();
             User.getInstance().setHp(100);
-            User.getInstance().setGold(1000);
-            User.getInstance().setOre(2000);
-            User.getInstance().setWood(1500);
-            meowGame.unlockLevel((byte) 1);
-            saveUnlocks(meowGame.getLockedLvls());
+            User.getInstance().setGold(10000);
+            User.getInstance().setOre(20000);
+            User.getInstance().setWood(15000);
+            meowGame.unlockLevel((byte) 2);
+            /*MemoryService.saveUnlocks(meowGame.getLockedLvls());*/
             meowGame.changeScreen(MeowGame.CHANGELVL);
         }
 
@@ -245,6 +245,7 @@ public class GameScreen implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
+            //backgroundMusic.stop();
             User.getInstance().setHp(100);
             User.getInstance().setGold(100);
             User.getInstance().setOre(200);
@@ -255,7 +256,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        backgroundMusic.dispose();
+        //backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();

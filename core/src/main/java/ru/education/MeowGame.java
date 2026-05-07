@@ -41,10 +41,16 @@ public class MeowGame extends Game {
         gameScreenLvl3 = new GameScreenLvl3(this);
         changeLevelScreen = new ChangeLevelScreen(this);
         lockedLvls = new Array<>(3);
-        lockedLvls.add(false);
-        lockedLvls.add(true);
-        lockedLvls.add(true);
-        MemoryService.saveUnlocks(lockedLvls);
+        if (MemoryService.getPreferences() == null) {
+            lockedLvls.add(false);
+            lockedLvls.add(true);
+            lockedLvls.add(true);
+        } else {
+            lockedLvls.add(MemoryService.loadUnlocks((byte) 0));
+            lockedLvls.add(MemoryService.loadUnlocks((byte) 1));
+            lockedLvls.add(MemoryService.loadUnlocks((byte) 2));
+        }
+
 
         spriteBatch = new SpriteBatch();
         font = new BitmapFont();
@@ -88,6 +94,8 @@ public class MeowGame extends Game {
     public void dispose() {
         super.dispose();
 
+        MemoryService.saveUnlocks(lockedLvls);
+
         spriteBatch.dispose();
         font.dispose();
 
@@ -96,5 +104,6 @@ public class MeowGame extends Game {
         gameScreenLvl2.dispose();
         gameScreenLvl3.dispose();
         changeLevelScreen.dispose();
+
     }
 }

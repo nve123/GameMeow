@@ -73,7 +73,7 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void dispose() {
-        backgroundMusic.dispose();
+        //backgroundMusic.dispose();
         background.dispose();
         changeLevelUserInterface.dispose();
     }

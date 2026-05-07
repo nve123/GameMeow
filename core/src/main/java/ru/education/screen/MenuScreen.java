@@ -14,8 +14,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.education.MeowGame;
+import ru.education.service.MemoryService;
 import ru.education.ui.BtnStartListener;
 import ru.education.ui.MenuUserInterface;
+import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 
 public class MenuScreen implements Screen {
@@ -52,7 +54,7 @@ public class MenuScreen implements Screen {
                 @Override
                 public void onClick() {
                     backgroundMusic.stop();
-                    meowGame.changeScreen(MeowGame.GAME);
+                    meowGame.changeScreen(MeowGame.CHANGELVL);
                 }
             }
         );
