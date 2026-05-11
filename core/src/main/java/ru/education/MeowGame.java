@@ -11,8 +11,10 @@ import ru.education.screen.GameScreen;
 import ru.education.screen.GameScreenLvl2;
 import ru.education.screen.GameScreenLvl3;
 import ru.education.screen.MenuScreen;
+import ru.education.screen.SettingsScreen;
 import ru.education.service.MemoryService;
 import ru.education.ui.ChangeLevelUserInterface;
+import ru.education.ui.SettingsUserInterface;
 
 public class MeowGame extends Game {
     public static final int SCREEN_WIDTH = 800;
@@ -22,10 +24,12 @@ public class MeowGame extends Game {
     public static final String GAMELVL3 = "GameLvl3";
     public static final String MENU = "Menu";
     public static final String CHANGELVL = "ChangeLvl";
+    public static final String SETTINGS = "Settings";
     private MenuScreen menuScreen;
     private GameScreen gameScreen;
     private GameScreenLvl2 gameScreenLvl2;
     private GameScreenLvl3 gameScreenLvl3;
+    private SettingsScreen settingsScreen;
     private ChangeLevelScreen changeLevelScreen;
     private SpriteBatch spriteBatch;
     private Array<Boolean> lockedLvls;
@@ -40,6 +44,7 @@ public class MeowGame extends Game {
         gameScreenLvl2 = new GameScreenLvl2(this);
         gameScreenLvl3 = new GameScreenLvl3(this);
         changeLevelScreen = new ChangeLevelScreen(this);
+        settingsScreen = new SettingsScreen(this);
         lockedLvls = new Array<>(3);
         if (MemoryService.getPreferences() == null) {
             lockedLvls.add(false);
@@ -51,6 +56,8 @@ public class MeowGame extends Game {
             lockedLvls.add(MemoryService.loadUnlocks((byte) 2));
         }
 
+        SettingsUserInterface.isMusicOn = MemoryService.loadIsMusicOn();
+        SettingsUserInterface.isSoundOn = MemoryService.loadIsSoundOn();
 
         spriteBatch = new SpriteBatch();
         font = new BitmapFont();
@@ -68,16 +75,13 @@ public class MeowGame extends Game {
     }
 
     public void changeScreen(String screenName) {
-        if (screenName.equalsIgnoreCase(GAME)) {
-            setScreen(gameScreen);
-        } else if (screenName.equalsIgnoreCase(MENU)) {
-            setScreen(menuScreen);
-        } else if (screenName.equalsIgnoreCase(GAMELVL2)) {
-            setScreen(gameScreenLvl2);
-        } else if (screenName.equalsIgnoreCase(GAMELVL3)) {
-            setScreen(gameScreenLvl3);
-        } else if (screenName.equalsIgnoreCase(CHANGELVL)) {
-            setScreen(changeLevelScreen);
+        switch (screenName) {
+            case GAME      -> setScreen(gameScreen);
+            case MENU      -> setScreen(menuScreen);
+            case GAMELVL2  -> setScreen(gameScreenLvl2);
+            case GAMELVL3  -> setScreen(gameScreenLvl3);
+            case CHANGELVL -> setScreen(changeLevelScreen);
+            case SETTINGS  -> setScreen(settingsScreen);
         }
     }
 
@@ -87,6 +91,10 @@ public class MeowGame extends Game {
 
     public void unlockLevel(byte numberLevel){
         lockedLvls.set(numberLevel, false);
+    }
+
+    public void lockLevel(byte numberLevel){
+        lockedLvls.set(numberLevel, true);
     }
 
 
@@ -104,6 +112,7 @@ public class MeowGame extends Game {
         gameScreenLvl2.dispose();
         gameScreenLvl3.dispose();
         changeLevelScreen.dispose();
+        settingsScreen.dispose();
 
     }
 }

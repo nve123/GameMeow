@@ -12,6 +12,7 @@ import ru.education.MeowGame;
 import ru.education.service.MemoryService;
 import ru.education.tower.Core;
 import ru.education.tower.resource.Resource;
+import ru.education.ui.SettingsUserInterface;
 import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 import ru.education.util.MathUtil;
@@ -327,12 +328,14 @@ public class Worker extends Unit {
     }
 
     public void playSound() {
-        Sound sound = getStateSound();
-        if (sound != null) {
-            if (currentState == StateWorker.SLEEP) {
-                sound.loop(0.2f);
-            } else {
-                sound.play(0.2f);
+        if (SettingsUserInterface.isSoundOn) {
+            Sound sound = getStateSound();
+            if (sound != null) {
+                if (currentState == StateWorker.SLEEP) {
+                    sound.loop(0.2f);
+                } else {
+                    sound.play(0.2f);
+                }
             }
         }
     }

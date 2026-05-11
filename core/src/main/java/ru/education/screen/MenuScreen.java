@@ -17,6 +17,7 @@ import ru.education.MeowGame;
 import ru.education.service.MemoryService;
 import ru.education.ui.BtnStartListener;
 import ru.education.ui.MenuUserInterface;
+import ru.education.ui.SettingsUserInterface;
 import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 
@@ -38,13 +39,18 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
         batch = meowGame.getSpriteBatch();
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backGr_Music.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.setVolume(0.2f);
-        backgroundMusic.play();
+        if (SettingsUserInterface.isMusicOn) {
+            if (!backgroundMusic.isPlaying()) {
+                backgroundMusic.setLooping(true);
+                backgroundMusic.setVolume(0.2f);
+                backgroundMusic.play();
+            }
+        } else {
+            backgroundMusic.stop();
+        }
 
         background = new Texture(Gdx.files.internal("menu_back.png"));
 
@@ -56,7 +62,9 @@ public class MenuScreen implements Screen {
                     backgroundMusic.stop();
                     meowGame.changeScreen(MeowGame.CHANGELVL);
                 }
-            }
+            },
+            meowGame,
+            backgroundMusic
         );
 
         initAnimation();

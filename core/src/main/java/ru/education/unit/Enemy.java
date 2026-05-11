@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import ru.education.ui.SettingsUserInterface;
 import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 
@@ -178,7 +179,9 @@ public class Enemy extends Unit {
         hp -= dmg;
         if (hp <= 0) {
             isAlive = false;
-            explosionSound.play(0.2f);
+            if (SettingsUserInterface.isSoundOn) {
+                explosionSound.play(0.2f);
+            }
         }
     }
 

@@ -81,7 +81,7 @@ public class GameScreenLvl2 implements Screen {
         //backgroundMusic.setVolume(0.0f);
         //backgroundMusic.play();
 
-        gameUserInterface = new GameUserInterface(camera, this);
+        gameUserInterface = new GameUserInterface(camera, this, meowGame);
 
         Rectangle hitBoxCoreTower = new Rectangle(
             115,

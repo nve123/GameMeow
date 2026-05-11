@@ -80,7 +80,7 @@ public class GameScreen implements Screen {
         //backgroundMusic.setVolume(0.0f);
         //backgroundMusic.play();
 
-        gameUserInterface = new GameUserInterface(camera, this);
+        gameUserInterface = new GameUserInterface(camera, this, meowGame);
 
         Rectangle hitBoxCoreTower = new Rectangle(
             (MeowGame.SCREEN_WIDTH - 170 * 2) + 170 - 30,

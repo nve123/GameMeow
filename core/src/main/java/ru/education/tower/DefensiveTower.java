@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import ru.education.ui.SettingsUserInterface;
 import ru.education.util.AnimationUtil;
 import ru.education.unit.Enemy;
 
@@ -20,7 +21,7 @@ public class DefensiveTower extends Tower {
     private float lastShot;
     private final Rectangle range;
     private final Array<Shot> shotArray;
-    public Sound plaseSound;
+    private Sound plaseSound;
 
     public DefensiveTower(
         float x, float y,
@@ -79,7 +80,9 @@ public class DefensiveTower extends Tower {
     }
 
     public void playSound (){
-        plaseSound.play(0.2f);
+        if (SettingsUserInterface.isSoundOn) {
+            plaseSound.play(0.2f);
+        }
     }
 
     @Override

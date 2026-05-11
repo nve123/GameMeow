@@ -38,46 +38,22 @@ public class MemoryService {
     public static Preferences getPreferences() {
         return preferences;
     }
+    public static void saveSoundSettings(boolean isOn) {
+        preferences.putBoolean("isSoundOn", isOn);
+        preferences.flush();
+    }
 
-    //    public static void saveUser() {
-//        int hp = User.getInstance().getHp();
-//        preferences.getInteger("Hp", hp);
-//        preferences.flush();
-//        int gold = User.getInstance().getGold();
-//        preferences.getInteger("Gold", gold);
-//        preferences.flush();
-//        int ore = User.getInstance().getOre();
-//        preferences.getInteger("Ore", ore);
-//        preferences.flush();
-//        int wood = User.getInstance().getWood();
-//        preferences.getInteger("Wood", wood);
-//        preferences.flush();
-//    }
-//
-//    public static Integer loadUser(String type) {
-//        switch (type) {
-//            case "Hp" -> {
-//                return preferences.getInteger("Hp");
-//            }
-//            case "Gold" -> {
-//                return preferences.getInteger("Gold");
-//            }
-//            case "Ore" -> {
-//                return preferences.getInteger("Ore");
-//            }
-//            case "Wood" -> {
-//                return preferences.getInteger("Wood");
-//            }
-//        }
-//        return null;
-//    }
-//
-//    public static void saveIsAliveWave() {
-//
-//    }
-//
-//    public static void loadIsAliveWave() {
-//
-//    }
+    public static boolean loadIsSoundOn() {
+        return preferences.getBoolean("isSoundOn", true);
+    }
+
+    public static void saveMusicSettings(boolean isOn) {
+        preferences.putBoolean("isMusicOn", isOn);
+        preferences.flush();
+    }
+
+    public static boolean loadIsMusicOn() {
+        return preferences.getBoolean("isMusicOn", true);
+    }
 }
 

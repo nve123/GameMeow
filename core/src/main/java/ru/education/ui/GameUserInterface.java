@@ -21,8 +21,10 @@ public class GameUserInterface {
     private final OrthographicCameraWithLeftRightState camera;
     private Screen screen;
     private final Stage stage;
+    MeowGame meowGame;
 
-    public GameUserInterface(OrthographicCameraWithLeftRightState camera, Screen screen) {
+    public GameUserInterface(OrthographicCameraWithLeftRightState camera, Screen screen, MeowGame meowGame) {
+        this.meowGame = meowGame;
         this.camera = camera;
         this.screen = screen;
 
@@ -31,7 +33,6 @@ public class GameUserInterface {
 
         btnGoToLeftScreen = new ImageButton(leftArrowDrawable);
         btnGoToRightScreen = new ImageButton(rightArrowDrawable);
-
 
         btnGoToLeftScreen.setPosition(
             MeowGame.SCREEN_WIDTH + 24,
@@ -60,12 +61,14 @@ public class GameUserInterface {
             }
         });
 
+
         Viewport fitViewport = new StretchViewport(MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT, camera);
         stage = new Stage(fitViewport);
         Gdx.input.setInputProcessor(stage);
 
         stage.addActor(btnGoToLeftScreen);
         stage.addActor(btnGoToRightScreen);
+
     }
 
     public void drawUI() {
