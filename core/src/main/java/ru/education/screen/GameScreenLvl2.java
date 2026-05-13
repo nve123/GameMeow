@@ -75,7 +75,7 @@ public class GameScreenLvl2 implements Screen {
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
-        background = new Texture(Gdx.files.internal("2_likizhiR.png"));
+        background = new Texture(Gdx.files.internal("2_likizhiR (4).png"));
         //backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);

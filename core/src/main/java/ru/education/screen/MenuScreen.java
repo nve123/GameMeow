@@ -73,7 +73,7 @@ public class MenuScreen implements Screen {
     private void initAnimation() {
         textureAtlasArray = new Array<>();
 
-        TextureAtlas atlas = new TextureAtlas("enemyatack.atlas");
+        TextureAtlas atlas = new TextureAtlas("enemy_walk.atlas");
         enemy = AnimationUtil.getAnimationFromAtlas(
             atlas,
             4f

@@ -29,7 +29,7 @@ public class MenuUserInterface {
         this.camera = camera;
         this.btnStartListener = btnStartListener;
 
-        Texture btnStartTexture = new Texture("btn_start.png");
+        Texture btnStartTexture = new Texture("pngegg.png");
         Drawable btnStartDrawable = new TextureRegionDrawable(btnStartTexture);
         Drawable settingsDrawable = new TextureRegionDrawable(new Texture("btn_settings.png"));
         btnStart = new ImageButton(btnStartDrawable);

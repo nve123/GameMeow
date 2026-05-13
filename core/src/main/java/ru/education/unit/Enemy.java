@@ -46,8 +46,8 @@ public class Enemy extends Unit {
         isAlive = true;
 
         atlasStay = new TextureAtlas("enemystay.atlas");
-        atlasGoTo = new TextureAtlas("enemy.atlas");
-        atlasAttack = new TextureAtlas("enemyatack.atlas");
+        atlasGoTo = new TextureAtlas("enemy_walk.atlas");
+        atlasAttack = new TextureAtlas("attact_enemy.atlas");
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/destroy.mp3"));
         initStateMap();
 

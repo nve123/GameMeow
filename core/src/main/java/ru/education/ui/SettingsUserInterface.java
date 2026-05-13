@@ -54,8 +54,8 @@ public class SettingsUserInterface {
         Drawable returnDrawable = new TextureRegionDrawable(new Texture("btn_return.png"));
         returnBtn = new ImageButton(returnDrawable);
         resetBtn = new ImageButton(resetDrawable);
-        isSoundOn = true;
-        isMusicOn = true;
+        isSoundOn = MemoryService.loadIsMusicOn();
+        isMusicOn = MemoryService.loadIsMusicOn();
 
         musicSettingBtn.setPosition(
             MeowGame.SCREEN_WIDTH / 2f - 50,
@@ -65,8 +65,8 @@ public class SettingsUserInterface {
             MeowGame.SCREEN_WIDTH / 2f - 50,
             MeowGame.SCREEN_HEIGHT / 2f
         );
-        returnBtn.setPosition(MeowGame.SCREEN_WIDTH / 2f, 0);
-        resetBtn.setPosition(MeowGame.SCREEN_WIDTH / 2f + 100, MeowGame.SCREEN_HEIGHT / 2f +10);
+        returnBtn.setPosition(0, MeowGame.SCREEN_HEIGHT - 50);
+        resetBtn.setPosition(MeowGame.SCREEN_WIDTH / 2f + 100, MeowGame.SCREEN_HEIGHT / 2f - 40);
 
         returnBtn.addListener(new ClickListener() {
             @Override

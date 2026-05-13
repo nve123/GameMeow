@@ -111,14 +111,14 @@ public class DefensiveTower extends Tower {
             this.enemy = enemy;
             this.x = DefensiveTower.this.x + attributeEnumMap.get(curState).getWidth() / 2f;
             this.y = DefensiveTower.this.y + attributeEnumMap.get(curState).getHeight() / 2f;
-            texture = new Texture("spark16.png");
+            texture = new Texture("bomb.png");
             animations = AnimationUtil.getAnimationFromTexture(
                 texture,
-                5,
+                6,
                 1,
-                0.5f
+                0.6f
             );
-            width = texture.getWidth() / 5f;
+            width = texture.getWidth() / 6f;
             height = texture.getHeight();
             setDestination(
                 enemy.getX() + enemy.getWidth() / 4f + enemy.getDeltaX() * 60,

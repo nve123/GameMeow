@@ -19,17 +19,17 @@ public class Resource {
     public Resource(float x, float y, ResourceType type, Rectangle workBox) {
         switch (type) {
             case ORE -> {
-                texture = new Texture(Gdx.files.internal("ore_.png"));
+                texture = new Texture(Gdx.files.internal("Coal.png"));
                 width = 100;
                 height = 100;
             }
             case GOLD -> {
-                texture = new Texture(Gdx.files.internal("gold_.png"));
+                texture = new Texture(Gdx.files.internal("GOLD__.png"));
                 width = 100;
                 height = 100;
             }
             case WOOD -> {
-                texture = new Texture(Gdx.files.internal("wood_.png"));
+                texture = new Texture(Gdx.files.internal("wise_tree.png"));
                 width = 100;
                 height = 100;
             }

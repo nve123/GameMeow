@@ -1,0 +1,30 @@
+enemy_walk.png
+size: 1792, 224
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+ходить_монстр
+  bounds: 0, 0, 224, 224
+  index: 1
+ходить_монстр
+  bounds: 224, 0, 224, 224
+  index: 2
+ходить_монстр
+  bounds: 448, 0, 224, 224
+  index: 3
+ходить_монстр
+  bounds: 672, 0, 224, 224
+  index: 4
+ходить_монстр
+  bounds: 896, 0, 224, 224
+  index: 5
+ходить_монстр
+  bounds: 1120, 0, 224, 224
+  index: 6
+ходить_монстр
+  bounds: 1344, 0, 224, 224
+  index: 7
+ходить_монстр
+  bounds: 1568, 0, 224, 224
+  index: 8

@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
         changeLevelUserInterface = new ChangeLevelUserInterface(meowGame, camera);
         btnlvl2Texture = new Texture("btn_lvl2.png");
 
-        background = new Texture(Gdx.files.internal("1_locasion22_0002.png"));
+        background = new Texture(Gdx.files.internal("V31_ликиция.png"));
         backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);
@@ -227,7 +227,7 @@ public class GameScreen implements Screen {
             User.getInstance().setGold(10000);
             User.getInstance().setOre(20000);
             User.getInstance().setWood(15000);
-            meowGame.unlockLevel((byte) 2);
+            meowGame.unlockLevel((byte) 1);
             /*MemoryService.saveUnlocks(meowGame.getLockedLvls());*/
             meowGame.changeScreen(MeowGame.CHANGELVL);
         }
