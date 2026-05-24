@@ -52,7 +52,7 @@ public class MenuScreen implements Screen {
             backgroundMusic.stop();
         }
 
-        background = new Texture(Gdx.files.internal("menu_back.png"));
+        background = new Texture(Gdx.files.internal("sky.png"));
 
         menuUserInterface = new MenuUserInterface(
             camera,
@@ -117,8 +117,8 @@ public class MenuScreen implements Screen {
         );
         batch.draw(
             enemy.getKeyFrame(curTime, true),
-            MeowGame.SCREEN_WIDTH - 120 - 100,
-            0 + 100,
+            MeowGame.SCREEN_WIDTH - 120 - 100 + 20 + 5,
+            0 + 100 + 10 + 3,
             120,
             120
         );

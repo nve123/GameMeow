@@ -29,7 +29,7 @@ public class Resource {
                 height = 100;
             }
             case WOOD -> {
-                texture = new Texture(Gdx.files.internal("wise_tree.png"));
+                texture = new Texture(Gdx.files.internal("wise_tree_v2.png"));
                 width = 100;
                 height = 100;
             }

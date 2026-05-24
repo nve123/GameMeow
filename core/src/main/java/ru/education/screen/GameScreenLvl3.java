@@ -50,7 +50,7 @@ public class GameScreenLvl3 implements Screen {
     private Array<SlotTower> slotTowerArray;
     private Array<DefensiveTower> defensiveTowerArray;
     private Shop shop;
-    private Shop shop2;
+    //private Shop shop2;
     private float curTime;
     private DebugInfo debugInfo;
     private ShopService shopService;
@@ -58,7 +58,7 @@ public class GameScreenLvl3 implements Screen {
     private Array<Rectangle> enemyPathPoint1;
     private Array<Rectangle> enemyPathPoint2;
     private Array<Rectangle> enemyPathPoint3;
-    private ShopService shopService2;
+    //private ShopService shopService2;
     private WaveService waveService;
     public Music backgroundMusic;
     //private Enemy enemy;
@@ -75,7 +75,7 @@ public class GameScreenLvl3 implements Screen {
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
-        background = new Texture(Gdx.files.internal("3_iiii_0004 (3).png"));
+        background = new Texture(Gdx.files.internal("3_iiii_0004 (5).png"));
         backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);
@@ -84,7 +84,7 @@ public class GameScreenLvl3 implements Screen {
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
 
         Rectangle hitBoxCoreTower = new Rectangle(
-            190+ 200,
+            190+ 200 + 120,
             480 - 260,
             25,
             25
@@ -94,18 +94,18 @@ public class GameScreenLvl3 implements Screen {
         coreTower = new Core(
             170,
             226,
-            190,
+            190 + 175,
             480 - 300,
             hitBoxCoreTower
         );
 
         Resource resourceGold, resourceOre, resourceWood;
-        Rectangle workBoxGold = new Rectangle(130, 0, 15f, 15f);
+        Rectangle workBoxGold = new Rectangle(130 - 25 + 170 - 20 - 50, 0, 15f, 15f);
         resourceGold = new Resource(130, 0, ResourceType.GOLD, workBoxGold);
-        Rectangle workBoxOre = new Rectangle(130, 480 - 120, 15f, 15f);
+        Rectangle workBoxOre = new Rectangle(130  - 25 + 146 - 20 - 10 - 10, 480 - 120, 15f, 15f);
         resourceOre = new Resource(130, 480 - 120, ResourceType.ORE, workBoxOre);
-        Rectangle workBoxWood = new Rectangle(34, 480 - 300, 15f, 15f);
-        resourceWood = new Resource(34, 480 - 300, ResourceType.WOOD, workBoxWood);
+        Rectangle workBoxWood = new Rectangle(34 - 25 + 150 - 20 - 20, 480 - 300, 15f, 15f);
+        resourceWood = new Resource(34, 480 - 300 - 15, ResourceType.WOOD, workBoxWood);
         resourceList = Array.with(resourceGold, resourceOre, resourceWood);
 
         workers = new Array<>();
@@ -162,23 +162,23 @@ public class GameScreenLvl3 implements Screen {
         font = new BitmapFont();
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
-        shop2 = new Shop(24 + 300, 24);
+        //shop2 = new Shop(24 + 300, 24);
         shop.addItem(ItemType.TOWER);
-        shop2.addItem(ItemType.TOWER);
+        //shop2.addItem(ItemType.TOWER);
         shop.addItem(ItemType.UPDATE_DMG);
-        shop2.addItem(ItemType.UPDATE_DMG);
+        //shop2.addItem(ItemType.UPDATE_DMG);
         shop.addItem(ItemType.UPDATE_SPEED);
-        shop2.addItem(ItemType.UPDATE_SPEED);
+        //shop2.addItem(ItemType.UPDATE_SPEED);
 
         slotTowerArray = new Array<>(8);
         slotTowerArray.add(new SlotTower(410, 480 - 205));
         slotTowerArray.add(new SlotTower(850, 480 - 205));
         slotTowerArray.add(new SlotTower(1150, 480 - 205));
-        slotTowerArray.add(new SlotTower(410, 480 - 440));
-        slotTowerArray.add(new SlotTower(850, 480 - 440));
-        slotTowerArray.add(new SlotTower(1150, 480 - 440));
+        slotTowerArray.add(new SlotTower(410, 480 - 440 + 15));
+        slotTowerArray.add(new SlotTower(850, 480 - 440 + 15));
+        slotTowerArray.add(new SlotTower(1150, 480 - 440 + 15));
         slotTowerArray.add(new SlotTower(1450, 480 - 205));
-        slotTowerArray.add(new SlotTower(1450, 480 - 440));
+        slotTowerArray.add(new SlotTower(1450, 480 - 440 + 15));
 
 
         defensiveTowerArray = new Array<>();
@@ -186,7 +186,7 @@ public class GameScreenLvl3 implements Screen {
         curTime = 0f;
 
         shopService = new ShopService(slotTowerArray, defensiveTowerArray, shop);
-        shopService2 = new ShopService(slotTowerArray, defensiveTowerArray, shop2);
+        //shopService2 = new ShopService(slotTowerArray, defensiveTowerArray, shop2);
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
         debugInfo = new DebugInfo();
@@ -212,13 +212,13 @@ public class GameScreenLvl3 implements Screen {
                 shopService.shoppingProcess(touchPoint);
                 shop.setActive(false);
             }
-            if (!shop2.isActive()) {
+            /*if (!shop2.isActive()) {
                 workerService.workerClickProcessing(touchPoint);
                 shopService2.shopItemClickProcessing(touchPoint);
             } else {
                 shopService2.shoppingProcess(touchPoint);
                 shop2.setActive(false);
-            }
+            }*/
         }
 
         batch.begin();
@@ -227,7 +227,7 @@ public class GameScreenLvl3 implements Screen {
 
         if (camera.isLeftState()) {
             coreTower.draw(batch);
-            shop2.draw(batch);
+            //shop2.draw(batch);
             for (SlotTower slotTower : slotTowerArray) {
                 slotTower.draw(batch);
             }
@@ -363,7 +363,7 @@ public class GameScreenLvl3 implements Screen {
         }
 
         shop.dispose();
-        shop2.dispose();
+        //shop2.dispose();
         waveService.dispose();
 
         debugInfo.dispose();

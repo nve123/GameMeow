@@ -99,11 +99,11 @@ public class GameScreen implements Screen {
         );
 
         Resource resourceGold, resourceOre, resourceWood;
-        Rectangle workBoxGold = new Rectangle(50 - 25 + 170 - 20, 480 / 2f - 165 / 2f, 15f, 15f);
+        Rectangle workBoxGold = new Rectangle(50 - 25 + 170 - 20 - 50, 480 / 2f - 165 / 2f, 15f, 15f);
         resourceGold = new Resource(50, 480 / 2f - 165 / 2f, ResourceType.GOLD, workBoxGold);
-        Rectangle workBoxOre = new Rectangle(50 - 25 + 146 - 20, 480 - 150 - 35, 15f, 15f);
+        Rectangle workBoxOre = new Rectangle(50 - 25 + 146 - 20 - 10 - 10, 480 - 150 - 35, 15f, 15f);
         resourceOre = new Resource(50, 480 - 150 - 35, ResourceType.ORE, workBoxOre);
-        Rectangle workBoxWood = new Rectangle(50 - 25 + 150 - 20, 0 + 15, 15f, 15f);
+        Rectangle workBoxWood = new Rectangle(50 - 25 + 150 - 20 - 20, 0 + 15 + 15, 15f, 15f);
         resourceWood = new Resource(55, 0 + 15, ResourceType.WOOD, workBoxWood);
         resourceList = Array.with(resourceGold, resourceOre, resourceWood);
 
@@ -119,15 +119,12 @@ public class GameScreen implements Screen {
         touchPoint = new Vector3();
 
         enemyPathPoint = new Array<>();
-        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f - 50 - 100, 10, 10));
-        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f + 50, 10, 10));
-        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH + 150, 480 / 2f - 50 - 100, 10, 10));
-
+        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2,MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
         enemy = new Enemy(
             10,
             coreTower.getHitBox(),
             WORLD_WIDTH - 100,
-            MeowGame.SCREEN_HEIGHT / 2f,
+            MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40,
             enemyPathPoint
         );
 

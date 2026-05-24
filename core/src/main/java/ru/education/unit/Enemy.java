@@ -20,7 +20,12 @@ public class Enemy extends Unit {
 
     public static final int TIME_TO_START = 4;
     private Stack<Rectangle> path;
+    private float x;
+    private float firstX;
+    private float y;
+    private float firstY;
     private int hp;
+    private int firstHp;
     private final BitmapFont font = new BitmapFont();
     private Rectangle curDestination;
 
@@ -35,20 +40,24 @@ public class Enemy extends Unit {
     private TextureAtlas atlasStay;
     private TextureAtlas atlasGoTo;
     private TextureAtlas atlasAttack;
-    public Sound explosionSound;
+    //public Sound explosionSound;
 
     public Enemy(int hp, Rectangle destination, float x, float y, Array<Rectangle> pathPoints) {
 
         this.x = x;
         this.y = y;
         this.hp = hp;
+        firstHp = hp;
+        firstX = x;
+        firstY = y;
+
         rightPosition = false;
         isAlive = true;
 
-        atlasStay = new TextureAtlas("enemystay.atlas");
+        atlasStay = new TextureAtlas("Stay.atlas");
         atlasGoTo = new TextureAtlas("enemy_walk.atlas");
         atlasAttack = new TextureAtlas("attact_enemy.atlas");
-        explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/destroy.mp3"));
+        //explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/destroy.mp3"));
         initStateMap();
 
         setCurrentState(StateEnemy.STAY);
@@ -67,6 +76,9 @@ public class Enemy extends Unit {
         this.x = x;
         this.y = y;
         this.hp = hp;
+        firstHp = hp;
+        firstX = x;
+        firstY = y;
         rightPosition = false;
         isAlive = true;
 
@@ -180,7 +192,7 @@ public class Enemy extends Unit {
         if (hp <= 0) {
             isAlive = false;
             if (SettingsUserInterface.isSoundOn) {
-                explosionSound.play(0.2f);
+                //explosionSound.play(0.2f);
             }
         }
     }
@@ -202,6 +214,31 @@ public class Enemy extends Unit {
     @Override
     public float getHeight() {
         return stateAttrMap.get(currentState).height;
+    }
+
+    public float getFirstX() {
+        return firstX;
+    }
+
+    public float getFirstY() {
+        return firstY;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void reviveEnemy(){
+        isAlive = true;
+        setX(getFirstX());
+        setY(getFirstY());
+        hp = firstHp;
+        timeInState = 0;
+        setCurrentState(StateEnemy.STAY);
     }
 
     @Override
@@ -261,6 +298,6 @@ public class Enemy extends Unit {
     public void dispose() {
         super.dispose();
         font.dispose();
-        explosionSound.dispose();
+        //explosionSound.dispose();
     }
 }

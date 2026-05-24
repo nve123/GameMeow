@@ -15,7 +15,7 @@ public abstract class Tower {
     protected final EnumMap<TowerState, TowerStateAttribute> attributeEnumMap;
     protected TowerState curState;
     protected TowerState prevState;
-    protected final Texture debugTexture;
+    //protected final Texture debugTexture;
 
     public Tower(
         float x, float y, EnumMap<TowerState, TowerStateAttribute> attributeEnumMap
@@ -24,7 +24,7 @@ public abstract class Tower {
         this.y = y;
         this.attributeEnumMap = attributeEnumMap;
         this.curState = TowerState.DEFAULT;
-        debugTexture = new Texture(Gdx.files.internal("tmp.png"));
+        //debugTexture = new Texture(Gdx.files.internal("tmp.png"));
     }
 
     public float getX() {
@@ -57,7 +57,7 @@ public abstract class Tower {
     }
 
     public void dispose() {
-        debugTexture.dispose();
+        /*0debugTexture.dispose();*/
     }
 
 }

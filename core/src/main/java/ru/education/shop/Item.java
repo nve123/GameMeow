@@ -1,5 +1,9 @@
 package ru.education.shop;
 
+import static ru.education.service.ShopService.goldPlus;
+import static ru.education.service.ShopService.orePlus;
+import static ru.education.service.ShopService.woodPlus;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -26,6 +30,10 @@ public class Item implements Disposable {
             case UPDATE_SPEED -> {
                 texture = new Texture(Gdx.files.internal("speed_up_50x50.png"));
                 price = new Price(20, 40, 30);
+            }
+            case UPDATE_DMGPLSPLS -> {
+                texture = new Texture(Gdx.files.internal("dmg++.png"));
+                price = new Price(20 + goldPlus, 40 + orePlus, 30 + woodPlus);
             }
         }
 

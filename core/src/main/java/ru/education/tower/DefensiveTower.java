@@ -61,8 +61,8 @@ public class DefensiveTower extends Tower {
             x,
             y,
             attributeEnumMap.get(curState).getWidth(),
-            attributeEnumMap.get(curState).getWidth());
-        batch.draw(debugTexture, range.x, range.y, range.width, range.height);
+            attributeEnumMap.get(curState).getHeight());
+        //batch.draw(debugTexture, range.x, range.y, range.width, range.height);
 
         if (curTime - lastShot > attributeEnumMap.get(curState).getAttackSpeed()
             && range.contains(enemy.getX(), enemy.getY())

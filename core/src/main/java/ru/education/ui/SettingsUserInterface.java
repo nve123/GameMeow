@@ -21,11 +21,12 @@ import ru.education.MeowGame;
 import ru.education.service.MemoryService;
 
 public class SettingsUserInterface {
-    private TextButton musicSettingBtn;
-    private TextButton soundSettingBtn;
+    private ImageButton musicSettingBtn;
+    private ImageButton soundSettingBtn;
     private ImageButton returnBtn;
     private ImageButton resetBtn;
     private MeowGame meowGame;
+    private Drawable soundYDrawable;
     public static boolean isMusicOn;
     public static boolean isSoundOn;
     private final Stage stage;
@@ -34,39 +35,37 @@ public class SettingsUserInterface {
     public SettingsUserInterface(OrthographicCamera camera, MeowGame meowGame) {
         this.meowGame = new MeowGame();
         this.camera = camera;
-        Skin skin = new Skin();
 
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-
-        skin.add("default", new BitmapFont());
-
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.up = skin.newDrawable("white", Color.DARK_GRAY);
-        style.down = skin.newDrawable("white", Color.BLUE);
-        style.font = skin.getFont("default");
-
-        musicSettingBtn = new TextButton("music: " + MemoryService.loadIsMusicOn(), style);
-        soundSettingBtn = new TextButton("sound: " + MemoryService.loadIsSoundOn(), style);
-        Drawable resetDrawable = new TextureRegionDrawable(new Texture("btn_reset.png"));
+        Drawable resetDrawable = new TextureRegionDrawable(new Texture("no1_sound.png_0005.png"));
         Drawable returnDrawable = new TextureRegionDrawable(new Texture("btn_return.png"));
+        musicSettingBtn = new ImageButton(new TextureRegionDrawable(new Texture("no1_sound.png_0004.png")));
+        soundYDrawable = new TextureRegionDrawable(new Texture("no1_sound.png_0001.png"));
+        soundSettingBtn = new ImageButton(soundYDrawable);
+        if (MemoryService.loadIsSoundOn()) {
+            soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0001.png"));;
+        } else {
+            soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0002.png"));
+        }
+        if (MemoryService.loadIsMusicOn()) {
+            musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0004.png"));;
+        } else {
+            musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0003.png"));
+        }
         returnBtn = new ImageButton(returnDrawable);
         resetBtn = new ImageButton(resetDrawable);
         isSoundOn = MemoryService.loadIsMusicOn();
         isMusicOn = MemoryService.loadIsMusicOn();
 
         musicSettingBtn.setPosition(
-            MeowGame.SCREEN_WIDTH / 2f - 50,
-            MeowGame.SCREEN_HEIGHT / 2f - 50
+            MeowGame.SCREEN_WIDTH / 2f - 100,
+            MeowGame.SCREEN_HEIGHT / 2f + 100
         );
         soundSettingBtn.setPosition(
-            MeowGame.SCREEN_WIDTH / 2f - 50,
-            MeowGame.SCREEN_HEIGHT / 2f
+            MeowGame.SCREEN_WIDTH / 2f - 100,
+            MeowGame.SCREEN_HEIGHT / 2f - 50
         );
         returnBtn.setPosition(0, MeowGame.SCREEN_HEIGHT - 50);
-        resetBtn.setPosition(MeowGame.SCREEN_WIDTH / 2f + 100, MeowGame.SCREEN_HEIGHT / 2f - 40);
+        resetBtn.setPosition(MeowGame.SCREEN_WIDTH / 2f - 100, MeowGame.SCREEN_HEIGHT / 2f - 200);
 
         returnBtn.addListener(new ClickListener() {
             @Override
@@ -107,12 +106,20 @@ public class SettingsUserInterface {
             }
             if (musicSettingBtn.isPressed()) {
                 MemoryService.saveMusicSettings(!MemoryService.loadIsMusicOn());
-                musicSettingBtn.setText("music: " + MemoryService.loadIsMusicOn());
-                isMusicOn = MemoryService.loadIsMusicOn();
+                if (MemoryService.loadIsMusicOn()) {
+                    musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0004.png"));;
+                } else {
+                    musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0003.png"));
+                }
+                    isMusicOn = MemoryService.loadIsMusicOn();
             }
             if (soundSettingBtn.isPressed()) {
                 MemoryService.saveSoundSettings(!MemoryService.loadIsSoundOn());
-                soundSettingBtn.setText("sound: " + MemoryService.loadIsSoundOn());
+                if (MemoryService.loadIsSoundOn()) {
+                    soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0001.png"));;
+                } else {
+                    soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0002.png"));
+                }
                 isSoundOn = MemoryService.loadIsSoundOn();
             }
             if (resetBtn.isPressed()) {

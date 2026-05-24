@@ -2,43 +2,31 @@ package ru.education.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.education.MeowGame;
-import ru.education.ui.ChangeLevelUserInterface;
+import ru.education.ui.InfSettingsUserInterface;
 
-public class ChangeLevelScreen implements Screen {
+public class InfinityModeSettingsScreen implements Screen {
     private final MeowGame meowGame;
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private Texture background;
-    private ChangeLevelUserInterface changeLevelUserInterface;
-    public Music backgroundMusic;
+    private InfSettingsUserInterface infSettingsUserInterface;
 
-    public ChangeLevelScreen(MeowGame meowGame) {this.meowGame = meowGame;}
+    public InfinityModeSettingsScreen(MeowGame meowGame) {
+        this.meowGame = meowGame;
+    }
 
     @Override
     public void show() {
         batch = meowGame.getSpriteBatch();
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
-
-        background = new Texture(Gdx.files.internal("pppp.png"));
-        backgroundMusic = null;
-        //backgroundMusic.setLooping(true);
-        //backgroundMusic.setVolume(0.0f);
-        //backgroundMusic.play();
-
-        changeLevelUserInterface = new ChangeLevelUserInterface(
-            meowGame,
-            camera
-        );
-        changeLevelUserInterface.updateButtonsState();
-
+        background = new Texture(Gdx.files.internal("chenge_lvl_back.png"));
+        infSettingsUserInterface = new InfSettingsUserInterface(camera, meowGame);
     }
 
     @Override
@@ -48,7 +36,7 @@ public class ChangeLevelScreen implements Screen {
         batch.begin();
         batch.draw(background, 0, 0, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         batch.end();
-        changeLevelUserInterface.drawUI();
+        infSettingsUserInterface.drawUI();
     }
 
     @Override
@@ -73,8 +61,6 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void dispose() {
-        //backgroundMusic.dispose();
         background.dispose();
-        changeLevelUserInterface.dispose();
     }
 }

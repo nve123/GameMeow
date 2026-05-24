@@ -19,7 +19,7 @@ public class Core {
 
     public Core(float width, float height, float x, float y, Rectangle hitBox ) {
         this.hitBox = hitBox;
-        this.texture = new Texture(Gdx.files.internal("coretower.png"));
+        this.texture = new Texture(Gdx.files.internal("zhamok.png"));
         this.x = x;
         this.y = y;
         this.width = width;

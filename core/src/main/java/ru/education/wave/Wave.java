@@ -18,12 +18,22 @@ public class Wave {
         for (int i = 0; i < enemies.size; i++) {
             if (!enemies.get(i).isAlive()) {
                 count++;
+                isAliveWave = true;
             }
         }
         if (count == enemies.size) {
-            isAliveWave = false;
-        }
+            isAliveWave = false;        }
         return isAliveWave;
+
+    }
+
+    public void reviveWave() {
+        isAliveWave = true;
+        for (int i = 0; i < enemies.size; i++) {
+            if (!enemies.get(i).isAlive()) {
+                enemies.get(i).reviveEnemy();
+            }
+        }
     }
 
     public Array<Enemy> getEnemies() {

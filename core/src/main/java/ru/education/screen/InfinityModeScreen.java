@@ -1,6 +1,7 @@
 package ru.education.screen;
 
-import static ru.education.service.MemoryService.saveUnlocks;
+import static ru.education.ui.InfSettingsUserInterface.back;
+import static ru.education.ui.InfSettingsUserInterface.numBack;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,9 +15,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
+import ru.education.debug.DebugInfo;
 import ru.education.service.ShopService;
 import ru.education.service.WaveService;
 import ru.education.service.WorkerService;
@@ -28,14 +29,15 @@ import ru.education.tower.SlotTower;
 import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
 import ru.education.ui.GameUserInterface;
+import ru.education.ui.InfSettingsUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
 import ru.education.wave.Wave;
 
-public class GameScreenLvl2 implements Screen {
-    public static final int WORLD_WIDTH = MeowGame.SCREEN_WIDTH * 2;
+public class InfinityModeScreen implements Screen {
     private final MeowGame meowGame;
+    public static final int WORLD_WIDTH = MeowGame.SCREEN_WIDTH * 2;
     private OrthographicCameraWithLeftRightState camera;
     private SpriteBatch batch;
     private Texture background;
@@ -62,10 +64,18 @@ public class GameScreenLvl2 implements Screen {
     private WaveService waveService;
     public Music backgroundMusic;
     //private Enemy enemy;
+    private Array<Rectangle> enemyPathPoint1;
+    private Array<Rectangle> enemyPathPoint2;
+    private Array<Rectangle> enemyPathPoint3;
+    private Array<Enemy> enemiesWave0;
+    private Wave wave0;
+    private float countX;
 
-    public GameScreenLvl2(MeowGame meowGame) {
+
+    public InfinityModeScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
     }
+
 
     @Override
     public void show() {
@@ -74,29 +84,66 @@ public class GameScreenLvl2 implements Screen {
 
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
+        countX = 50;
+        InfSettingsUserInterface infSettingsUserInterface = new InfSettingsUserInterface(camera, meowGame);
 
-        background = new Texture(Gdx.files.internal("2_likizhiR_0001 (3).png"));
+        background = back;
         //backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);
         //backgroundMusic.play();
 
+
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
+        if (numBack == 2) {
+            Rectangle hitBoxCoreTower = new Rectangle(
+                MeowGame.SCREEN_WIDTH - 40 - 50,
+                0 + 30,
+                25,
+                25
+            );
 
-        Rectangle hitBoxCoreTower = new Rectangle(
-            MeowGame.SCREEN_WIDTH - 40 - 50,
-            0 + 30,
-            25,
-            25
-        );
+            tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
+            coreTower = new Core(
+                170,
+                226,
+                MeowGame.SCREEN_WIDTH  - 226 - 10, 0,
+                hitBoxCoreTower
+            );
+        } else if (numBack == 1) {
+            Rectangle hitBoxCoreTower = new Rectangle(
+                (MeowGame.SCREEN_WIDTH - 170 * 2) + 170 - 30,
+                (MeowGame.SCREEN_HEIGHT / 2f - 226 / 4) + 226 / 5,
+                25,
+                25
+            );
 
-        tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
-        coreTower = new Core(
-            170,
-            226,
-            MeowGame.SCREEN_WIDTH  - 226 - 10, 0,
-            hitBoxCoreTower
-        );
+            tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
+            coreTower = new Core(
+                170,
+                226,
+                MeowGame.SCREEN_WIDTH - 170 * 2,
+                MeowGame.SCREEN_HEIGHT / 2f - 226 / 4,
+                hitBoxCoreTower
+            );
+        } else if (numBack == 3) {
+            Rectangle hitBoxCoreTower = new Rectangle(
+                190+ 200 + 120,
+                480 - 260,
+                25,
+                25
+            );
+
+            tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
+            coreTower = new Core(
+                170,
+                226,
+                190 + 175,
+                480 - 300,
+                hitBoxCoreTower
+            );
+        }
+
 
         Resource resourceGold, resourceOre, resourceWood;
         Rectangle workBoxGold = new Rectangle(50 - 25 + 170 - 20 - 50, 480 / 2f - 165 / 2f, 15f, 15f);
@@ -119,41 +166,74 @@ public class GameScreenLvl2 implements Screen {
         touchPoint = new Vector3();
 
         enemyPathPoint = new Array<>();
-        enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 29 - 30, 10, 10));
-        enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 214 - 23, 10, 10));
-        enemyPathPoint.add(new Rectangle(1554- 30, 480 - 214 - 20, 10, 10));
-        enemyPathPoint.add(new Rectangle(1554 - 5- 30, 480 - 417 - 10, 10, 10));
-        enemyPathPoint.add(new Rectangle(695 - 10- 30, 480 - 417 - 10, 10, 10));
-        enemyPathPoint.add(new Rectangle(695 - 10- 30, 480 - 44 - 10, 10, 10));
-        enemyPathPoint.add(new Rectangle(132 - 10- 30, 480 - 44 - 10, 10, 10));
+        if (numBack == 2) {
+            enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 29 - 30, 10, 10));
+            enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 214 - 23, 10, 10));
+            enemyPathPoint.add(new Rectangle(1554 - 30, 480 - 214 - 20, 10, 10));
+            enemyPathPoint.add(new Rectangle(1554 - 5 - 30, 480 - 417 - 10, 10, 10));
+            enemyPathPoint.add(new Rectangle(695 - 10 - 30, 480 - 417 - 10, 10, 10));
+            enemyPathPoint.add(new Rectangle(695 - 10 - 30, 480 - 44 - 10, 10, 10));
+            enemyPathPoint.add(new Rectangle(132 - 10 - 30, 480 - 44 - 10, 10, 10));
+        } else if (numBack == 1) {
+            enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2,MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
+        } else if (numBack == 3) {
+            enemyPathPoint1 = new Array<>();
+            enemyPathPoint1.add(new Rectangle(795 - 10 - 30, 480 - 467 - 5, 10, 10));
+            enemyPathPoint1.add(new Rectangle(621 - 10 - 30, 480 - 260 - 5, 10, 10));
+            enemyPathPoint2 = new Array<>();
+            enemyPathPoint2.add(new Rectangle(621 - 10 - 30, 480 - 260 - 5, 10, 10));
+            enemyPathPoint3 = new Array<>();
+            enemyPathPoint3.add(new Rectangle(795 - 10 - 30, 480 - 26 - 5, 10, 10));
+            enemyPathPoint3.add(new Rectangle(621 - 10 - 30, 480 - 260 - 5, 10, 10));
+        }
+        slotTowerArray = new Array<>(6);
+        if (numBack == 2) {
+            slotTowerArray.add(new SlotTower(604, 480 - 408));
+            slotTowerArray.add(new SlotTower(604, 480 - 170));
+            slotTowerArray.add(new SlotTower(153, 480 - 147));
+            slotTowerArray.add(new SlotTower(50, 480 - 147));
+            slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 84, 480 - 177));
+            slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 104, 480 - 391 + 15));
+            slotTowerArray.add(new SlotTower(1171, 480 - 177));
+            slotTowerArray.add(new SlotTower(1171, 480 - 391 + 15));
+            slotTowerArray.add(new SlotTower(1413, 480 - 177));
+            slotTowerArray.add(new SlotTower(1413, 480 - 391 + 15));
+        } else if (numBack == 1) {
+            slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150, 480 / 2f + 50));
+            slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f + 50));
+            slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150, 480 / 2f - 50 - 100));
+            slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50, 480 / 2f - 50 - 100));
+            slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f + 50));
+            slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f - 50 - 100));
+        } else if (numBack == 3) {
+            slotTowerArray.add(new SlotTower(410, 480 - 205));
+            slotTowerArray.add(new SlotTower(850, 480 - 205));
+            slotTowerArray.add(new SlotTower(1150, 480 - 205));
+            slotTowerArray.add(new SlotTower(410, 480 - 440 + 15));
+            slotTowerArray.add(new SlotTower(850, 480 - 440 + 15));
+            slotTowerArray.add(new SlotTower(1150, 480 - 440 + 15));
+            slotTowerArray.add(new SlotTower(1450, 480 - 205));
+            slotTowerArray.add(new SlotTower(1450, 480 - 440 + 15));
+        }
 
-        Array<Enemy> enemiesWave0 = new Array<>();
-        Array<Enemy> enemiesWave1 = new Array<>();
-        Array<Enemy> enemiesWave2 = new Array<>();
-        Array<Enemy> enemiesWave3 = new Array<>();
+        enemiesWave0 = new Array<>();
+        if (numBack == 2) {
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
+        } else if (numBack == 1) {
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), WORLD_WIDTH - 100, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, enemyPathPoint));
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), WORLD_WIDTH - 100 + 50, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, enemyPathPoint));
+        } else if (numBack == 3) {
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 467, enemyPathPoint1));
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
+        }
 
-        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
-        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
 
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint));
 
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1704, 417, enemyPathPoint));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1754, 417, enemyPathPoint));
+        wave0 = new Wave(enemiesWave0);
 
-        enemiesWave3.add(new Enemy(200, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
-
-        Wave wave0 = new Wave(enemiesWave0);
-        Wave wave1 = new Wave(enemiesWave1);
-        Wave wave2 = new Wave(enemiesWave2);
-        Wave wave3 = new Wave(enemiesWave3);
-
-        waves = new Array<>(4);
-        waves.add(wave0, wave1, wave2, wave3);
+        waves = new Array<>(1);
+        waves.add(wave0);
 
         waveService = new WaveService(waves);
 
@@ -166,18 +246,10 @@ public class GameScreenLvl2 implements Screen {
         //shop2.addItem(ItemType.TOWER);
         shop.addItem(ItemType.UPDATE_DMG);
         //shop2.addItem(ItemType.UPDATE_DMG);
+        shop.addItem(ItemType.UPDATE_SPEED);
+        shop.addItem(ItemType.UPDATE_DMGPLSPLS);
 
-        slotTowerArray = new Array<>(6);
-        slotTowerArray.add(new SlotTower(604, 480 - 408));
-        slotTowerArray.add(new SlotTower(604, 480 - 170));
-        slotTowerArray.add(new SlotTower(153, 480 - 147));
-        slotTowerArray.add(new SlotTower(50, 480 - 147));
-        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 84, 480 - 177));
-        slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 104, 480 - 391 + 15));
-        slotTowerArray.add(new SlotTower(1171, 480 - 177));
-        slotTowerArray.add(new SlotTower(1171, 480 - 391 + 15));
-        slotTowerArray.add(new SlotTower(1413, 480 - 177));
-        slotTowerArray.add(new SlotTower(1413, 480 - 391 + 15));
+
 
         defensiveTowerArray = new Array<>();
 
@@ -266,24 +338,18 @@ public class GameScreenLvl2 implements Screen {
                 enemy.setTimeInState(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
-                waveService.nextWave();
-            }
-            else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 1) {
-                waveService.nextWave();
-            }
-            else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
-                waveService.nextWave();
-            }else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 3) {
-                for (Worker worker : workers) {
-                    worker.stopSound();
+                for (Wave wave:waves) {
+                    wave.reviveWave();
+                    if (numBack == 1) {
+                        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), WORLD_WIDTH - 100 + countX + 50, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, enemyPathPoint));
+                    } else if (numBack == 2) {
+                        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554 + countX + 50, 417, enemyPathPoint));
+                    } else if (numBack == 3) {
+                        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX + 50, 480 - 467, enemyPathPoint1));
+                    }
+                    System.out.println(wave.isAliveWave());
+                    countX += 50;
                 }
-                //backgroundMusic.stop();
-                User.getInstance().setHp(100);
-                User.getInstance().setGold(100);
-                User.getInstance().setOre(200);
-                User.getInstance().setWood(150);
-                meowGame.unlockLevel((byte) 2);
-                meowGame.changeScreen(MeowGame.CHANGELVL);
             }
         }
 
@@ -313,6 +379,14 @@ public class GameScreenLvl2 implements Screen {
     @Override
     public void resize(int width, int height) {
 
+    }
+
+    public void setBackground(Texture background1){
+        background = background1;
+    }
+
+    public Texture getBackground() {
+        return background;
     }
 
     @Override

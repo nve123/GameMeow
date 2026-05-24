@@ -20,6 +20,7 @@ public class ChangeLevelUserInterface {
     private final Array<LevelChoiceButton> btns;
     private final Stage stage;
     private final OrthographicCamera camera;
+    private ImageButton returnBtn;
 
 
     public ChangeLevelUserInterface(MeowGame meowGame, OrthographicCamera camera) {
@@ -29,11 +30,13 @@ public class ChangeLevelUserInterface {
         Texture btnlvl1Texture = new Texture("btn_lvl1.png");
         Texture btnlvl2Texture = new Texture("btn_lvl2.png");
         Texture btnlvl3Texture = new Texture("btn_lvl3.png");
+        Drawable returnDrawable = new TextureRegionDrawable(new Texture("btn_return.png"));
+        returnBtn = new ImageButton(returnDrawable);
 
        LevelChoiceButton btnlvl1 = new LevelChoiceButton
            (btnlvl1Texture,
-           MeowGame.SCREEN_WIDTH / 2f - btnlvl1Texture.getWidth() / 2f,
-           MeowGame.SCREEN_HEIGHT / 2f - btnlvl1Texture.getHeight() / 2f,
+           0 + 100,
+           MeowGame.SCREEN_HEIGHT / 2f - btnlvl1Texture.getHeight() / 2f - 2,
            (byte) 0,
            meowGame
        );
@@ -42,8 +45,8 @@ public class ChangeLevelUserInterface {
 
        LevelChoiceButton btnlvl2 = new LevelChoiceButton(
            btnlvl2Texture,
-           MeowGame.SCREEN_WIDTH / 2f - btnlvl2Texture.getWidth() / 2f + 50,
-           MeowGame.SCREEN_HEIGHT / 2f - btnlvl2Texture.getHeight() / 2f,
+           MeowGame.SCREEN_WIDTH / 2f - btnlvl2Texture.getWidth() / 2f + 50 - 50,
+           MeowGame.SCREEN_HEIGHT / 2f - btnlvl2Texture.getHeight() / 2f - 50 + 10,
            (byte) 1,
            meowGame
        );
@@ -52,7 +55,7 @@ public class ChangeLevelUserInterface {
 
         LevelChoiceButton btnlvl3 = new LevelChoiceButton(
             btnlvl3Texture,
-            MeowGame.SCREEN_WIDTH / 2f - btnlvl3Texture.getWidth() / 2f + 100,
+            MeowGame.SCREEN_WIDTH / 2f - btnlvl3Texture.getWidth() / 2f + 100 + 195,
             MeowGame.SCREEN_HEIGHT / 2f - btnlvl3Texture.getHeight() / 2f,
             (byte) 2,
             meowGame
@@ -60,9 +63,20 @@ public class ChangeLevelUserInterface {
 
         btns.add(btnlvl3);
 
+        returnBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                meowGame.changeScreen(meowGame.MENU);
+            }
+        });
+
+        returnBtn.setPosition(0, MeowGame.SCREEN_HEIGHT - 50);
+
         Viewport fitViewport = new StretchViewport(MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT, camera);
         stage = new Stage(fitViewport);
         Gdx.input.setInputProcessor(stage);
+
+        stage.addActor(returnBtn);
 
         for (LevelChoiceButton btn : btns) {
             btn.addToStage(stage);
