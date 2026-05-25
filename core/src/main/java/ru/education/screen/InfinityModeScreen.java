@@ -33,6 +33,7 @@ import ru.education.ui.InfSettingsUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
+import ru.education.util.MathUtil;
 import ru.education.wave.Wave;
 
 public class InfinityModeScreen implements Screen {
@@ -70,6 +71,10 @@ public class InfinityModeScreen implements Screen {
     private Array<Enemy> enemiesWave0;
     private Wave wave0;
     private float countX;
+    private float countX1;
+    private float countX2;
+    private float countX3;
+    private MathUtil mathUtil;
 
 
     public InfinityModeScreen(MeowGame meowGame) {
@@ -81,10 +86,13 @@ public class InfinityModeScreen implements Screen {
     public void show() {
         User.getInstance().setHp(100);
         batch = meowGame.getSpriteBatch();
-
+        mathUtil = new MathUtil();
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         countX = 50;
+        countX1 = 50;
+        countX2 = 50;
+        countX3 = 50;
         InfSettingsUserInterface infSettingsUserInterface = new InfSettingsUserInterface(camera, meowGame);
 
         background = back;
@@ -107,7 +115,7 @@ public class InfinityModeScreen implements Screen {
             coreTower = new Core(
                 170,
                 226,
-                MeowGame.SCREEN_WIDTH  - 226 - 10, 0,
+                MeowGame.SCREEN_WIDTH - 226 - 10, 0,
                 hitBoxCoreTower
             );
         } else if (numBack == 1) {
@@ -128,7 +136,7 @@ public class InfinityModeScreen implements Screen {
             );
         } else if (numBack == 3) {
             Rectangle hitBoxCoreTower = new Rectangle(
-                190+ 200 + 120,
+                190 + 200 + 120,
                 480 - 260,
                 25,
                 25
@@ -175,7 +183,7 @@ public class InfinityModeScreen implements Screen {
             enemyPathPoint.add(new Rectangle(695 - 10 - 30, 480 - 44 - 10, 10, 10));
             enemyPathPoint.add(new Rectangle(132 - 10 - 30, 480 - 44 - 10, 10, 10));
         } else if (numBack == 1) {
-            enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2,MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
+            enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
         } else if (numBack == 3) {
             enemyPathPoint1 = new Array<>();
             enemyPathPoint1.add(new Rectangle(795 - 10 - 30, 480 - 467 - 5, 10, 10));
@@ -229,7 +237,6 @@ public class InfinityModeScreen implements Screen {
         }
 
 
-
         wave0 = new Wave(enemiesWave0);
 
         waves = new Array<>(1);
@@ -248,7 +255,6 @@ public class InfinityModeScreen implements Screen {
         //shop2.addItem(ItemType.UPDATE_DMG);
         shop.addItem(ItemType.UPDATE_SPEED);
         shop.addItem(ItemType.UPDATE_DMGPLSPLS);
-
 
 
         defensiveTowerArray = new Array<>();
@@ -338,14 +344,24 @@ public class InfinityModeScreen implements Screen {
                 enemy.setTimeInState(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
-                for (Wave wave:waves) {
+                for (Wave wave : waves) {
                     wave.reviveWave();
                     if (numBack == 1) {
                         enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), WORLD_WIDTH - 100 + countX + 50, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, enemyPathPoint));
                     } else if (numBack == 2) {
                         enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554 + countX + 50, 417, enemyPathPoint));
                     } else if (numBack == 3) {
-                        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX + 50, 480 - 467, enemyPathPoint1));
+                        int randomNumber = mathUtil.getRandomNumber(1, 3);
+                        if (randomNumber == 1) {
+                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX1 + 50, 480 - 467, enemyPathPoint1));
+                            countX1 += 50;
+                        } else if (randomNumber == 2) {
+                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX2 + 50, 480 - 260, enemyPathPoint2));
+                            countX2 += 50;
+                        } else {
+                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX3 + 50, 480 - 26, enemyPathPoint3));
+                            countX3 += 50;
+                        }
                     }
                     System.out.println(wave.isAliveWave());
                     countX += 50;
@@ -381,7 +397,7 @@ public class InfinityModeScreen implements Screen {
 
     }
 
-    public void setBackground(Texture background1){
+    public void setBackground(Texture background1) {
         background = background1;
     }
 

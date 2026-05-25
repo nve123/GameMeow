@@ -36,7 +36,6 @@ public class DefensiveTower extends Tower {
         lastShot = -1;
     }
 
-    //TODO:вычислить рэндж по формуле от 06.03.2026
     public DefensiveTower(
         float x, float y,
         EnumMap<TowerState, TowerStateAttribute> attributeEnumMap,
@@ -82,6 +81,24 @@ public class DefensiveTower extends Tower {
     public void playSound (){
         if (SettingsUserInterface.isSoundOn) {
             plaseSound.play(0.2f);
+        }
+    }
+
+    public void upgradeMaxDamage(int addDamage) {
+        TowerStateAttribute oldAttr = attributeEnumMap.get(TowerState.DMGPLSPLS);
+        if (oldAttr != null) {
+            int newDamage = oldAttr.getDmg() + addDamage;
+
+            TowerStateAttribute newAttr = new TowerStateAttribute(
+                oldAttr.getTexture(),
+                oldAttr.getWidth(),
+                oldAttr.getHeight(),
+                newDamage,
+                oldAttr.getAttackSpeed(),
+                oldAttr.getHitBox()
+            );
+
+            attributeEnumMap.put(TowerState.DMGPLSPLS, newAttr);
         }
     }
 

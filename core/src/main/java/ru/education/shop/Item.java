@@ -1,9 +1,5 @@
 package ru.education.shop;
 
-import static ru.education.service.ShopService.goldPlus;
-import static ru.education.service.ShopService.orePlus;
-import static ru.education.service.ShopService.woodPlus;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -33,7 +29,7 @@ public class Item implements Disposable {
             }
             case UPDATE_DMGPLSPLS -> {
                 texture = new Texture(Gdx.files.internal("dmg++.png"));
-                price = new Price(20 + goldPlus, 40 + orePlus, 30 + woodPlus);
+                price = new Price(20, 40, 30 );
             }
         }
 
@@ -48,6 +44,16 @@ public class Item implements Disposable {
         this.hitBox = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
         this.x = x;
         this.y = y;
+    }
+
+    public void updateDmgPlusPrice(int extraGold, int extraOre, int extraWood) {
+        if (this.itemType == ItemType.UPDATE_DMGPLSPLS) {
+            this.price = new Price(
+                this.price.getGold() + extraGold,
+                this.price.getOre() + extraOre,
+                this.price.getWood() + extraWood
+            );
+        }
     }
 
     public Texture getTexture() {

@@ -17,7 +17,6 @@ public class TowerUtil {
 
     }
     public static DefensiveTower getDefensiveTower(float x, float y) {
-        updateDmg();
         TowerStateAttribute towerStateAttributeDefault = new TowerStateAttribute(
             new Texture("tower (3).png"),
             100,
@@ -74,8 +73,5 @@ public class TowerUtil {
         stateAttributeEnumMap.put(TowerState.SPEED_UP, towerStateAttributeSpeedUp);
         stateAttributeEnumMap.put(TowerState.DMGPLSPLS, towerStateAttributeDmgPlsPls);
         return new DefensiveTower(x, y, stateAttributeEnumMap,200, 300);
-    }
-    public static void updateDmg(){
-        dmg += dmgPlus;
     }
 }

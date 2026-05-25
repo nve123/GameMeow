@@ -18,9 +18,6 @@ public class ShopService {
     private final Shop shop;
     private TowerUtil towerUtil;
     public static int dmgPlus;
-    public static int woodPlus;
-    public static int orePlus;
-    public static int goldPlus;
 
     public ShopService(Array<SlotTower> slotTowerArray, Array<DefensiveTower> defensiveTowerArray, Shop shop) {
         this.slotTowerArray = slotTowerArray;
@@ -107,6 +104,7 @@ public class ShopService {
                 if (
                     User.getInstance().canBuy(shop.getCurChoice().getPrice())
                         && defensiveTower.getHitbox().contains(touchPoint.x, touchPoint.y)
+                        && defensiveTower.getCurState() == TowerState.CLICKED
                 ) {
                     buyUpdate(defensiveTower, ItemType.UPDATE_DMG);
                 }
@@ -117,6 +115,7 @@ public class ShopService {
                 if (
                     User.getInstance().canBuy(shop.getCurChoice().getPrice())
                         && defensiveTower.getHitbox().contains(touchPoint.x, touchPoint.y)
+                        && defensiveTower.getCurState() == TowerState.CLICKED
                 ) {
                     buyUpdate(defensiveTower, ItemType.UPDATE_SPEED);
                 }
@@ -127,6 +126,7 @@ public class ShopService {
                 if (
                     User.getInstance().canBuy(shop.getCurChoice().getPrice())
                         && defensiveTower.getHitbox().contains(touchPoint.x, touchPoint.y)
+                        && defensiveTower.getCurState() == TowerState.CLICKED
                 ) {
                     buyUpdate(defensiveTower, ItemType.UPDATE_DMGPLSPLS);
                 }
@@ -164,23 +164,15 @@ public class ShopService {
 
         } else if (itemType == ItemType.UPDATE_DMGPLSPLS) {
             if (defensiveTower.getPrevState() == TowerState.DMG_SPEED_UP) {
-                dmgPlus++;
-                towerUtil.update();
+                defensiveTower.upgradeMaxDamage(1);
                 defensiveTower.setCurState(TowerState.DMGPLSPLS);
                 User.getInstance().buyItem(shop.getCurChoice());
-                goldPlus += 10;
-                orePlus += 20;
-                woodPlus += 15;
-                System.out.println(dmgPlus);
+                shop.getCurChoice().updateDmgPlusPrice(10, 20, 15);
             } else if (defensiveTower.getPrevState() == TowerState.DMGPLSPLS) {
-                dmgPlus++;
-                towerUtil.update();
                 defensiveTower.setCurState(TowerState.DMGPLSPLS);
+                defensiveTower.upgradeMaxDamage(1);
                 User.getInstance().buyItem(shop.getCurChoice());
-                goldPlus += 10;
-                orePlus += 20;
-                woodPlus += 15;
-                System.out.println(dmgPlus);
+                shop.getCurChoice().updateDmgPlusPrice(10, 20, 15);
             }
         }
     }
