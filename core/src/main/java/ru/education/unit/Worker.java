@@ -69,7 +69,7 @@ public class Worker extends Unit {
         textureAtlasArray = new Array<>();
         stateAttrMap = new EnumMap<>(StateWorker.class);
 
-        TextureAtlas atlas = new TextureAtlas("flying_cat.atlas");
+        TextureAtlas atlas = new TextureAtlas("animations/cat_fly.atlas");
         stateAttrMap.put(
             StateWorker.FLY,
             new StateAttribute(
@@ -85,7 +85,7 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("ohno_cat.atlas");
+        atlas = new TextureAtlas("animations/cat_fall.atlas");
         stateAttrMap.put(
             StateWorker.FALL,
             new StateAttribute(
@@ -101,7 +101,7 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("on_sleepy.atlas");
+        atlas = new TextureAtlas("animations/cat_sleep.atlas");
         stateAttrMap.put(
             StateWorker.SLEEP,
             new StateAttribute(
@@ -117,7 +117,7 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("Z_Cat.atlas");
+        atlas = new TextureAtlas("animations/cat_shine.atlas");
         stateAttrMap.put(
             StateWorker.CLICKED,
             new StateAttribute(
@@ -133,7 +133,7 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("cat_walk.atlas");
+        atlas = new TextureAtlas("animations/cat_walk.atlas");
         stateAttrMap.put(
             StateWorker.GO_TO,
             new StateAttribute(
@@ -149,7 +149,7 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("CAT_HARD.atlas");
+        atlas = new TextureAtlas("animations/cat_walk.atlas");
         stateAttrMap.put(
             StateWorker.WORK,
             new StateAttribute(
@@ -165,7 +165,7 @@ public class Worker extends Unit {
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("GAMBLING.atlas");
+        atlas = new TextureAtlas("animations/cat_go_to.atlas");
         stateAttrMap.put(
             StateWorker.GO_FROM,
             new StateAttribute(

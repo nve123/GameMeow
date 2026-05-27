@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -62,6 +63,9 @@ public class GameScreenLvl3 implements Screen {
     private WaveService waveService;
     public Music backgroundMusic;
     //private Enemy enemy;
+    TextureAtlas atlasAttack;
+    TextureAtlas atlasGoTo;
+    TextureAtlas atlasStay;
 
     public GameScreenLvl3(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -75,7 +79,7 @@ public class GameScreenLvl3 implements Screen {
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
-        background = new Texture(Gdx.files.internal("3_iiii_0004 (5).png"));
+        background = new Texture(Gdx.files.internal("backgrounds/game_back_lvl3.png"));
         backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);
@@ -84,13 +88,13 @@ public class GameScreenLvl3 implements Screen {
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
 
         Rectangle hitBoxCoreTower = new Rectangle(
-            190+ 200 + 120,
+            190 + 200 + 120,
             480 - 260,
             25,
             25
         );
 
-        tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
+        tmpTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
         coreTower = new Core(
             170,
             226,
@@ -102,7 +106,7 @@ public class GameScreenLvl3 implements Screen {
         Resource resourceGold, resourceOre, resourceWood;
         Rectangle workBoxGold = new Rectangle(130 - 25 + 170 - 20 - 50, 0, 15f, 15f);
         resourceGold = new Resource(130, 0, ResourceType.GOLD, workBoxGold);
-        Rectangle workBoxOre = new Rectangle(130  - 25 + 146 - 20 - 10 - 10, 480 - 120, 15f, 15f);
+        Rectangle workBoxOre = new Rectangle(130 - 25 + 146 - 20 - 10 - 10, 480 - 120, 15f, 15f);
         resourceOre = new Resource(130, 480 - 120, ResourceType.ORE, workBoxOre);
         Rectangle workBoxWood = new Rectangle(34 - 25 + 150 - 20 - 20, 480 - 300, 15f, 15f);
         resourceWood = new Resource(34, 480 - 300 - 15, ResourceType.WOOD, workBoxWood);
@@ -146,7 +150,17 @@ public class GameScreenLvl3 implements Screen {
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1700, 480 - 467, enemyPathPoint1));
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 26, enemyPathPoint3));
 
-        enemiesWave3.add(new Enemy(500, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
+        enemiesWave3.add(new Enemy(
+                300,
+                coreTower.getHitBox(),
+                1650,
+                480 - 260,
+                enemyPathPoint2,
+                atlasStay = new TextureAtlas("animations/slime_stay.atlas"),
+                atlasGoTo = new TextureAtlas("animations/slime_walk.atlas"),
+                atlasAttack = new TextureAtlas("animations/slime_attack.atlas")
+            )
+        );
 
         Wave wave0 = new Wave(enemiesWave0);
         Wave wave1 = new Wave(enemiesWave1);
@@ -269,13 +283,11 @@ public class GameScreenLvl3 implements Screen {
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 waveService.nextWave();
-            }
-            else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 1) {
+            } else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 1) {
                 waveService.nextWave();
-            }
-            else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
+            } else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
                 waveService.nextWave();
-            }else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 3) {
+            } else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 3) {
                 for (Worker worker : workers) {
                     worker.stopSound();
                 }
@@ -344,6 +356,9 @@ public class GameScreenLvl3 implements Screen {
         gameUserInterface.dispose();
         tmpTexture.dispose();
         font.dispose();
+        atlasAttack.dispose();
+        atlasGoTo.dispose();
+        atlasStay.dispose();
 
         for (Resource resource : resourceList) {
             resource.dispose();

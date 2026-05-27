@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
-import ru.education.screen.GameScreen;
+import ru.education.screen.GameScreenLvl1;
 
 public class GameUserInterface {
     private final ImageButton btnGoToLeftScreen;
@@ -28,8 +28,8 @@ public class GameUserInterface {
         this.camera = camera;
         this.screen = screen;
 
-        Drawable leftArrowDrawable = new TextureRegionDrawable(new Texture("btn_to_left.png"));
-        Drawable rightArrowDrawable = new TextureRegionDrawable(new Texture("btn_to_right.png"));
+        Drawable leftArrowDrawable = new TextureRegionDrawable(new Texture("UI/btn_to_left.png"));
+        Drawable rightArrowDrawable = new TextureRegionDrawable(new Texture("UI/btn_to_right.png"));
 
         btnGoToLeftScreen = new ImageButton(leftArrowDrawable);
         btnGoToRightScreen = new ImageButton(rightArrowDrawable);
@@ -55,7 +55,7 @@ public class GameUserInterface {
         btnGoToRightScreen.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (camera.position.x < GameScreen.WORLD_WIDTH - MeowGame.SCREEN_WIDTH / 2f) {
+                if (camera.position.x < GameScreenLvl1.WORLD_WIDTH - MeowGame.SCREEN_WIDTH / 2f) {
                     camera.moveCameraToRight(MeowGame.SCREEN_WIDTH);
                 }
             }

@@ -21,7 +21,7 @@ public class SlotTower {
         this.y = y;
         width = 100;
         height = 100;
-        texture = new Texture(Gdx.files.internal("tmp.png"));
+        texture = new Texture(Gdx.files.internal("debug/tmp.png"));
         isFree = true;
         isVisible = false;
     }

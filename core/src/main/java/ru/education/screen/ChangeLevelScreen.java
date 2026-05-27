@@ -27,7 +27,7 @@ public class ChangeLevelScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
-        background = new Texture(Gdx.files.internal("pppp.png"));
+        background = new Texture(Gdx.files.internal("backgrounds/choice_lvl_back.png"));
         backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);

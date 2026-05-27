@@ -27,10 +27,10 @@ public class ChangeLevelUserInterface {
         this.meowGame = meowGame;
         this.camera = camera;
         btns = new Array<>(3);
-        Texture btnlvl1Texture = new Texture("btn_lvl1.png");
-        Texture btnlvl2Texture = new Texture("btn_lvl2.png");
-        Texture btnlvl3Texture = new Texture("btn_lvl3.png");
-        Drawable returnDrawable = new TextureRegionDrawable(new Texture("btn_return.png"));
+        Texture btnlvl1Texture = new Texture("UI/btn_lvl1.png");
+        Texture btnlvl2Texture = new Texture("UI/btn_lvl2.png");
+        Texture btnlvl3Texture = new Texture("UI/btn_lvl3.png");
+        Drawable returnDrawable = new TextureRegionDrawable(new Texture("UI/btn_return.png"));
         returnBtn = new ImageButton(returnDrawable);
 
        LevelChoiceButton btnlvl1 = new LevelChoiceButton

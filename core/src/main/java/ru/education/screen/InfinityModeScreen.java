@@ -111,7 +111,7 @@ public class InfinityModeScreen implements Screen {
                 25
             );
 
-            tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
+            tmpTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
             coreTower = new Core(
                 170,
                 226,
@@ -126,7 +126,7 @@ public class InfinityModeScreen implements Screen {
                 25
             );
 
-            tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
+            tmpTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
             coreTower = new Core(
                 170,
                 226,
@@ -142,7 +142,7 @@ public class InfinityModeScreen implements Screen {
                 25
             );
 
-            tmpTexture = new Texture(Gdx.files.internal("tmp.png"));
+            tmpTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
             coreTower = new Core(
                 170,
                 226,
@@ -363,7 +363,6 @@ public class InfinityModeScreen implements Screen {
                             countX3 += 50;
                         }
                     }
-                    System.out.println(wave.isAliveWave());
                     countX += 50;
                 }
             }

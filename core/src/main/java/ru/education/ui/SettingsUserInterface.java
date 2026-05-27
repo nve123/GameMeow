@@ -36,20 +36,20 @@ public class SettingsUserInterface {
         this.meowGame = new MeowGame();
         this.camera = camera;
 
-        Drawable resetDrawable = new TextureRegionDrawable(new Texture("no1_sound.png_0005.png"));
-        Drawable returnDrawable = new TextureRegionDrawable(new Texture("btn_return.png"));
-        musicSettingBtn = new ImageButton(new TextureRegionDrawable(new Texture("no1_sound.png_0004.png")));
-        soundYDrawable = new TextureRegionDrawable(new Texture("no1_sound.png_0001.png"));
+        Drawable resetDrawable = new TextureRegionDrawable(new Texture("UI/btn_reset.png"));
+        Drawable returnDrawable = new TextureRegionDrawable(new Texture("UI/btn_return.png"));
+        musicSettingBtn = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_music_on.png")));
+        soundYDrawable = new TextureRegionDrawable(new Texture("UI/btn_sound_on.png"));
         soundSettingBtn = new ImageButton(soundYDrawable);
         if (MemoryService.loadIsSoundOn()) {
-            soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0001.png"));;
+            soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_sound_on.png"));;
         } else {
-            soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0002.png"));
+            soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_sound_off.png"));
         }
         if (MemoryService.loadIsMusicOn()) {
-            musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0004.png"));;
+            musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_music_on.png"));;
         } else {
-            musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0003.png"));
+            musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_music_off.png"));
         }
         returnBtn = new ImageButton(returnDrawable);
         resetBtn = new ImageButton(resetDrawable);
@@ -107,18 +107,18 @@ public class SettingsUserInterface {
             if (musicSettingBtn.isPressed()) {
                 MemoryService.saveMusicSettings(!MemoryService.loadIsMusicOn());
                 if (MemoryService.loadIsMusicOn()) {
-                    musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0004.png"));;
+                    musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_music_on.png"));;
                 } else {
-                    musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0003.png"));
+                    musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_music_off.png"));
                 }
                     isMusicOn = MemoryService.loadIsMusicOn();
             }
             if (soundSettingBtn.isPressed()) {
                 MemoryService.saveSoundSettings(!MemoryService.loadIsSoundOn());
                 if (MemoryService.loadIsSoundOn()) {
-                    soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0001.png"));;
+                    soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_sound_on.png"));;
                 } else {
-                    soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("no1_sound.png_0002.png"));
+                    soundSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_sound_off.png"));
                 }
                 isSoundOn = MemoryService.loadIsSoundOn();
             }

@@ -27,7 +27,7 @@ public class LevelChoiceButton {
         this.x = x;
         this.y = y;
         this.numberLevel = numberLevel;
-        lockTexture = new Texture("btn_lvl_locked.png");
+        lockTexture = new Texture("UI/btn_lvl_locked.png");
         Drawable btnDrawable;
         if (lock) {
             btnDrawable = new TextureRegionDrawable(lockTexture);

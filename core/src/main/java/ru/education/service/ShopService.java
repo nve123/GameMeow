@@ -1,5 +1,7 @@
 package ru.education.service;
 
+import static ru.education.MeowGame.numLvl;
+
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
@@ -76,7 +78,8 @@ public class ShopService {
 
         DefensiveTower defensiveTower = TowerUtil.getDefensiveTower(
             slotTower.getHitBox().x,
-            slotTower.getHitBox().y
+            slotTower.getHitBox().y,
+            numLvl
         );
         defensiveTowerArray.add(
             defensiveTower

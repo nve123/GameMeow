@@ -29,7 +29,7 @@ public class SettingsScreen implements Screen {
         batch = meowGame.getSpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
-        background = new Texture(Gdx.files.internal("chenge_lvl_back.png"));
+        background = new Texture(Gdx.files.internal("backgrounds/change_lvl_back.png"));
         settingsUserInterface =new SettingsUserInterface(camera, meowGame);
 
     }

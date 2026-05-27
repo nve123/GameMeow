@@ -160,8 +160,6 @@ public class DefensiveTower extends Tower {
         }
 
         public void nextXY() {
-
-            //TODO: сделать проверку на пересечение хитбоксов, а не на левый угол
             if (!target.contains(x, y)) {
 
                 if (target.y + target.height / 2f > y) y += deltaY;

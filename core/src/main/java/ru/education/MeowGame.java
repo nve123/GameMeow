@@ -1,13 +1,14 @@
 package ru.education;
 
+import static ru.education.ui.InfSettingsUserInterface.numBack;
+
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 import ru.education.screen.ChangeLevelScreen;
-import ru.education.screen.GameScreen;
+import ru.education.screen.GameScreenLvl1;
 import ru.education.screen.GameScreenLvl2;
 import ru.education.screen.GameScreenLvl3;
 import ru.education.screen.InfinityModeScreen;
@@ -30,7 +31,7 @@ public class MeowGame extends Game {
     public static final String INFMODESETTINGS = "InfModeSettings";
     public static final String INFMODE = "InfMode";
     private MenuScreen menuScreen;
-    private GameScreen gameScreen;
+    private GameScreenLvl1 gameScreenLvl1;
     private GameScreenLvl2 gameScreenLvl2;
     private GameScreenLvl3 gameScreenLvl3;
     private SettingsScreen settingsScreen;
@@ -41,12 +42,13 @@ public class MeowGame extends Game {
     private Array<Boolean> lockedLvls;
     private ChangeLevelUserInterface changeLevelUserInterface;
     private BitmapFont font;
+    public static byte numLvl;
 
 
     @Override
     public void create() {
         menuScreen = new MenuScreen(this);
-        gameScreen = new GameScreen(this);
+        gameScreenLvl1 = new GameScreenLvl1(this);
         gameScreenLvl2 = new GameScreenLvl2(this);
         gameScreenLvl3 = new GameScreenLvl3(this);
         changeLevelScreen = new ChangeLevelScreen(this);
@@ -84,14 +86,26 @@ public class MeowGame extends Game {
 
     public void changeScreen(String screenName) {
         switch (screenName) {
-            case GAME            -> setScreen(gameScreen);
+            case GAME            -> {
+                setScreen(gameScreenLvl1);
+                numLvl = 1;
+            }
             case MENU            -> setScreen(menuScreen);
-            case GAMELVL2        -> setScreen(gameScreenLvl2);
-            case GAMELVL3        -> setScreen(gameScreenLvl3);
+            case GAMELVL2        -> {
+                setScreen(gameScreenLvl2);
+                numLvl = 2;
+            }
+            case GAMELVL3        -> {
+                setScreen(gameScreenLvl3);
+                numLvl = 3;
+            }
             case CHANGELVL       -> setScreen(changeLevelScreen);
             case SETTINGS        -> setScreen(settingsScreen);
             case INFMODESETTINGS -> setScreen(infinityModeSettingsScreen);
-            case INFMODE         -> setScreen(infinityModeScreen);
+            case INFMODE         -> {
+                setScreen(infinityModeScreen);
+                numLvl = numBack;
+            }
         }
     }
 
@@ -118,7 +132,7 @@ public class MeowGame extends Game {
         font.dispose();
 
         menuScreen.dispose();
-        gameScreen.dispose();
+        gameScreenLvl1.dispose();
         gameScreenLvl2.dispose();
         gameScreenLvl3.dispose();
         changeLevelScreen.dispose();

@@ -20,6 +20,7 @@ public class InfSettingsUserInterface {
     private final ImageButton btnChangeBack3;
     private final ImageButton btnChangeCat1;
     private final ImageButton btnStart;
+    private ImageButton returnBtn;
     private MeowGame meowGame;
     private final Stage stage;
     private final OrthographicCamera camera;
@@ -32,11 +33,12 @@ public class InfSettingsUserInterface {
         this.camera = camera;
         infinityModeScreen = new InfinityModeScreen(meowGame);
 
-        btnChangeBack1 = new ImageButton(new TextureRegionDrawable(new Texture("change_back1.png")));
-        btnChangeBack2 = new ImageButton(new TextureRegionDrawable(new Texture("change_back2.png")));
-        btnChangeBack3 = new ImageButton(new TextureRegionDrawable(new Texture("change_back3.png")));
-        btnChangeCat1 = new ImageButton(new TextureRegionDrawable(new Texture("cat_back1.png")));
-        btnStart = new ImageButton(new TextureRegionDrawable(new Texture("btn_start_inf.png")));
+        btnChangeBack1 = new ImageButton(new TextureRegionDrawable(new Texture("UI/change_back1.png")));
+        btnChangeBack2 = new ImageButton(new TextureRegionDrawable(new Texture("UI/change_back2.png")));
+        btnChangeBack3 = new ImageButton(new TextureRegionDrawable(new Texture("UI/change_back3.png")));
+        btnChangeCat1 = new ImageButton(new TextureRegionDrawable(new Texture("UI/cat_back1.png")));
+        btnStart = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_start_inf.png")));
+        returnBtn = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_return.png")));
 
         btnChangeBack1.setPosition(
             0 + 100 + 60,
@@ -58,11 +60,18 @@ public class InfSettingsUserInterface {
             0 + 100 + 60,
             MeowGame.SCREEN_HEIGHT / 2f - 100
         );
+        returnBtn.setPosition(0, MeowGame.SCREEN_HEIGHT - 50);
+        returnBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                meowGame.changeScreen(meowGame.MENU);
+            }
+        });
 
         btnChangeBack1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                back = new Texture(Gdx.files.internal("V31_ликиция.png"));
+                back = new Texture(Gdx.files.internal("backgrounds/game_back_lvl1.png"));
                 numBack = 1;
             }
         });
@@ -75,14 +84,14 @@ public class InfSettingsUserInterface {
         btnChangeBack2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                back = new Texture(Gdx.files.internal("2_likizhiR_0001 (3).png"));
+                back = new Texture(Gdx.files.internal("backgrounds/game_back_lvl2.png"));
                 numBack = 2;
             }
         });
         btnChangeBack3.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                back = new Texture(Gdx.files.internal("3_iiii_0004 (5).png"));
+                back = new Texture(Gdx.files.internal("backgrounds/game_back_lvl3.png"));
                 numBack = 3;
             }
         });
@@ -96,6 +105,7 @@ public class InfSettingsUserInterface {
         stage.addActor(btnChangeBack3);
         stage.addActor(btnChangeCat1);
         stage.addActor(btnStart);
+        stage.addActor(returnBtn);
     }
 
     public void drawUI() {

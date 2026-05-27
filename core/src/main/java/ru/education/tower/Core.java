@@ -19,12 +19,12 @@ public class Core {
 
     public Core(float width, float height, float x, float y, Rectangle hitBox ) {
         this.hitBox = hitBox;
-        this.texture = new Texture(Gdx.files.internal("zhamok.png"));
+        this.texture = new Texture(Gdx.files.internal("level_construct_assets/core_tower.png"));
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        debugTexture = new Texture(Gdx.files.internal("tmp.png"));
+        debugTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
         storageBox = new Rectangle(x - 10, y + height / 6, 25, 25);
     }
 

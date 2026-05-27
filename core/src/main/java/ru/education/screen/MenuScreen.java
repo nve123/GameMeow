@@ -52,7 +52,7 @@ public class MenuScreen implements Screen {
             backgroundMusic.stop();
         }
 
-        background = new Texture(Gdx.files.internal("sky.png"));
+        background = new Texture(Gdx.files.internal("backgrounds/menu_back.png"));
 
         menuUserInterface = new MenuUserInterface(
             camera,
@@ -73,14 +73,14 @@ public class MenuScreen implements Screen {
     private void initAnimation() {
         textureAtlasArray = new Array<>();
 
-        TextureAtlas atlas = new TextureAtlas("enemy_walk.atlas");
+        TextureAtlas atlas = new TextureAtlas("animations/skeleton_walk.atlas");
         enemy = AnimationUtil.getAnimationFromAtlas(
             atlas,
             4f
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("flying_cat.atlas");
+        atlas = new TextureAtlas("animations/cat_fly.atlas");
         cat = AnimationUtil.getAnimationFromAtlas(
             atlas,
             4f

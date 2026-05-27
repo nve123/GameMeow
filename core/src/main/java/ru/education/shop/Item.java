@@ -16,19 +16,19 @@ public class Item implements Disposable {
     public Item(ItemType itemType) {
         switch (itemType) {
             case TOWER -> {
-                texture = new Texture(Gdx.files.internal("towerShop50x50.png"));
+                texture = new Texture(Gdx.files.internal("UI/towerShop50x50.png"));
                 price = new Price(10, 20, 15);
             }
             case UPDATE_DMG -> {
-                texture = new Texture(Gdx.files.internal("test50x50.png"));
+                texture = new Texture(Gdx.files.internal("UI/dmg_up.png"));
                 price = new Price(20, 40, 30);
             }
             case UPDATE_SPEED -> {
-                texture = new Texture(Gdx.files.internal("speed_up_50x50.png"));
+                texture = new Texture(Gdx.files.internal("UI/speed_up_50x50.png"));
                 price = new Price(20, 40, 30);
             }
             case UPDATE_DMGPLSPLS -> {
-                texture = new Texture(Gdx.files.internal("dmg++.png"));
+                texture = new Texture(Gdx.files.internal("UI/dmg++.png"));
                 price = new Price(20, 40, 30 );
             }
         }

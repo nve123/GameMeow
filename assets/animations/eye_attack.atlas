@@ -1,0 +1,30 @@
+eye_attack.png
+size: 720, 64
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+eye_attack
+  bounds: 0, 0, 90, 64
+  index: 1
+eye_attack
+  bounds: 90, 0, 90, 64
+  index: 2
+eye_attack
+  bounds: 180, 0, 90, 64
+  index: 3
+eye_attack
+  bounds: 270, 0, 90, 64
+  index: 4
+eye_attack
+  bounds: 360, 0, 90, 64
+  index: 5
+eye_attack
+  bounds: 450, 0, 90, 64
+  index: 6
+eye_attack
+  bounds: 540, 0, 90, 64
+  index: 7
+eye_attack
+  bounds: 630, 0, 90, 64
+  index: 8

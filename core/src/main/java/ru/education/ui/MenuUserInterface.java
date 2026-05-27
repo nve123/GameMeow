@@ -30,11 +30,11 @@ public class MenuUserInterface {
         this.camera = camera;
         this.btnStartListener = btnStartListener;
 
-        Texture btnStartTexture = new Texture("start_0001 (2).png");
+        Texture btnStartTexture = new Texture("UI/btn_start.png");
         Drawable btnStartDrawable = new TextureRegionDrawable(btnStartTexture);
         btnStart = new ImageButton(btnStartDrawable);
-        btnSettings = new ImageButton(new TextureRegionDrawable(new Texture("btn_settings.png")));
-        btnInf = new ImageButton(new TextureRegionDrawable(new Texture("start_Infinity.png")));
+        btnSettings = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_settings.png")));
+        btnInf = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_start_Infinity.png")));
 
         btnStart.setPosition(
             MeowGame.SCREEN_WIDTH / 2f - btnStartTexture.getWidth() / 2f + 10,
