@@ -1,5 +1,6 @@
 package ru.education.unit;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,21 +23,25 @@ public abstract class Unit {
         protected final float height;
         protected final Animation<TextureRegion> animation;
         protected final float speed;
+        protected final Sound sound;
 
         public StateAttribute(
             float width,
             float height,
             Animation<TextureRegion> animation,
-            float speed
+            float speed,
+            Sound sound
         ) {
             this.width = width;
             this.height = height;
             this.animation = animation;
             this.speed = speed;
+            this.sound = sound;
         }
+
     }
 
-    private void calcDeltaXAndDeltaY() {
+    protected void calcDeltaXAndDeltaY(Rectangle destination) {
         float s = (float) Math.sqrt(
             (x - (destination.x + destination.width / 2f)) * (x - (destination.x + destination.width / 2f)) +
                 (y - (destination.y + destination.height / 2f)) * (y - (destination.y + destination.height / 2f))
@@ -48,12 +53,12 @@ public abstract class Unit {
 
     public void setDestination(float destinationX, float destinationY) {
         destination = new Rectangle(destinationX - 12f, destinationY - 12f, 24f, 24f);
-        calcDeltaXAndDeltaY();
+        calcDeltaXAndDeltaY(destination);
     }
 
     public void setDestination(Rectangle destination) {
         this.destination = destination;
-        calcDeltaXAndDeltaY();
+        calcDeltaXAndDeltaY(destination);
     }
 
     public void dispose() {

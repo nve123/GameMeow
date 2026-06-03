@@ -1,0 +1,33 @@
+slime_attack.png
+size: 576, 64
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+slime_attact
+  bounds: 0, 0, 64, 64
+  index: 1
+slime_attact
+  bounds: 64, 0, 64, 64
+  index: 2
+slime_attact
+  bounds: 128, 0, 64, 64
+  index: 3
+slime_attact
+  bounds: 192, 0, 64, 64
+  index: 4
+slime_attact
+  bounds: 256, 0, 64, 64
+  index: 5
+slime_attact
+  bounds: 320, 0, 64, 64
+  index: 6
+slime_attact
+  bounds: 384, 0, 64, 64
+  index: 7
+slime_attact
+  bounds: 448, 0, 64, 64
+  index: 8
+slime_attact
+  bounds: 512, 0, 64, 64
+  index: 9

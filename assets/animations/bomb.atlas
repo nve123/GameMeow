@@ -1,0 +1,24 @@
+bomb.png
+size: 192, 32
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+Plant
+  bounds: 0, 0, 32, 32
+  index: 1
+Plant
+  bounds: 32, 0, 32, 32
+  index: 2
+Plant
+  bounds: 64, 0, 32, 32
+  index: 3
+Plant
+  bounds: 96, 0, 32, 32
+  index: 4
+Plant
+  bounds: 128, 0, 32, 32
+  index: 5
+Plant
+  bounds: 160, 0, 32, 32
+  index: 6

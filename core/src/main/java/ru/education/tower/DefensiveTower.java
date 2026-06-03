@@ -1,5 +1,7 @@
 package ru.education.tower;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,41 +9,67 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import ru.education.ui.SettingsUserInterface;
 import ru.education.util.AnimationUtil;
 import ru.education.unit.Enemy;
 
 import com.badlogic.gdx.utils.Disposable;
 
+import java.util.EnumMap;
+
 public class DefensiveTower extends Tower {
-    public static final int ATTACK_SPEED = 1;
     private float lastShot;
     private final Rectangle range;
     private final Array<Shot> shotArray;
-    private int dmg;
-
+    private Sound plaseSound;
+    private Sound shotSound;
 
     public DefensiveTower(
         float x, float y,
-        float width, float height,
-        Texture texture
+        EnumMap<TowerState, TowerStateAttribute> attributeEnumMap
     ) {
-        super(x, y, width, height, texture, new Rectangle(x, y, width, height));
+        super(x, y, attributeEnumMap);
+
+        plaseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/blockPlace2.ogg"));
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shootTank.ogg"));
 
         shotArray = new Array<>();
-        range = new Rectangle(x, y - 200f, hitBox.width, 200f + hitBox.height + 200f);
+        range = new Rectangle(x, y - 200f, attributeEnumMap.get(curState).getWidth(),
+            200f + attributeEnumMap.get(curState).getHeight() + 200f);
         lastShot = -1;
     }
 
-    @Override
-    public void draw(SpriteBatch batch) {
-        batch.draw(texture, x, y, width, height);
+    public DefensiveTower(
+        float x, float y,
+        EnumMap<TowerState, TowerStateAttribute> attributeEnumMap,
+        float widthRange, float heightRange
+    ) {
+        super(x, y, attributeEnumMap);
+
+        plaseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/blockPlace2.ogg"));
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shootTank.ogg"));
+
+        shotArray = new Array<>();
+        range = new Rectangle(x + attributeEnumMap.get(curState).getWidth() / 2 - widthRange / 2,
+            y + attributeEnumMap.get(curState).getHeight() / 2 - heightRange / 2,
+            widthRange,
+            heightRange
+        );
+
+        lastShot = -1;
     }
 
     public void draw(SpriteBatch batch, Enemy enemy, float curTime) {
-        batch.draw(texture, x, y, width, height);
-        batch.draw(debugTexture, range.x, range.y, range.width, range.height);
+        batch.draw(attributeEnumMap.get(curState).getTexture(),
+            x,
+            y,
+            attributeEnumMap.get(curState).getWidth(),
+            attributeEnumMap.get(curState).getHeight());
+        //batch.draw(debugTexture, range.x, range.y, range.width, range.height);
 
-        if (curTime - lastShot > ATTACK_SPEED && range.contains(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
+        if (curTime - lastShot > attributeEnumMap.get(curState).getAttackSpeed()
+            && range.contains(enemy.getX(), enemy.getY())
+            && enemy.isAlive()) {
             lastShot = curTime;
             shotArray.add(new Shot(enemy));
         }
@@ -51,6 +79,30 @@ public class DefensiveTower extends Tower {
                 batch.draw(shot.getCurrentFrame(curTime), shot.x, shot.y);
                 shot.nextXY();
             }
+        }
+    }
+
+    public void playSound (){
+        if (SettingsUserInterface.isSoundOn) {
+            plaseSound.play(0.2f);
+        }
+    }
+
+    public void upgradeMaxDamage(int addDamage) {
+        TowerStateAttribute oldAttr = attributeEnumMap.get(TowerState.DMGPLSPLS);
+        if (oldAttr != null) {
+            int newDamage = oldAttr.getDmg() + addDamage;
+
+            TowerStateAttribute newAttr = new TowerStateAttribute(
+                oldAttr.getTexture(),
+                oldAttr.getWidth(),
+                oldAttr.getHeight(),
+                newDamage,
+                oldAttr.getAttackSpeed(),
+                oldAttr.getHitBox()
+            );
+
+            attributeEnumMap.put(TowerState.DMGPLSPLS, newAttr);
         }
     }
 
@@ -75,18 +127,19 @@ public class DefensiveTower extends Tower {
         private final Enemy enemy;
         private final Texture texture;
 
+
         public Shot(Enemy enemy) {
             this.enemy = enemy;
-            this.x = DefensiveTower.this.x + DefensiveTower.this.width / 2f;
-            this.y = DefensiveTower.this.y + DefensiveTower.this.height / 2f;
-            texture = new Texture("spark16.png");
+            this.x = DefensiveTower.this.x + attributeEnumMap.get(curState).getWidth() / 2f;
+            this.y = DefensiveTower.this.y + attributeEnumMap.get(curState).getHeight() / 2f;
+            texture = new Texture("animations/bomb.png");
             animations = AnimationUtil.getAnimationFromTexture(
                 texture,
-                5,
+                6,
                 1,
-                0.5f
+                0.6f
             );
-            width = texture.getWidth() / 5f;
+            width = texture.getWidth() / 6f;
             height = texture.getHeight();
             setDestination(
                 enemy.getX() + enemy.getWidth() / 4f + enemy.getDeltaX() * 60,
@@ -111,8 +164,6 @@ public class DefensiveTower extends Tower {
         }
 
         public void nextXY() {
-
-            //TODO: сделать проверку на пересечение хитбоксов, а не на левый угол или нет
             if (!target.contains(x, y)) {
 
                 if (target.y + target.height / 2f > y) y += deltaY;
@@ -132,8 +183,10 @@ public class DefensiveTower extends Tower {
                     enemy.getWidth(),
                     enemy.getHeight()
                 );
-                if (enemyHitBox.contains(x, y))
-                    enemy.getDmg(2);
+                if (enemyHitBox.contains(x, y)) {
+                    enemy.getDmg(attributeEnumMap.get(curState).getDmg());
+                    shotSound.play(0.2f);
+                }
                 inTarget = true;
             }
 
@@ -142,7 +195,6 @@ public class DefensiveTower extends Tower {
         public TextureRegion getCurrentFrame(float time) {
             return animations.getKeyFrame(time, true);
         }
-
 
         @Override
         public void dispose() {

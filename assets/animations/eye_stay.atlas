@@ -1,0 +1,18 @@
+eye_stay.png
+size: 256, 64
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+eye_stay
+  bounds: 0, 0, 64, 64
+  index: 1
+eye_stay
+  bounds: 64, 0, 64, 64
+  index: 2
+eye_stay
+  bounds: 128, 0, 64, 64
+  index: 3
+eye_stay
+  bounds: 192, 0, 64, 64
+  index: 4

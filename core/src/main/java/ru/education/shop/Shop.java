@@ -38,7 +38,8 @@ public class Shop implements Disposable {
         return items;
     }
 
-    public void addItem(Item item) {
+    public void addItem(ItemType itemType) {
+        Item item = new Item(itemType);
         item.setSlot(xNext, y);
         xNext += item.getHitBox().width;
         items.add(item);

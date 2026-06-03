@@ -1,0 +1,18 @@
+eye_walk.png
+size: 256, 64
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+eye_walk
+  bounds: 0, 0, 64, 64
+  index: 1
+eye_walk
+  bounds: 64, 0, 64, 64
+  index: 2
+eye_walk
+  bounds: 128, 0, 64, 64
+  index: 3
+eye_walk
+  bounds: 192, 0, 64, 64
+  index: 4

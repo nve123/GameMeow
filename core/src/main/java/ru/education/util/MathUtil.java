@@ -1,6 +1,7 @@
 package ru.education.util;
 
 public class MathUtil {
+
     private MathUtil() {
     }
 

@@ -1,0 +1,45 @@
+slime_walk.png
+size: 64, 1170
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+slime_walk
+  bounds: 0, 0, 64, 90
+  index: 1
+slime_walk
+  bounds: 0, 90, 64, 90
+  index: 2
+slime_walk
+  bounds: 0, 180, 64, 90
+  index: 3
+slime_walk
+  bounds: 0, 270, 64, 90
+  index: 4
+slime_walk
+  bounds: 0, 360, 64, 90
+  index: 5
+slime_walk
+  bounds: 0, 450, 64, 90
+  index: 6
+slime_walk
+  bounds: 0, 540, 64, 90
+  index: 7
+slime_walk
+  bounds: 0, 630, 64, 90
+  index: 8
+slime_walk
+  bounds: 0, 720, 64, 90
+  index: 9
+slime_walk
+  bounds: 0, 810, 64, 90
+  index: 10
+slime_walk
+  bounds: 0, 900, 64, 90
+  index: 11
+slime_walk
+  bounds: 0, 990, 64, 90
+  index: 12
+slime_walk
+  bounds: 0, 1080, 64, 90
+  index: 13

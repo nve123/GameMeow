@@ -9,15 +9,17 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-
-
+    classpath "com.android.tools.build:gradle:8.7.2"
   }
 }
 
 allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
-
+  repositories {
+    google()
+    mavenCentral()
+  }
   // This allows you to "Build and run using IntelliJ IDEA", an option in IDEA's Settings.
   idea {
     module {
@@ -26,13 +28,11 @@ allprojects {
     }
   }
 }
-
-configure(subprojects) {
+configure(subprojects.findAll { it.name != 'android' }) {
   apply plugin: 'java-library'
   sourceCompatibility = 21
 
-  // From https://lyze.dev/2021/04/29/libGDX-Internal-Assets-List/
-  // The article can be helpful when using assets.txt in your project.
+
   tasks.register('generateAssetList') {
     inputs.dir("${project.rootDir}/assets/")
     // projectFolder/assets
@@ -55,6 +55,7 @@ configure(subprojects) {
     options.incremental = true
   }
 }
+
 
 subprojects {
   version = "$projectVersion"

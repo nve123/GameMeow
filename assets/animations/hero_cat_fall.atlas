@@ -1,0 +1,78 @@
+hero_cat_fall.png
+size: 1440, 100
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+Fly_PAD.pox
+  bounds: 0, 0, 60, 100
+  index: 1
+Fly_PAD.pox
+  bounds: 60, 0, 60, 100
+  index: 2
+Fly_PAD.pox
+  bounds: 120, 0, 60, 100
+  index: 3
+Fly_PAD.pox
+  bounds: 180, 0, 60, 100
+  index: 4
+Fly_PAD.pox
+  bounds: 240, 0, 60, 100
+  index: 5
+Fly_PAD.pox
+  bounds: 300, 0, 60, 100
+  index: 6
+Fly_PAD.pox
+  bounds: 360, 0, 60, 100
+  index: 7
+Fly_PAD.pox
+  bounds: 420, 0, 60, 100
+  index: 8
+Fly_PAD.pox
+  bounds: 480, 0, 60, 100
+  index: 9
+Fly_PAD.pox
+  bounds: 540, 0, 60, 100
+  index: 10
+Fly_PAD.pox
+  bounds: 600, 0, 60, 100
+  index: 11
+Fly_PAD.pox
+  bounds: 660, 0, 60, 100
+  index: 12
+Fly_PAD.pox
+  bounds: 720, 0, 60, 100
+  index: 13
+Fly_PAD.pox
+  bounds: 780, 0, 60, 100
+  index: 14
+Fly_PAD.pox
+  bounds: 840, 0, 60, 100
+  index: 15
+Fly_PAD.pox
+  bounds: 900, 0, 60, 100
+  index: 16
+Fly_PAD.pox
+  bounds: 960, 0, 60, 100
+  index: 17
+Fly_PAD.pox
+  bounds: 1020, 0, 60, 100
+  index: 18
+Fly_PAD.pox
+  bounds: 1080, 0, 60, 100
+  index: 19
+Fly_PAD.pox
+  bounds: 1140, 0, 60, 100
+  index: 20
+Fly_PAD.pox
+  bounds: 1200, 0, 60, 100
+  index: 21
+Fly_PAD.pox
+  bounds: 1260, 0, 60, 100
+  index: 22
+Fly_PAD.pox
+  bounds: 1320, 0, 60, 100
+  index: 23
+Fly_PAD.pox
+  bounds: 1380, 0, 60, 100
+  index: 24

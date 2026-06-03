@@ -6,4 +6,5 @@ public enum TowerState {
     DMG_UP,
     DMG_SPEED_UP,
     SPEED_UP,
+    DMGPLSPLS,
 }

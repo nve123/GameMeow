@@ -1,0 +1,33 @@
+cap_cat_fly.png
+size: 60, 900
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+FLYuntitled_00000001.pox
+  bounds: 0, 0, 60, 100
+  index: 1
+FLYuntitled_00000001.pox
+  bounds: 0, 100, 60, 100
+  index: 2
+FLYuntitled_00000001.pox
+  bounds: 0, 200, 60, 100
+  index: 3
+FLYuntitled_00000001.pox
+  bounds: 0, 300, 60, 100
+  index: 4
+FLYuntitled_00000001.pox
+  bounds: 0, 400, 60, 100
+  index: 5
+FLYuntitled_00000001.pox
+  bounds: 0, 500, 60, 100
+  index: 6
+FLYuntitled_00000001.pox
+  bounds: 0, 600, 60, 100
+  index: 7
+FLYuntitled_00000001.pox
+  bounds: 0, 700, 60, 100
+  index: 8
+FLYuntitled_00000001.pox
+  bounds: 0, 800, 60, 100
+  index: 9

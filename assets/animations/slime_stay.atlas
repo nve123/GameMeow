@@ -1,0 +1,24 @@
+slime_stay.png
+size: 64, 540
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+slime_stay
+  bounds: 0, 0, 64, 90
+  index: 1
+slime_stay
+  bounds: 0, 90, 64, 90
+  index: 2
+slime_stay
+  bounds: 0, 180, 64, 90
+  index: 3
+slime_stay
+  bounds: 0, 270, 64, 90
+  index: 4
+slime_stay
+  bounds: 0, 360, 64, 90
+  index: 5
+slime_stay
+  bounds: 0, 450, 64, 90
+  index: 6

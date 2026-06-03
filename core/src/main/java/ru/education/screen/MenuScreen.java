@@ -2,6 +2,7 @@ package ru.education.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +14,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.education.MeowGame;
+import ru.education.service.MemoryService;
+import ru.education.ui.BtnStartListener;
 import ru.education.ui.MenuUserInterface;
+import ru.education.ui.SettingsUserInterface;
+import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 
 public class MenuScreen implements Screen {
@@ -25,6 +30,7 @@ public class MenuScreen implements Screen {
     private Animation<TextureRegion> cat, enemy;
     protected Array<TextureAtlas> textureAtlasArray;
     private float curTime;
+    public Music backgroundMusic;
 
     public MenuScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -33,15 +39,32 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
         batch = meowGame.getSpriteBatch();
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backGr_Music.mp3"));
+        if (SettingsUserInterface.isMusicOn) {
+            if (!backgroundMusic.isPlaying()) {
+                backgroundMusic.setLooping(true);
+                backgroundMusic.setVolume(0.2f);
+                backgroundMusic.play();
+            }
+        } else {
+            backgroundMusic.stop();
+        }
 
-        background = new Texture(Gdx.files.internal("menu_back.png"));
+        background = new Texture(Gdx.files.internal("backgrounds/menu_back.png"));
 
         menuUserInterface = new MenuUserInterface(
             camera,
-            () -> meowGame.changeScreen(MeowGame.GAME)
+            new BtnStartListener() {
+                @Override
+                public void onClick() {
+                    backgroundMusic.stop();
+                    meowGame.changeScreen(MeowGame.CHANGELVL);
+                }
+            },
+            meowGame,
+            backgroundMusic
         );
 
         initAnimation();
@@ -50,14 +73,14 @@ public class MenuScreen implements Screen {
     private void initAnimation() {
         textureAtlasArray = new Array<>();
 
-        TextureAtlas atlas = new TextureAtlas("enemyatack.atlas");
+        TextureAtlas atlas = new TextureAtlas("animations/skeleton_walk.atlas");
         enemy = AnimationUtil.getAnimationFromAtlas(
             atlas,
             4f
         );
         textureAtlasArray.add(atlas);
 
-        atlas = new TextureAtlas("catflysupersmall.atlas");
+        atlas = new TextureAtlas("animations/cat_fly.atlas");
         cat = AnimationUtil.getAnimationFromAtlas(
             atlas,
             4f
@@ -94,8 +117,8 @@ public class MenuScreen implements Screen {
         );
         batch.draw(
             enemy.getKeyFrame(curTime, true),
-            MeowGame.SCREEN_WIDTH - 120 - 100,
-            0 + 100,
+            MeowGame.SCREEN_WIDTH - 120 - 100 + 20 + 5,
+            0 + 100 + 10 + 3,
             120,
             120
         );
@@ -107,6 +130,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        backgroundMusic.dispose();
         background.dispose();
         menuUserInterface.dispose();
         for (TextureAtlas atlas : textureAtlasArray) {

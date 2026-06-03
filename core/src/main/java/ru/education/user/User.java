@@ -1,14 +1,17 @@
 package ru.education.user;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+
 import ru.education.shop.Item;
 import ru.education.shop.Price;
 
 public class User {
     private static User instance;
-    private int gold = 100;
-    private int ore = 200;
-    private int wood = 150;
-    private int hp = 100;
+    private int gold = 10000;
+    private int ore = 20000;
+    private int wood = 15000;
+    private int hp = 10000;
 
     private User() {
     }
@@ -29,6 +32,38 @@ public class User {
 
     public void getDmg(int dmg) {
         User.getInstance().hp -= dmg;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public int getOre() {
+        return ore;
+    }
+
+    public int getWood() {
+        return wood;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void setOre(int ore) {
+        this.ore = ore;
+    }
+
+    public void setWood(int wood) {
+        this.wood = wood;
     }
 
     public void incOre(int ore) {
