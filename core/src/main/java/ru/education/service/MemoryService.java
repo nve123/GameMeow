@@ -16,6 +16,10 @@ public class MemoryService {
         preferences.putBoolean("Look lvl 2", isUnlockLvl2);
         boolean isUnlockLvl3 = lockedLvls.get(2);
         preferences.putBoolean("Look lvl 3", isUnlockLvl3);
+        boolean isUnlockLvl4 = lockedLvls.get(3);
+        preferences.putBoolean("Look lvl 4", isUnlockLvl4);
+        boolean isUnlockLvl5 = lockedLvls.get(4);
+        preferences.putBoolean("Look lvl 5", isUnlockLvl5);
         preferences.flush();
     }
 
@@ -29,6 +33,12 @@ public class MemoryService {
             }
             case 2 -> {
                 return preferences.getBoolean("Look lvl 3");
+            }
+            case 3 -> {
+                return preferences.getBoolean("Look lvl 4");
+
+            }case 4 -> {
+                return preferences.getBoolean("Look lvl 5");
             }
         }
 

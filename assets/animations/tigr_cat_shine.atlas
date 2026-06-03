@@ -1,0 +1,33 @@
+tigr_cat_shine.png
+size: 540, 60
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+ОН СПИТ V2
+  bounds: 0, 0, 60, 60
+  index: 1
+ОН СПИТ V2
+  bounds: 60, 0, 60, 60
+  index: 2
+ОН СПИТ V2
+  bounds: 120, 0, 60, 60
+  index: 3
+ОН СПИТ V2
+  bounds: 180, 0, 60, 60
+  index: 4
+ОН СПИТ V2
+  bounds: 240, 0, 60, 60
+  index: 5
+ОН СПИТ V2
+  bounds: 300, 0, 60, 60
+  index: 6
+ОН СПИТ V2
+  bounds: 360, 0, 60, 60
+  index: 7
+ОН СПИТ V2
+  bounds: 420, 0, 60, 60
+  index: 8
+ОН СПИТ V2
+  bounds: 480, 0, 60, 60
+  index: 9

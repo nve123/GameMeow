@@ -1,6 +1,7 @@
 package ru.education.screen;
 
 import static ru.education.ui.InfSettingsUserInterface.back;
+import static ru.education.ui.InfSettingsUserInterface.catBack;
 import static ru.education.ui.InfSettingsUserInterface.numBack;
 
 import com.badlogic.gdx.Gdx;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -74,7 +76,17 @@ public class InfinityModeScreen implements Screen {
     private float countX1;
     private float countX2;
     private float countX3;
-    private MathUtil mathUtil;
+    private float countY1;
+    private float countY2;
+    private int addHp;
+    TextureAtlas atlasFly;
+    TextureAtlas atlasFall;
+    TextureAtlas atlasSleep;
+    TextureAtlas atlasClicked;
+    TextureAtlas atlasWalk;
+    TextureAtlas atlasWork;
+    TextureAtlas atlasGoFrom;
+    private int numCat;
 
 
     public InfinityModeScreen(MeowGame meowGame) {
@@ -86,16 +98,25 @@ public class InfinityModeScreen implements Screen {
     public void show() {
         User.getInstance().setHp(100);
         batch = meowGame.getSpriteBatch();
-        mathUtil = new MathUtil();
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         countX = 50;
         countX1 = 50;
         countX2 = 50;
         countX3 = 50;
+        countY1 = 50;
+        countY2 = 50;
+        addHp = 5;
         InfSettingsUserInterface infSettingsUserInterface = new InfSettingsUserInterface(camera, meowGame);
 
         background = back;
+        /*atlasFly = new TextureAtlas("animations/cat_fly.atlas");
+        atlasFall = new TextureAtlas("animations/cat_fall.atlas");
+        atlasSleep = new TextureAtlas("animations/cat_sleep.atlas");
+        atlasClicked = new TextureAtlas("animations/cat_shine.atlas");
+        atlasWalk = new TextureAtlas("animations/cat_walk.atlas");
+        atlasWork = new TextureAtlas("animations/cat_work.atlas");
+        atlasGoFrom = new TextureAtlas("animations/cat_go_to.atlas");*/
         //backgroundMusic = null;
         //backgroundMusic.setLooping(true);
         //backgroundMusic.setVolume(0.0f);
@@ -134,7 +155,7 @@ public class InfinityModeScreen implements Screen {
                 MeowGame.SCREEN_HEIGHT / 2f - 226 / 4,
                 hitBoxCoreTower
             );
-        } else if (numBack == 3) {
+        } else if (numBack == 3 || numBack == 4 || numBack == 5) {
             Rectangle hitBoxCoreTower = new Rectangle(
                 190 + 200 + 120,
                 480 - 260,
@@ -164,12 +185,68 @@ public class InfinityModeScreen implements Screen {
 
         workers = new Array<>();
         activeWorkers = new Array<>();
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
+        if (catBack == 1){
+            atlasFly = new TextureAtlas("animations/cat_fly.atlas");
+            atlasFall = new TextureAtlas("animations/cat_fall.atlas");
+            atlasSleep = new TextureAtlas("animations/cat_sleep.atlas");
+            atlasClicked = new TextureAtlas("animations/cat_shine.atlas");
+            atlasWalk = new TextureAtlas("animations/cat_walk.atlas");
+            atlasWork = new TextureAtlas("animations/cat_work.atlas");
+            atlasGoFrom = new TextureAtlas("animations/cat_go_to.atlas");
+        } else if (catBack == 2) {
+            atlasFly = new TextureAtlas("animations/hat_cat_fly.atlas");
+            atlasFall = new TextureAtlas("animations/hat_cat_fall.atlas");
+            atlasSleep = new TextureAtlas("animations/hat_cat_sleep.atlas");
+            atlasClicked = new TextureAtlas("animations/hat_cat_shine.atlas");
+            atlasWalk = new TextureAtlas("animations/hat_cat_walk.atlas");
+            atlasWork = new TextureAtlas("animations/hat_cat_work.atlas");
+            atlasGoFrom = new TextureAtlas("animations/hat_cat_go_to.atlas");
+        }
+        else if (catBack == 3) {
+            atlasFly = new TextureAtlas("animations/cap_cat_fly.atlas");
+            atlasFall = new TextureAtlas("animations/cap_cat_fall.atlas");
+            atlasSleep = new TextureAtlas("animations/cap_cat_sleep.atlas");
+            atlasClicked = new TextureAtlas("animations/cap_cat_shine.atlas");
+            atlasWalk = new TextureAtlas("animations/cap_cat_walk.atlas");
+            atlasWork = new TextureAtlas("animations/cap_cat_work.atlas");
+            atlasGoFrom = new TextureAtlas("animations/cap_cat_go_to.atlas");
+        }
+        else if (catBack == 4) {
+            atlasFly = new TextureAtlas("animations/tigr_cat_fly.atlas");
+            atlasFall = new TextureAtlas("animations/tigr_cat_fall.atlas");
+            atlasSleep = new TextureAtlas("animations/tigr_cat_sleep.atlas");
+            atlasClicked = new TextureAtlas("animations/tigr_cat_shine.atlas");
+            atlasWalk = new TextureAtlas("animations/tigr_cat_walk.atlas");
+            atlasWork = new TextureAtlas("animations/tigr_cat_work.atlas");
+            atlasGoFrom = new TextureAtlas("animations/tigr_cat_go_to.atlas");
+        }
+        else if (catBack == 5) {
+            atlasFly = new TextureAtlas("animations/hero_cat_fly.atlas");
+            atlasFall = new TextureAtlas("animations/hero_cat_fall.atlas");
+            atlasSleep = new TextureAtlas("animations/hero_cat_sleep.atlas");
+            atlasClicked = new TextureAtlas("animations/hero_cat_shine.atlas");
+            atlasWalk = new TextureAtlas("animations/hero_cat_walk.atlas");
+            atlasWork = new TextureAtlas("animations/hero_cat_work.atlas");
+            atlasGoFrom = new TextureAtlas("animations/hero_cat_go_to.atlas");
+        }
+        else if (catBack == 6) {
+            atlasFly = new TextureAtlas("animations/pants_cat_fly.atlas");
+            atlasFall = new TextureAtlas("animations/pants_cat_fall.atlas");
+            atlasSleep = new TextureAtlas("animations/pants_cat_sleep.atlas");
+            atlasClicked = new TextureAtlas("animations/pants_cat_shine.atlas");
+            atlasWalk = new TextureAtlas("animations/pants_cat_walk.atlas");
+            atlasWork = new TextureAtlas("animations/pants_cat_work.atlas");
+            atlasGoFrom = new TextureAtlas("animations/pants_cat_go_to.atlas");
+        }
+
+
+
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
 
         touchPoint = new Vector3();
 
@@ -193,6 +270,30 @@ public class InfinityModeScreen implements Screen {
             enemyPathPoint3 = new Array<>();
             enemyPathPoint3.add(new Rectangle(795 - 10 - 30, 480 - 26 - 5, 10, 10));
             enemyPathPoint3.add(new Rectangle(621 - 10 - 30, 480 - 260 - 5, 10, 10));
+        }else if (numBack == 4) {
+            enemyPathPoint1 = new Array<>();
+            enemyPathPoint1.add(new Rectangle(1540 - 10 , 480 - 40 - 5 - 10- 15, 25, 25));
+            enemyPathPoint1.add(new Rectangle(1280 - 10 - 25, 480 - 40 - 5 - 10- 15, 25, 25));
+            enemyPathPoint1.add(new Rectangle(1280 - 10 - 25, 480 - 450 - 5 - 10 - 15, 25, 25));
+            enemyPathPoint1.add(new Rectangle(1075 - 10 - 25 , 480 - 450 - 5 - 10 - 15, 25, 25));
+            enemyPathPoint1.add(new Rectangle(1075 - 10 - 25 , 480 - 40 - 5 - 10 - 15, 25, 25));
+            enemyPathPoint1.add(new Rectangle(870 - 10 - 25 , 480 - 40 - 5 - 10- 15, 25, 25));
+            enemyPathPoint1.add(new Rectangle(870 - 10 - 25 , 480 - 260 - 25, 25, 25));
+            enemyPathPoint2 = new Array<>();
+            enemyPathPoint2.add(new Rectangle(1540 - 10, 480 - 450 - 20 - 10 , 25, 25));
+            enemyPathPoint2.add(new Rectangle(1280 - 10 - 25, 480 - 450 - 20 - 10, 25, 25));
+            enemyPathPoint2.add(new Rectangle(1280 - 10 - 25, 480 - 40 - 20 - 10 , 25, 25));
+            enemyPathPoint2.add(new Rectangle(1075 - 10 - 25, 480 - 40 - 20 - 10 , 25, 25));
+            enemyPathPoint2.add(new Rectangle(1075 - 10 - 25, 480 - 450 - 20 - 10 , 25, 25));
+            enemyPathPoint2.add(new Rectangle(870 - 10 - 25, 480 - 450 - 20 - 10 , 25, 25));
+            enemyPathPoint2.add(new Rectangle(870 - 10 - 25, 480 - 260 - 25, 25, 25));
+        }else if (numBack == 5) {
+            enemyPathPoint1 = new Array<>();
+            enemyPathPoint1.add(new Rectangle(1180 - 10 - 20, 0 + 10, 10, 10));
+            enemyPathPoint1.add(new Rectangle(950 , 480 - 260- 10, 10, 10));
+            enemyPathPoint2 = new Array<>();
+            enemyPathPoint2.add(new Rectangle(1180, 480 - 10, 10, 10));
+            enemyPathPoint2.add(new Rectangle(950 , 480 - 260 - 10, 10, 10));
         }
         slotTowerArray = new Array<>(6);
         if (numBack == 2) {
@@ -223,6 +324,22 @@ public class InfinityModeScreen implements Screen {
             slotTowerArray.add(new SlotTower(1450, 480 - 205));
             slotTowerArray.add(new SlotTower(1450, 480 - 440 + 15));
         }
+        else if (numBack == 4) {
+            slotTowerArray.add(new SlotTower(900, 480 - 424));
+            slotTowerArray.add(new SlotTower(900, 480 - 240));
+            slotTowerArray.add(new SlotTower(1120, 480 - 424));
+            slotTowerArray.add(new SlotTower(1120, 480 - 240));
+            slotTowerArray.add(new SlotTower(1340, 480 - 424));
+            slotTowerArray.add(new SlotTower(1340, 480 - 240));
+        }
+        else if (numBack == 5) {
+            slotTowerArray.add(new SlotTower(830, 480 - 420));
+            slotTowerArray.add(new SlotTower(830, 480 - 205));
+            slotTowerArray.add(new SlotTower(1110 + 30, 480 - 290));
+            slotTowerArray.add(new SlotTower(1350, 480 - 140));
+            slotTowerArray.add(new SlotTower(1350, 480 - 450));
+            slotTowerArray.add(new SlotTower(1500, 480 - 320));
+        }
 
         enemiesWave0 = new Array<>();
         if (numBack == 2) {
@@ -234,6 +351,14 @@ public class InfinityModeScreen implements Screen {
         } else if (numBack == 3) {
             enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 467, enemyPathPoint1));
             enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650, 480 - 260, enemyPathPoint2));
+        }
+        else if (numBack == 4) {
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1545, 480, enemyPathPoint1));
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1545, 0 - 50, enemyPathPoint2));
+
+        }else if (numBack == 5) {
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1600, 480 + 50, enemyPathPoint1));
+            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1600, 0 - 50 , enemyPathPoint2));
         }
 
 
@@ -248,11 +373,8 @@ public class InfinityModeScreen implements Screen {
         font = new BitmapFont();
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
-        //shop2 = new Shop(24 + 300, 24);
         shop.addItem(ItemType.TOWER);
-        //shop2.addItem(ItemType.TOWER);
         shop.addItem(ItemType.UPDATE_DMG);
-        //shop2.addItem(ItemType.UPDATE_DMG);
         shop.addItem(ItemType.UPDATE_SPEED);
         shop.addItem(ItemType.UPDATE_DMGPLSPLS);
 
@@ -262,7 +384,6 @@ public class InfinityModeScreen implements Screen {
         curTime = 0f;
 
         shopService = new ShopService(slotTowerArray, defensiveTowerArray, shop);
-        //shopService2 = new ShopService(slotTowerArray, defensiveTowerArray, shop2);
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
         debugInfo = new DebugInfo();
@@ -277,49 +398,14 @@ public class InfinityModeScreen implements Screen {
         float deltaTime = Gdx.graphics.getDeltaTime();
         curTime += deltaTime;
 
-        if (Gdx.input.justTouched()) {
-            camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
-
-            if (!shop.isActive()) {
-                workerService.workerClickProcessing(touchPoint);
-                shopService.shopItemClickProcessing(touchPoint);
-            } else {
-                shopService.shoppingProcess(touchPoint);
-                shop.setActive(false);
-            }
-            /*if (!shop2.isActive()) {
-                workerService.workerClickProcessing(touchPoint);
-                shopService2.shopItemClickProcessing(touchPoint);
-            } else {
-                shopService2.shoppingProcess(touchPoint);
-                //shop2.setActive(false);
-            }*/
-        }
 
         batch.begin();
 
         batch.draw(background, 0, 0, MeowGame.SCREEN_WIDTH * 2, MeowGame.SCREEN_HEIGHT);
 
-        if (camera.isLeftState()) {
-            coreTower.draw(batch);
-            //shop2.draw(batch);
-            for (SlotTower slotTower : slotTowerArray) {
-                slotTower.draw(batch);
-            }
-            for (Resource resource : resourceList) {
-                resource.draw(batch);
-            }
-            font.draw(
-                batch,
-                User.getInstance().fullInfo(),
-                MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
-                coreTower.getY()
-            );
-        } else {
-            shop.draw(batch);
-            for (SlotTower slotTower : slotTowerArray) {
-                slotTower.draw(batch);
+        for (Enemy enemy : waveService.getCurWave().getEnemies()) {
+            for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                defensiveTower.draw(batch, enemy, curTime);
             }
         }
 
@@ -345,13 +431,13 @@ public class InfinityModeScreen implements Screen {
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 for (Wave wave : waves) {
-                    wave.reviveWave();
+                    wave.reviveWave(addHp);
                     if (numBack == 1) {
                         enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), WORLD_WIDTH - 100 + countX + 50, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, enemyPathPoint));
                     } else if (numBack == 2) {
                         enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554 + countX + 50, 417, enemyPathPoint));
                     } else if (numBack == 3) {
-                        int randomNumber = mathUtil.getRandomNumber(1, 3);
+                        int randomNumber = MathUtil.getRandomNumber(1, 3);
                         if (randomNumber == 1) {
                             enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX1 + 50, 480 - 467, enemyPathPoint1));
                             countX1 += 50;
@@ -362,17 +448,68 @@ public class InfinityModeScreen implements Screen {
                             enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX3 + 50, 480 - 26, enemyPathPoint3));
                             countX3 += 50;
                         }
+                    } else if (numBack == 4) {
+                        int randomNumber = MathUtil.getRandomNumber(1, 2);
+                        if (randomNumber == 1) {
+                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1545, 480 + countY1, enemyPathPoint1));
+                            countY1 += 50;
+                        } else if (randomNumber == 2) {
+                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1545, 0 - 50 - countY1, enemyPathPoint2));
+                            countY2 += 50;
+                        }
                     }
+                    else if (numBack == 5) {
+                        int randomNumber = MathUtil.getRandomNumber(1, 2);
+                        if (randomNumber == 1) {
+                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1600 + countX1, 480 + 50 + countY1, enemyPathPoint1));
+                            countY1 += 50;
+                            countX1 += 50;
+                        } else if (randomNumber == 2) {
+                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1600 + countX2, 0 - 50 - countY2 , enemyPathPoint2));
+                            countY2 += 50;
+                            countX2 += 50;
+                        }
+
+                    }
+                    addHp += 5;
                     countX += 50;
                 }
             }
         }
-
-        for (Enemy enemy : waveService.getCurWave().getEnemies()) {
-            for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                defensiveTower.draw(batch, enemy, curTime);
+        if (camera.isLeftState()) {
+            coreTower.draw(batch);
+            //shop2.draw(batch);
+            for (SlotTower slotTower : slotTowerArray) {
+                slotTower.draw(batch);
+            }
+            for (Resource resource : resourceList) {
+                resource.draw(batch);
+            }
+            font.draw(
+                batch,
+                User.getInstance().fullInfo(),
+                MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
+                coreTower.getY()
+            );
+        } else {
+            shop.draw(batch);
+            for (SlotTower slotTower : slotTowerArray) {
+                slotTower.draw(batch);
             }
         }
+        if (Gdx.input.justTouched()) {
+            camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
+
+            if (!shop.isActive()) {
+                workerService.workerClickProcessing(touchPoint);
+                shopService.shopItemClickProcessing(touchPoint);
+            } else {
+                shopService.shoppingProcess(touchPoint);
+                shop.setActive(false);
+            }
+        }
+
 
         debugInfo.draw(batch);
 
@@ -426,6 +563,13 @@ public class InfinityModeScreen implements Screen {
         gameUserInterface.dispose();
         tmpTexture.dispose();
         font.dispose();
+        atlasClicked.dispose();
+        atlasFall.dispose();
+        atlasSleep.dispose();
+        atlasWalk.dispose();
+        atlasFly.dispose();
+        atlasGoFrom.dispose();
+        atlasWork.dispose();
 
         for (Resource resource : resourceList) {
             resource.dispose();
@@ -433,6 +577,7 @@ public class InfinityModeScreen implements Screen {
         coreTower.dispose();
 
         for (Worker worker : workers) {
+            worker.stopSound();
             worker.dispose();
         }
 

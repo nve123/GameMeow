@@ -37,16 +37,34 @@ public class User {
     public int getHp() {
         return hp;
     }
-    public int getGold(){return gold;}
-    public int getOre(){return ore;}
-    public int getWood(){return wood;}
+
+    public int getGold() {
+        return gold;
+    }
+
+    public int getOre() {
+        return ore;
+    }
+
+    public int getWood() {
+        return wood;
+    }
 
     public void setHp(int hp) {
         this.hp = hp;
     }
-    public void setGold(int gold) {this.gold = gold;}
-    public void setOre(int ore) {this.ore = ore;}
-    public void setWood(int wood) {this.wood = wood;}
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void setOre(int ore) {
+        this.ore = ore;
+    }
+
+    public void setWood(int wood) {
+        this.wood = wood;
+    }
 
     public void incOre(int ore) {
         User.getInstance().ore += ore;

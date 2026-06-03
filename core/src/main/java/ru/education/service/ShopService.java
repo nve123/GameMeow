@@ -18,15 +18,11 @@ public class ShopService {
     private final Array<SlotTower> slotTowerArray;
     private final Array<DefensiveTower> defensiveTowerArray;
     private final Shop shop;
-    private TowerUtil towerUtil;
-    public static int dmgPlus;
 
     public ShopService(Array<SlotTower> slotTowerArray, Array<DefensiveTower> defensiveTowerArray, Shop shop) {
         this.slotTowerArray = slotTowerArray;
         this.defensiveTowerArray = defensiveTowerArray;
         this.shop = shop;
-        dmgPlus = 0;
-        towerUtil = new TowerUtil();
     }
 
     public void shopItemClickProcessing(Vector3 touchPoint) {

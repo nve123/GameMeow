@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -57,6 +58,9 @@ public class GameScreenLvl1 implements Screen {
     private Array<Rectangle> enemyPathPoint;
     private ChangeLevelUserInterface changeLevelUserInterface;
     public Music backgroundMusic;
+    TextureAtlas atlasStay;
+    TextureAtlas atlasGoTo;
+    TextureAtlas atlasAttack;
 
     public GameScreenLvl1(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -105,22 +109,21 @@ public class GameScreenLvl1 implements Screen {
         workers = new Array<>();
         activeWorkers = new Array<>();
         workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
 
         touchPoint = new Vector3();
 
         enemyPathPoint = new Array<>();
         enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2,MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
+
         enemy = new Enemy(
             10,
             coreTower.getHitBox(),
             WORLD_WIDTH - 100,
             MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40,
-            enemyPathPoint
+            enemyPathPoint,
+            atlasStay = new TextureAtlas("animations/slime_stay.atlas"),
+            atlasGoTo = new TextureAtlas("animations/slime_walk.atlas"),
+            atlasAttack = new TextureAtlas("animations/slime_attack.atlas")
         );
 
         font = new BitmapFont();
@@ -144,7 +147,6 @@ public class GameScreenLvl1 implements Screen {
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
         debugInfo = new DebugInfo();
-
     }
 
     @Override
@@ -156,18 +158,6 @@ public class GameScreenLvl1 implements Screen {
         float deltaTime = Gdx.graphics.getDeltaTime();
         curTime += deltaTime;
 
-        if (Gdx.input.justTouched()) {
-            camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
-
-            if (!shop.isActive()) {
-                workerService.workerClickProcessing(touchPoint);
-                shopService.shopItemClickProcessing(touchPoint);
-            } else {
-                shopService.shoppingProcess(touchPoint);
-                shop.setActive(false);
-            }
-        }
 
         batch.begin();
 
@@ -221,6 +211,18 @@ public class GameScreenLvl1 implements Screen {
             }
         }
 
+        if (Gdx.input.justTouched()) {
+            camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
+
+            if (!shop.isActive()) {
+                workerService.workerClickProcessing(touchPoint);
+                shopService.shopItemClickProcessing(touchPoint);
+            } else {
+                shopService.shoppingProcess(touchPoint);
+                shop.setActive(false);
+            }
+        }
         if (enemy.isAlive()) {
             enemy.nextXY();
             if (enemy.getX() > MeowGame.SCREEN_WIDTH && !camera.isLeftState()
@@ -255,6 +257,9 @@ public class GameScreenLvl1 implements Screen {
         gameUserInterface.dispose();
         tmpTexture.dispose();
         font.dispose();
+        atlasAttack.dispose();
+        atlasGoTo.dispose();
+        atlasStay.dispose();
 
         for (Resource resource : resourceList) {
             resource.dispose();
@@ -262,6 +267,7 @@ public class GameScreenLvl1 implements Screen {
         coreTower.dispose();
 
         for (Worker worker : workers) {
+            worker.stopSound();
             worker.dispose();
         }
 

@@ -27,11 +27,11 @@ public class Wave {
 
     }
 
-    public void reviveWave() {
+    public void reviveWave(int addHp) {
         isAliveWave = true;
         for (int i = 0; i < enemies.size; i++) {
             if (!enemies.get(i).isAlive()) {
-                enemies.get(i).reviveEnemy();
+                enemies.get(i).reviveEnemy(addHp);
             }
         }
     }

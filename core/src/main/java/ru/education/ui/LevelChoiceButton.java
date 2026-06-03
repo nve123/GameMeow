@@ -49,6 +49,12 @@ public class LevelChoiceButton {
                     case 2:
                         if (!lock) meowGame.changeScreen(MeowGame.GAMELVL3);
                         break;
+                    case 3:
+                        if (!lock) meowGame.changeScreen(MeowGame.GAMELVL4);
+                        break;
+                    case 4:
+                        if (!lock) meowGame.changeScreen(MeowGame.GAMELVL5);
+                        break;
                 }
             }
         });

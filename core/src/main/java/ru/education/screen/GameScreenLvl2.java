@@ -66,6 +66,16 @@ public class GameScreenLvl2 implements Screen {
     TextureAtlas atlasAttack;
     TextureAtlas atlasGoTo;
     TextureAtlas atlasStay;
+    TextureAtlas atlasStay2;
+    TextureAtlas atlasGoTo2;
+    TextureAtlas atlasAttack2;
+    TextureAtlas atlasFly;
+    TextureAtlas atlasFall;
+    TextureAtlas atlasSleep;
+    TextureAtlas atlasClicked;
+    TextureAtlas atlasWalk;
+    TextureAtlas atlasWork;
+    TextureAtlas atlasGoFrom;
 
     public GameScreenLvl2(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -113,12 +123,17 @@ public class GameScreenLvl2 implements Screen {
 
         workers = new Array<>();
         activeWorkers = new Array<>();
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
-        workers.add(new Worker(coreTower));
+        atlasFly = new TextureAtlas("animations/hat_cat_fly.atlas");
+        atlasFall = new TextureAtlas("animations/hat_cat_fall.atlas");
+        atlasSleep = new TextureAtlas("animations/hat_cat_sleep.atlas");
+        atlasClicked = new TextureAtlas("animations/hat_cat_shine.atlas");
+        atlasWalk = new TextureAtlas("animations/hat_cat_walk.atlas");
+        atlasWork = new TextureAtlas("animations/hat_cat_work.atlas");
+        atlasGoFrom = new TextureAtlas("animations/hat_cat_go_to.atlas");
+
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
 
         touchPoint = new Vector3();
 
@@ -126,30 +141,31 @@ public class GameScreenLvl2 implements Screen {
         enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 29 - 30, 10, 10));
         enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 214 - 23, 10, 10));
         enemyPathPoint.add(new Rectangle(1554- 30, 480 - 214 - 20, 10, 10));
-        enemyPathPoint.add(new Rectangle(1554 - 5- 30, 480 - 417 - 10, 10, 10));
-        enemyPathPoint.add(new Rectangle(695 - 10- 30, 480 - 417 - 10, 10, 10));
-        enemyPathPoint.add(new Rectangle(695 - 10- 30, 480 - 44 - 10, 10, 10));
-        enemyPathPoint.add(new Rectangle(132 - 10- 30, 480 - 44 - 10, 10, 10));
+        enemyPathPoint.add(new Rectangle(1554 - 30, 480 - 417 - 10, 10, 10));
 
         Array<Enemy> enemiesWave0 = new Array<>();
         Array<Enemy> enemiesWave1 = new Array<>();
         Array<Enemy> enemiesWave2 = new Array<>();
         Array<Enemy> enemiesWave3 = new Array<>();
 
-        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
-        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
+        atlasStay2 = new TextureAtlas("animations/slime_stay.atlas");
+        atlasGoTo2 = new TextureAtlas("animations/slime_walk.atlas");
+        atlasAttack2 = new TextureAtlas("animations/slime_attack.atlas");
 
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint));
+        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
 
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1704, 417, enemyPathPoint));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1754, 417, enemyPathPoint));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
 
-        enemiesWave3.add(new Enemy(300, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay  = new TextureAtlas("animations/eye_stay.atlas"),atlasGoTo = new TextureAtlas("animations/eye_walk.atlas"), atlasAttack = new TextureAtlas("animations/eye_attack.atlas")));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1704, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1754, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+
+        enemiesWave3.add(new Enemy(200, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay  = new TextureAtlas("animations/eye_stay.atlas"),atlasGoTo = new TextureAtlas("animations/eye_walk.atlas"), atlasAttack = new TextureAtlas("animations/eye_attack.atlas")));
 
         Wave wave0 = new Wave(enemiesWave0);
         Wave wave1 = new Wave(enemiesWave1);
@@ -199,43 +215,11 @@ public class GameScreenLvl2 implements Screen {
         float deltaTime = Gdx.graphics.getDeltaTime();
         curTime += deltaTime;
 
-        if (Gdx.input.justTouched()) {
-            camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
-
-            if (!shop.isActive()) {
-                workerService.workerClickProcessing(touchPoint);
-                shopService.shopItemClickProcessing(touchPoint);
-            } else {
-                shopService.shoppingProcess(touchPoint);
-                shop.setActive(false);
-            }
-        }
 
         batch.begin();
 
         batch.draw(background, 0, 0, MeowGame.SCREEN_WIDTH * 2, MeowGame.SCREEN_HEIGHT);
 
-        if (camera.isLeftState()) {
-            coreTower.draw(batch);
-            for (SlotTower slotTower : slotTowerArray) {
-                slotTower.draw(batch);
-            }
-            for (Resource resource : resourceList) {
-                resource.draw(batch);
-            }
-            font.draw(
-                batch,
-                User.getInstance().fullInfo(),
-                MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
-                coreTower.getY()
-            );
-        } else {
-            shop.draw(batch);
-            for (SlotTower slotTower : slotTowerArray) {
-                slotTower.draw(batch);
-            }
-        }
 
         for (Worker worker : activeWorkers) {
             if (worker.isAlive()) {
@@ -248,7 +232,45 @@ public class GameScreenLvl2 implements Screen {
             }
         }
 
+
         for (Enemy enemy : waveService.getCurWave().getEnemies()) {
+            for (DefensiveTower defensiveTower : defensiveTowerArray) {
+                defensiveTower.draw(batch, enemy, curTime);
+            }
+        }
+        if (Gdx.input.justTouched()) {
+            camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
+
+            if (!shop.isActive()) {
+                workerService.workerClickProcessing(touchPoint);
+                shopService.shopItemClickProcessing(touchPoint);
+            } else {
+                shopService.shoppingProcess(touchPoint);
+                shop.setActive(false);
+            }
+        }
+        for (Enemy enemy : waveService.getCurWave().getEnemies()) {
+            if (camera.isLeftState()) {
+                coreTower.draw(batch);
+                for (SlotTower slotTower : slotTowerArray) {
+                    slotTower.draw(batch);
+                }
+                for (Resource resource : resourceList) {
+                    resource.draw(batch);
+                }
+                font.draw(
+                    batch,
+                    User.getInstance().fullInfo(),
+                    MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
+                    coreTower.getY()
+                );
+            } else {
+                shop.draw(batch);
+                for (SlotTower slotTower : slotTowerArray) {
+                    slotTower.draw(batch);
+                }
+            }
             if (enemy.isAlive()) {
                 enemy.nextXY();
                 if (enemy.getX() > MeowGame.SCREEN_WIDTH && !camera.isLeftState()
@@ -275,12 +297,6 @@ public class GameScreenLvl2 implements Screen {
                 User.getInstance().setWood(150);
                 meowGame.unlockLevel((byte) 2);
                 meowGame.changeScreen(MeowGame.CHANGELVL);
-            }
-        }
-
-        for (Enemy enemy : waveService.getCurWave().getEnemies()) {
-            for (DefensiveTower defensiveTower : defensiveTowerArray) {
-                defensiveTower.draw(batch, enemy, curTime);
             }
         }
 
@@ -331,6 +347,16 @@ public class GameScreenLvl2 implements Screen {
         atlasAttack.dispose();
         atlasGoTo.dispose();
         atlasStay.dispose();
+        atlasAttack2.dispose();
+        atlasGoTo2.dispose();
+        atlasStay2.dispose();
+        atlasClicked.dispose();
+        atlasFall.dispose();
+        atlasSleep.dispose();
+        atlasWalk.dispose();
+        atlasFly.dispose();
+        atlasGoFrom.dispose();
+        atlasWork.dispose();
 
         for (Resource resource : resourceList) {
             resource.dispose();
@@ -338,6 +364,7 @@ public class GameScreenLvl2 implements Screen {
         coreTower.dispose();
 
         for (Worker worker : workers) {
+            worker.stopSound();
             worker.dispose();
         }
 

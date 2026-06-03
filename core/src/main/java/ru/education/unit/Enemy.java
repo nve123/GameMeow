@@ -18,7 +18,7 @@ import java.util.Stack;
 
 public class Enemy extends Unit {
 
-    public static final int TIME_TO_START = 4;
+    public static final int TIME_TO_START = 30;
     private Stack<Rectangle> path;
     private float x;
     private float firstX;
@@ -232,11 +232,11 @@ public class Enemy extends Unit {
         this.y = y;
     }
 
-    public void reviveEnemy(){
+    public void reviveEnemy(int addHp){
         isAlive = true;
         setX(getFirstX());
         setY(getFirstY());
-        hp = firstHp;
+        hp = firstHp + addHp;
         timeInState = 0;
         setCurrentState(StateEnemy.STAY);
     }
@@ -258,28 +258,47 @@ public class Enemy extends Unit {
         if (currentState != StateEnemy.STAY
             && currentState != StateEnemy.ATTACK
             && !destination.contains(x, y)) {
-           if (!curDestination.contains(x, y)) {
-                if (curDestination.y + curDestination.height / 2f > y) y += deltaY;
-                if (curDestination.y + curDestination.height / 2f < y) y -= deltaY;
 
-                if (curDestination.x + curDestination.width / 2f >= x){
+            float targetX = curDestination.x + curDestination.width / 2f;
+            float targetY = curDestination.y + curDestination.height / 2f;
+
+            float s = (float) Math.sqrt((x - targetX) * (x - targetX) + (y - targetY) * (y - targetY));
+
+            if (s > 0) {
+                float deltaS = getSpeed();
+                deltaX = (deltaS * Math.abs(x - targetX)) / s;
+                deltaY = (deltaS * Math.abs(y - targetY)) / s;
+            } else {
+                deltaX = 0;
+                deltaY = 0;
+            }
+
+            if (s <= getSpeed()) {
+                x = targetX;
+                y = targetY;
+
+                if (path != null && !path.isEmpty()) {
+                    curDestination = path.pop();
+                }
+            } else {
+                if (targetY > y) y += deltaY;
+                if (targetY < y) y -= deltaY;
+
+                if (targetX >= x) {
                     x += deltaX;
                     rightPosition = true;
                 }
-                if (curDestination.x + curDestination.width / 2f < x){
+                if (targetX < x) {
                     x -= deltaX;
                     rightPosition = false;
                 }
-            } else {
-                curDestination = path.pop();
-                calcDeltaXAndDeltaY(curDestination);
             }
+
         } else {
             switch (currentState) {
                 case STAY:
                     if (timeInState > TIME_TO_START) {
                         setCurrentState(StateEnemy.GO_TO);
-                        calcDeltaXAndDeltaY(curDestination);
                     }
                     break;
                 case GO_TO:
@@ -290,6 +309,7 @@ public class Enemy extends Unit {
                         User.getInstance().getDmg(10);
                         timeLastAttack = timeInState;
                     }
+                    break;
             }
         }
     }

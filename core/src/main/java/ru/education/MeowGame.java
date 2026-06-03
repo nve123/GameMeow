@@ -11,6 +11,8 @@ import ru.education.screen.ChangeLevelScreen;
 import ru.education.screen.GameScreenLvl1;
 import ru.education.screen.GameScreenLvl2;
 import ru.education.screen.GameScreenLvl3;
+import ru.education.screen.GameScreenLvl4;
+import ru.education.screen.GameScreenLvl5;
 import ru.education.screen.InfinityModeScreen;
 import ru.education.screen.InfinityModeSettingsScreen;
 import ru.education.screen.MenuScreen;
@@ -25,6 +27,8 @@ public class MeowGame extends Game {
     public static final String GAME = "Game";
     public static final String GAMELVL2 = "GameLvl2";
     public static final String GAMELVL3 = "GameLvl3";
+    public static final String GAMELVL4 = "GameLvl4";
+    public static final String GAMELVL5 = "GameLvl5";
     public static final String MENU = "Menu";
     public static final String CHANGELVL = "ChangeLvl";
     public static final String SETTINGS = "Settings";
@@ -34,13 +38,14 @@ public class MeowGame extends Game {
     private GameScreenLvl1 gameScreenLvl1;
     private GameScreenLvl2 gameScreenLvl2;
     private GameScreenLvl3 gameScreenLvl3;
+    private GameScreenLvl4 gameScreenLvl4;
+    private GameScreenLvl5 gameScreenLvl5;
     private SettingsScreen settingsScreen;
     private ChangeLevelScreen changeLevelScreen;
     private InfinityModeSettingsScreen infinityModeSettingsScreen;
     private InfinityModeScreen infinityModeScreen;
     private SpriteBatch spriteBatch;
     private Array<Boolean> lockedLvls;
-    private ChangeLevelUserInterface changeLevelUserInterface;
     private BitmapFont font;
     public static byte numLvl;
 
@@ -51,19 +56,25 @@ public class MeowGame extends Game {
         gameScreenLvl1 = new GameScreenLvl1(this);
         gameScreenLvl2 = new GameScreenLvl2(this);
         gameScreenLvl3 = new GameScreenLvl3(this);
+        gameScreenLvl4 = new GameScreenLvl4(this);
+        gameScreenLvl5 = new GameScreenLvl5(this);
         changeLevelScreen = new ChangeLevelScreen(this);
         settingsScreen = new SettingsScreen(this);
         infinityModeSettingsScreen = new InfinityModeSettingsScreen(this);
         infinityModeScreen = new InfinityModeScreen(this);
-        lockedLvls = new Array<>(3);
+        lockedLvls = new Array<>(5);
         if (MemoryService.getPreferences() == null) {
             lockedLvls.add(false);
             lockedLvls.add(true);
             lockedLvls.add(true);
+            lockedLvls.add(false);
+            lockedLvls.add(false);
         } else {
             lockedLvls.add(MemoryService.loadUnlocks((byte) 0));
             lockedLvls.add(MemoryService.loadUnlocks((byte) 1));
             lockedLvls.add(MemoryService.loadUnlocks((byte) 2));
+            lockedLvls.add(MemoryService.loadUnlocks((byte) 3));
+            lockedLvls.add(MemoryService.loadUnlocks((byte) 4));
         }
 
         SettingsUserInterface.isMusicOn = MemoryService.loadIsMusicOn();
@@ -98,6 +109,14 @@ public class MeowGame extends Game {
             case GAMELVL3        -> {
                 setScreen(gameScreenLvl3);
                 numLvl = 3;
+            }
+            case GAMELVL4        -> {
+                setScreen(gameScreenLvl4);
+                numLvl = 4;
+            }
+            case GAMELVL5        -> {
+                setScreen(gameScreenLvl5);
+                numLvl = 5;
             }
             case CHANGELVL       -> setScreen(changeLevelScreen);
             case SETTINGS        -> setScreen(settingsScreen);
@@ -135,6 +154,10 @@ public class MeowGame extends Game {
         gameScreenLvl1.dispose();
         gameScreenLvl2.dispose();
         gameScreenLvl3.dispose();
+        gameScreenLvl4.dispose();
+        gameScreenLvl5.dispose();
+        infinityModeSettingsScreen.dispose();
+        infinityModeScreen.dispose();
         changeLevelScreen.dispose();
         settingsScreen.dispose();
 

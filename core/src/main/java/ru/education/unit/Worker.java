@@ -26,6 +26,13 @@ public class Worker extends Unit {
     private Sound sleapSound = Gdx.audio.newSound(Gdx.files.internal("sounds/hrap.mp3"));
     private Sound popBollunSound = Gdx.audio.newSound(Gdx.files.internal("sounds/a-short-clear-sound-of-a-bursting-balloon.mp3"));
     private Sound meowSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cat-meow_fyvriu4d.mp3"));
+    private TextureAtlas atlasFly;
+    private TextureAtlas atlasFall;
+    private TextureAtlas atlasSleep;
+    private TextureAtlas atlasClicked;
+    private TextureAtlas atlasWalk;
+    private TextureAtlas atlasWork;
+    private TextureAtlas atlasGoFrom;
 
     public enum StateWorker {
         FLY,
@@ -39,23 +46,51 @@ public class Worker extends Unit {
 
     private EnumMap<StateWorker, StateAttribute> stateAttrMap;
     private StateWorker currentState;
-
-    //нужно ли развернуть спрайт по оси Х (если движение в обратном направлении)
     private boolean rightPosition;
 
     public Worker(Core coreTower) {
 
-        initStateMap();
         this.coreTower = coreTower;
         isAlive = true;
         rightPosition = true;
 
-        //важно состояние задавать до места назначения, т.к. в месте назначения
-        //высчитывается изменение координат для состояния, а скорости разные для
-        //разных состояний
+        atlasFly = new TextureAtlas("animations/cat_fly.atlas");
+        atlasFall = new TextureAtlas("animations/cat_fall.atlas");
+        atlasSleep = new TextureAtlas("animations/cat_sleep.atlas");
+        atlasClicked = new TextureAtlas("animations/cat_shine.atlas");
+        atlasWalk = new TextureAtlas("animations/cat_walk.atlas");
+        atlasWork = new TextureAtlas("animations/cat_work.atlas");
+        atlasGoFrom = new TextureAtlas("animations/cat_go_to.atlas");
+
+        initStateMap();
         setCurrentState(StateWorker.FLY);
 
-        //Координаты спавна рабочих от 200 до 600 по Х
+        x = MathUtil.getRandomNumber(
+            300,
+            (int) (coreTower.getX() - getWidth())
+        );
+        y = 480;
+
+        setDestination(x, 0);
+    }
+
+    public Worker(Core coreTower, TextureAtlas atlasFly, TextureAtlas atlasFall, TextureAtlas atlasSleep, TextureAtlas atlasClicked, TextureAtlas atlasWalk, TextureAtlas atlasWork, TextureAtlas atlasGoFrom) {
+
+        this.coreTower = coreTower;
+        isAlive = true;
+        rightPosition = true;
+
+        this.atlasFly = atlasFly;
+        this.atlasFall = atlasFall;
+        this.atlasSleep = atlasSleep;
+        this.atlasClicked = atlasClicked;
+        this.atlasWalk = atlasWalk;
+        this.atlasWork = atlasWork;
+        this.atlasGoFrom = atlasGoFrom;
+
+        initStateMap();
+        setCurrentState(StateWorker.FLY);
+
         x = MathUtil.getRandomNumber(
             300,
             (int) (coreTower.getX() - getWidth())
@@ -69,117 +104,110 @@ public class Worker extends Unit {
         textureAtlasArray = new Array<>();
         stateAttrMap = new EnumMap<>(StateWorker.class);
 
-        TextureAtlas atlas = new TextureAtlas("animations/cat_fly.atlas");
         stateAttrMap.put(
             StateWorker.FLY,
             new StateAttribute(
                 50f,
                 95f,
                 AnimationUtil.getAnimationFromAtlas(
-                    atlas,
+                    atlasFly,
                     2.5f
                 ),
                 0.5f,
                 null
             )
         );
-        textureAtlasArray.add(atlas);
+        textureAtlasArray.add(atlasFly);
 
-        atlas = new TextureAtlas("animations/cat_fall.atlas");
         stateAttrMap.put(
             StateWorker.FALL,
             new StateAttribute(
                 50f,
                 95f,
                 AnimationUtil.getAnimationFromAtlas(
-                    atlas,
+                    atlasFall,
                     3.0f
                 ),
                 2f,
                 popBollunSound
             )
         );
-        textureAtlasArray.add(atlas);
+        textureAtlasArray.add(atlasFall);
 
-        atlas = new TextureAtlas("animations/cat_sleep.atlas");
         stateAttrMap.put(
             StateWorker.SLEEP,
             new StateAttribute(
                 75f,
                 50f,
                 AnimationUtil.getAnimationFromAtlas(
-                    atlas,
+                    atlasSleep,
                     2f
                 ),
                 0f,
                 sleapSound
             )
         );
-        textureAtlasArray.add(atlas);
+        textureAtlasArray.add(atlasSleep);
 
-        atlas = new TextureAtlas("animations/cat_shine.atlas");
         stateAttrMap.put(
             StateWorker.CLICKED,
             new StateAttribute(
                 75f,
                 50f,
                 AnimationUtil.getAnimationFromAtlas(
-                    atlas,
+                    atlasClicked,
                     2f
                 ),
                 0f,
                 meowSound
             )
         );
-        textureAtlasArray.add(atlas);
+        textureAtlasArray.add(atlasClicked);
 
-        atlas = new TextureAtlas("animations/cat_walk.atlas");
         stateAttrMap.put(
             StateWorker.GO_TO,
             new StateAttribute(
                 60f,
                 60f,
                 AnimationUtil.getAnimationFromAtlas(
-                    atlas,
+                    atlasWalk,
                     1f
                 ),
                 0.75f,
                 null
             )
         );
-        textureAtlasArray.add(atlas);
+        textureAtlasArray.add(atlasWalk);
 
-        atlas = new TextureAtlas("animations/cat_walk.atlas");
         stateAttrMap.put(
             StateWorker.WORK,
             new StateAttribute(
                 60f,
                 60f,
                 AnimationUtil.getAnimationFromAtlas(
-                    atlas,
+                    atlasWork,
                     0.75f
                 ),
                 0,
                 null
             )
         );
-        textureAtlasArray.add(atlas);
+        textureAtlasArray.add(atlasWork);
 
-        atlas = new TextureAtlas("animations/cat_go_to.atlas");
         stateAttrMap.put(
             StateWorker.GO_FROM,
             new StateAttribute(
                 60f,
                 60f,
                 AnimationUtil.getAnimationFromAtlas(
-                    atlas,
+                    atlasGoFrom,
                     1f
                 ),
                 0.75f,
                 null
             )
         );
-        textureAtlasArray.add(atlas);
+        textureAtlasArray.add(atlasGoFrom);
     }
 
     public TextureRegion getCurrentFrame() {
@@ -197,7 +225,8 @@ public class Worker extends Unit {
                 currentSound.stop();
             }
         }
-        this.currentState = currentState;timeInState = 0;
+        this.currentState = currentState;
+        timeInState = 0;
         playSound();
     }
 
@@ -357,6 +386,7 @@ public class Worker extends Unit {
 
     @Override
     public void dispose() {
+        stopSound();
         if (sleapSound != null) sleapSound.dispose();
         if (popBollunSound != null) popBollunSound.dispose();
         if (meowSound != null) meowSound.dispose();

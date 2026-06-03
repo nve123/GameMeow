@@ -22,6 +22,7 @@ public class DefensiveTower extends Tower {
     private final Rectangle range;
     private final Array<Shot> shotArray;
     private Sound plaseSound;
+    private Sound shotSound;
 
     public DefensiveTower(
         float x, float y,
@@ -30,6 +31,8 @@ public class DefensiveTower extends Tower {
         super(x, y, attributeEnumMap);
 
         plaseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/blockPlace2.ogg"));
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shootTank.ogg"));
+
         shotArray = new Array<>();
         range = new Rectangle(x, y - 200f, attributeEnumMap.get(curState).getWidth(),
             200f + attributeEnumMap.get(curState).getHeight() + 200f);
@@ -44,6 +47,7 @@ public class DefensiveTower extends Tower {
         super(x, y, attributeEnumMap);
 
         plaseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/blockPlace2.ogg"));
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shootTank.ogg"));
 
         shotArray = new Array<>();
         range = new Rectangle(x + attributeEnumMap.get(curState).getWidth() / 2 - widthRange / 2,
@@ -128,7 +132,7 @@ public class DefensiveTower extends Tower {
             this.enemy = enemy;
             this.x = DefensiveTower.this.x + attributeEnumMap.get(curState).getWidth() / 2f;
             this.y = DefensiveTower.this.y + attributeEnumMap.get(curState).getHeight() / 2f;
-            texture = new Texture("bomb.png");
+            texture = new Texture("animations/bomb.png");
             animations = AnimationUtil.getAnimationFromTexture(
                 texture,
                 6,
@@ -179,8 +183,10 @@ public class DefensiveTower extends Tower {
                     enemy.getWidth(),
                     enemy.getHeight()
                 );
-                if (enemyHitBox.contains(x, y))
+                if (enemyHitBox.contains(x, y)) {
                     enemy.getDmg(attributeEnumMap.get(curState).getDmg());
+                    shotSound.play(0.2f);
+                }
                 inTarget = true;
             }
 

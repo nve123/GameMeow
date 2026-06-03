@@ -79,8 +79,12 @@ public class SettingsUserInterface {
             public void clicked(InputEvent event, float x, float y) {
                 meowGame.lockLevel((byte) 1);
                 meowGame.lockLevel((byte) 2);
+                meowGame.lockLevel((byte) 3);
+                meowGame.lockLevel((byte) 4);
                 meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 1));
                 meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 2));
+                meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 3));
+                meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 4));
             }
         });
 

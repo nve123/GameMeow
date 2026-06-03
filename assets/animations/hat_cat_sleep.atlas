@@ -1,0 +1,33 @@
+hat_cat_sleep.png
+size: 540, 60
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+ОН СПИТ
+  bounds: 0, 0, 60, 60
+  index: 1
+ОН СПИТ
+  bounds: 60, 0, 60, 60
+  index: 2
+ОН СПИТ
+  bounds: 120, 0, 60, 60
+  index: 3
+ОН СПИТ
+  bounds: 180, 0, 60, 60
+  index: 4
+ОН СПИТ
+  bounds: 240, 0, 60, 60
+  index: 5
+ОН СПИТ
+  bounds: 300, 0, 60, 60
+  index: 6
+ОН СПИТ
+  bounds: 360, 0, 60, 60
+  index: 7
+ОН СПИТ
+  bounds: 420, 0, 60, 60
+  index: 8
+ОН СПИТ
+  bounds: 480, 0, 60, 60
+  index: 9

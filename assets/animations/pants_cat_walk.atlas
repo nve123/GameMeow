@@ -1,0 +1,36 @@
+pants_cat_walk.png
+size: 800, 60
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+pma: false
+ХОДИТЬ
+  bounds: 0, 0, 80, 60
+  index: 1
+ХОДИТЬ
+  bounds: 80, 0, 80, 60
+  index: 2
+ХОДИТЬ
+  bounds: 160, 0, 80, 60
+  index: 3
+ХОДИТЬ
+  bounds: 240, 0, 80, 60
+  index: 4
+ХОДИТЬ
+  bounds: 320, 0, 80, 60
+  index: 5
+ХОДИТЬ
+  bounds: 400, 0, 80, 60
+  index: 6
+ХОДИТЬ
+  bounds: 480, 0, 80, 60
+  index: 7
+ХОДИТЬ
+  bounds: 560, 0, 80, 60
+  index: 8
+ХОДИТЬ
+  bounds: 640, 0, 80, 60
+  index: 9
+ХОДИТЬ
+  bounds: 720, 0, 80, 60
+  index: 10

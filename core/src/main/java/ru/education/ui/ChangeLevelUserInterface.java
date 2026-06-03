@@ -30,13 +30,15 @@ public class ChangeLevelUserInterface {
         Texture btnlvl1Texture = new Texture("UI/btn_lvl1.png");
         Texture btnlvl2Texture = new Texture("UI/btn_lvl2.png");
         Texture btnlvl3Texture = new Texture("UI/btn_lvl3.png");
+        Texture btnlvl4Texture = new Texture("UI/btn_lvl4.png");
+        Texture btnlvl5Texture = new Texture("UI/btn_lvl5.png");
         Drawable returnDrawable = new TextureRegionDrawable(new Texture("UI/btn_return.png"));
         returnBtn = new ImageButton(returnDrawable);
 
        LevelChoiceButton btnlvl1 = new LevelChoiceButton
            (btnlvl1Texture,
-           0 + 100,
-           MeowGame.SCREEN_HEIGHT / 2f - btnlvl1Texture.getHeight() / 2f - 2,
+           50,
+           480 - 260,
            (byte) 0,
            meowGame
        );
@@ -45,8 +47,8 @@ public class ChangeLevelUserInterface {
 
        LevelChoiceButton btnlvl2 = new LevelChoiceButton(
            btnlvl2Texture,
-           MeowGame.SCREEN_WIDTH / 2f - btnlvl2Texture.getWidth() / 2f + 50 - 50,
-           MeowGame.SCREEN_HEIGHT / 2f - btnlvl2Texture.getHeight() / 2f - 50 + 10,
+           242,
+           480 - 270,
            (byte) 1,
            meowGame
        );
@@ -55,12 +57,27 @@ public class ChangeLevelUserInterface {
 
         LevelChoiceButton btnlvl3 = new LevelChoiceButton(
             btnlvl3Texture,
-            MeowGame.SCREEN_WIDTH / 2f - btnlvl3Texture.getWidth() / 2f + 100 + 195,
-            MeowGame.SCREEN_HEIGHT / 2f - btnlvl3Texture.getHeight() / 2f,
+            376,
+            480 - 270 - 10  ,
             (byte) 2,
             meowGame
         );
-
+        LevelChoiceButton btnlvl4 = new LevelChoiceButton(
+            btnlvl4Texture,
+            540,
+            480 - 257,
+            (byte) 3,
+            meowGame
+        );
+        btns.add(btnlvl4);
+        LevelChoiceButton btnlvl5 = new LevelChoiceButton(
+            btnlvl5Texture,
+            710,
+            480 - 285,
+            (byte) 4,
+            meowGame
+        );
+        btns.add(btnlvl5);
         btns.add(btnlvl3);
 
         returnBtn.addListener(new ClickListener() {

@@ -22,6 +22,7 @@ public class GameUserInterface {
     private Screen screen;
     private final Stage stage;
     MeowGame meowGame;
+    private ImageButton returnBtn;
 
     public GameUserInterface(OrthographicCameraWithLeftRightState camera, Screen screen, MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -30,7 +31,7 @@ public class GameUserInterface {
 
         Drawable leftArrowDrawable = new TextureRegionDrawable(new Texture("UI/btn_to_left.png"));
         Drawable rightArrowDrawable = new TextureRegionDrawable(new Texture("UI/btn_to_right.png"));
-
+        returnBtn = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_return.png")));
         btnGoToLeftScreen = new ImageButton(leftArrowDrawable);
         btnGoToRightScreen = new ImageButton(rightArrowDrawable);
 
@@ -60,7 +61,13 @@ public class GameUserInterface {
                 }
             }
         });
-
+        returnBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                meowGame.changeScreen(meowGame.MENU);
+            }
+        });
+        returnBtn.setPosition(0, MeowGame.SCREEN_HEIGHT - 50);
 
         Viewport fitViewport = new StretchViewport(MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT, camera);
         stage = new Stage(fitViewport);
@@ -68,6 +75,7 @@ public class GameUserInterface {
 
         stage.addActor(btnGoToLeftScreen);
         stage.addActor(btnGoToRightScreen);
+        stage.addActor(returnBtn);
 
     }
 

@@ -2,7 +2,7 @@ package ru.education.util;
 
 public class MathUtil {
 
-    public MathUtil() {
+    private MathUtil() {
     }
 
     public static int getRandomNumber(int min, int max) {
