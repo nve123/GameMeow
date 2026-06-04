@@ -291,10 +291,10 @@ public class GameScreenLvl2 implements Screen {
                 for (Worker worker : workers) {
                     worker.stopSound();
                 }
-                User.getInstance().setHp(100);
-                User.getInstance().setGold(100);
-                User.getInstance().setOre(200);
-                User.getInstance().setWood(150);
+                User.getInstance().setHp(10000);
+                User.getInstance().setGold(10000);
+                User.getInstance().setOre(20000);
+                User.getInstance().setWood(15000);
                 meowGame.unlockLevel((byte) 2);
                 meowGame.changeScreen(MeowGame.CHANGELVL);
             }
@@ -309,10 +309,10 @@ public class GameScreenLvl2 implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
-            User.getInstance().setHp(100);
-            User.getInstance().setGold(100);
-            User.getInstance().setOre(200);
-            User.getInstance().setWood(150);
+            User.getInstance().setHp(10000);
+            User.getInstance().setGold(10000);
+            User.getInstance().setOre(20000);
+            User.getInstance().setWood(15000);
             meowGame.changeScreen(MeowGame.MENU);
         }
     }

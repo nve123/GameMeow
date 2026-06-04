@@ -173,7 +173,7 @@ public class GameScreenLvl5 implements Screen {
                 200,
                 coreTower.getHitBox(),
                 1650,
-                480 - 260,
+                0 - 50,
                 enemyPathPoint2
             )
         );
@@ -307,9 +307,9 @@ public class GameScreenLvl5 implements Screen {
                 }
                 //backgroundMusic.stop();
                 User.getInstance().setHp(100);
-                User.getInstance().setGold(100);
-                User.getInstance().setOre(200);
-                User.getInstance().setWood(150);
+                User.getInstance().setGold(10000);
+                User.getInstance().setOre(20000);
+                User.getInstance().setWood(15000);
                 meowGame.unlockLevel((byte) 2);
                 meowGame.changeScreen(MeowGame.CHANGELVL);
             }
@@ -323,10 +323,10 @@ public class GameScreenLvl5 implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
-            User.getInstance().setHp(100);
-            User.getInstance().setGold(100);
-            User.getInstance().setOre(200);
-            User.getInstance().setWood(150);
+            User.getInstance().setHp(1000);
+            User.getInstance().setGold(10000);
+            User.getInstance().setOre(20000);
+            User.getInstance().setWood(15000);
             meowGame.changeScreen(MeowGame.MENU);
         }
     }

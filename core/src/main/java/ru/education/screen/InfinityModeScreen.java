@@ -521,9 +521,9 @@ public class InfinityModeScreen implements Screen {
 
         if (User.getInstance().getHp() < 0) {
             User.getInstance().setHp(100);
-            User.getInstance().setGold(100);
-            User.getInstance().setOre(200);
-            User.getInstance().setWood(150);
+            User.getInstance().setGold(10000);
+            User.getInstance().setOre(20000);
+            User.getInstance().setWood(15000);
             meowGame.changeScreen(MeowGame.MENU);
         }
     }

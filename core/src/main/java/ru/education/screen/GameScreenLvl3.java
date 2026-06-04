@@ -42,7 +42,7 @@ public class GameScreenLvl3 implements Screen {
 
     private Core coreTower;
     private Array<Resource> resourceList;
-    //private Texture tmpTexture;
+    private Texture tmpTexture;
     private Vector3 touchPoint;
     private Array<Worker> workers;
     private Array<Worker> activeWorkers;
@@ -104,7 +104,7 @@ public class GameScreenLvl3 implements Screen {
             25
         );
 
-        //tmpTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
+        tmpTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
         coreTower = new Core(
             170,
             226,
@@ -312,9 +312,9 @@ public class GameScreenLvl3 implements Screen {
                 }
                 //backgroundMusic.stop();
                 User.getInstance().setHp(100);
-                User.getInstance().setGold(100);
-                User.getInstance().setOre(200);
-                User.getInstance().setWood(150);
+                User.getInstance().setGold(10000);
+                User.getInstance().setOre(20000);
+                User.getInstance().setWood(15000);
                 meowGame.unlockLevel((byte) 3);
                 meowGame.changeScreen(MeowGame.CHANGELVL);
             }
@@ -329,9 +329,9 @@ public class GameScreenLvl3 implements Screen {
 
         if (User.getInstance().getHp() < 0) {
             User.getInstance().setHp(100);
-            User.getInstance().setGold(100);
-            User.getInstance().setOre(200);
-            User.getInstance().setWood(150);
+            User.getInstance().setGold(10000);
+            User.getInstance().setOre(20000);
+            User.getInstance().setWood(15000);
             meowGame.changeScreen(MeowGame.MENU);
         }
     }
@@ -369,7 +369,7 @@ public class GameScreenLvl3 implements Screen {
         //backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
-        //tmpTexture.dispose();
+        tmpTexture.dispose();
         font.dispose();
         atlasAttack.dispose();
         atlasGoTo.dispose();
