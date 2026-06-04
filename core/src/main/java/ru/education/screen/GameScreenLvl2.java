@@ -55,7 +55,7 @@ public class GameScreenLvl2 implements Screen {
     private Shop shop;
     //private Shop shop2;
     private float curTime;
-    private DebugInfo debugInfo;
+    //private DebugInfo debugInfo;
     private ShopService shopService;
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint;
@@ -165,7 +165,7 @@ public class GameScreenLvl2 implements Screen {
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1704, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1754, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
 
-        enemiesWave3.add(new Enemy(200, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay  = new TextureAtlas("animations/eye_stay.atlas"),atlasGoTo = new TextureAtlas("animations/eye_walk.atlas"), atlasAttack = new TextureAtlas("animations/eye_attack.atlas")));
+        enemiesWave3.add(new Enemy(140, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay  = new TextureAtlas("animations/eye_stay.atlas"),atlasGoTo = new TextureAtlas("animations/eye_walk.atlas"), atlasAttack = new TextureAtlas("animations/eye_attack.atlas")));
 
         Wave wave0 = new Wave(enemiesWave0);
         Wave wave1 = new Wave(enemiesWave1);
@@ -203,7 +203,7 @@ public class GameScreenLvl2 implements Screen {
         shopService = new ShopService(slotTowerArray, defensiveTowerArray, shop);
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
-        debugInfo = new DebugInfo();
+        //debugInfo = new DebugInfo();
     }
 
     @Override
@@ -240,7 +240,7 @@ public class GameScreenLvl2 implements Screen {
         }
         if (Gdx.input.justTouched()) {
             camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
+            //debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
 
             if (!shop.isActive()) {
                 workerService.workerClickProcessing(touchPoint);
@@ -262,8 +262,8 @@ public class GameScreenLvl2 implements Screen {
                 font.draw(
                     batch,
                     User.getInstance().fullInfo(),
-                    MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
-                    coreTower.getY()
+                    coreTower.getX() + 30,
+                    coreTower.getY() + coreTower.getTexture().getHeight()
                 );
             } else {
                 shop.draw(batch);
@@ -300,7 +300,7 @@ public class GameScreenLvl2 implements Screen {
             }
         }
 
-        debugInfo.draw(batch);
+        //debugInfo.draw(batch);
 
         batch.end();
 
@@ -324,7 +324,9 @@ public class GameScreenLvl2 implements Screen {
 
     @Override
     public void pause() {
-
+        for (Worker worker : workers) {
+            worker.stopSound();
+        }
     }
 
     @Override
@@ -334,11 +336,17 @@ public class GameScreenLvl2 implements Screen {
 
     @Override
     public void hide() {
-
+        for (Worker worker : workers) {
+            worker.stopSound();
+        }
     }
 
     @Override
     public void dispose() {
+        for (Worker worker : workers) {
+            worker.stopSound();
+            worker.dispose();
+        }
         //backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
@@ -363,10 +371,6 @@ public class GameScreenLvl2 implements Screen {
         }
         coreTower.dispose();
 
-        for (Worker worker : workers) {
-            worker.stopSound();
-            worker.dispose();
-        }
 
         for (DefensiveTower defensiveTower : defensiveTowerArray) {
             defensiveTower.dispose();
@@ -380,6 +384,6 @@ public class GameScreenLvl2 implements Screen {
         //shop2.dispose();
         waveService.dispose();
 
-        debugInfo.dispose();
+        //debugInfo.dispose();
     }
 }

@@ -13,7 +13,7 @@ public class Core {
     protected final float width;
     protected final float height;
     protected Texture texture;
-    protected final Texture debugTexture;
+    //protected final Texture debugTexture;
     protected final Rectangle hitBox;
     private final Rectangle storageBox;
 
@@ -24,7 +24,7 @@ public class Core {
         this.y = y;
         this.width = width;
         this.height = height;
-        debugTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
+        //debugTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
         storageBox = new Rectangle(x - 10, y + height / 6, 25, 25);
     }
 
@@ -36,9 +36,8 @@ public class Core {
     public void draw(SpriteBatch batch) {
         batch.draw(texture, x, y, width, height);
 
-        //Отладочная информация
-        batch.draw(debugTexture, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
-        batch.draw(debugTexture, storageBox.x, storageBox.y, storageBox.width, storageBox.height);
+        //batch.draw(debugTexture, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
+        //batch.draw(debugTexture, storageBox.x, storageBox.y, storageBox.width, storageBox.height);
     }
 
     public Rectangle getHitBox() {
@@ -67,6 +66,6 @@ public class Core {
 
     public void dispose() {
         texture.dispose();
-        debugTexture.dispose();
+        //debugTexture.dispose();
     }
 }

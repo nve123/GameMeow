@@ -52,7 +52,7 @@ public class GameScreenLvl1 implements Screen {
     private Array<DefensiveTower> defensiveTowerArray;
     private Shop shop;
     private float curTime;
-    private DebugInfo debugInfo;
+    //private DebugInfo debugInfo;
     private ShopService shopService;
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint;
@@ -109,6 +109,8 @@ public class GameScreenLvl1 implements Screen {
         workers = new Array<>();
         activeWorkers = new Array<>();
         workers.add(new Worker(coreTower));
+        workers.add(new Worker(coreTower));
+        workers.add(new Worker(coreTower));
 
         touchPoint = new Vector3();
 
@@ -146,7 +148,7 @@ public class GameScreenLvl1 implements Screen {
         shopService = new ShopService(slotTowerArray, defensiveTowerArray, shop);
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
-        debugInfo = new DebugInfo();
+        //debugInfo = new DebugInfo();
     }
 
     @Override
@@ -201,7 +203,7 @@ public class GameScreenLvl1 implements Screen {
             font.draw(
                 batch,
                 User.getInstance().fullInfo(),
-                MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
+                coreTower.getX(),
                 coreTower.getY()
             );
         } else {
@@ -213,7 +215,7 @@ public class GameScreenLvl1 implements Screen {
 
         if (Gdx.input.justTouched()) {
             camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
+            //debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
 
             if (!shop.isActive()) {
                 workerService.workerClickProcessing(touchPoint);
@@ -232,7 +234,7 @@ public class GameScreenLvl1 implements Screen {
             enemy.setTimeInState(deltaTime);
         }
 
-        debugInfo.draw(batch);
+        //debugInfo.draw(batch);
 
         batch.end();
 
@@ -252,6 +254,10 @@ public class GameScreenLvl1 implements Screen {
 
     @Override
     public void dispose() {
+        for (Worker worker : workers) {
+            worker.stopSound();
+            worker.dispose();
+        }
         //backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
@@ -266,10 +272,6 @@ public class GameScreenLvl1 implements Screen {
         }
         coreTower.dispose();
 
-        for (Worker worker : workers) {
-            worker.stopSound();
-            worker.dispose();
-        }
 
         enemy.dispose();
 
@@ -283,7 +285,7 @@ public class GameScreenLvl1 implements Screen {
 
         shop.dispose();
 
-        debugInfo.dispose();
+        //debugInfo.dispose();
 
     }
 
@@ -294,7 +296,9 @@ public class GameScreenLvl1 implements Screen {
 
     @Override
     public void pause() {
-
+        for (Worker worker : workers) {
+            worker.stopSound();
+        }
     }
 
     @Override
@@ -304,6 +308,8 @@ public class GameScreenLvl1 implements Screen {
 
     @Override
     public void hide() {
-
+        for (Worker worker : workers) {
+            worker.stopSound();
+        }
     }
 }

@@ -52,7 +52,7 @@ public class GameScreenLvl5 implements Screen {
     private Shop shop;
     //private Shop shop2;
     private float curTime;
-    private DebugInfo debugInfo;
+    //private DebugInfo debugInfo;
     private ShopService shopService;
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint1;
@@ -170,7 +170,7 @@ public class GameScreenLvl5 implements Screen {
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1700, - 100, enemyPathPoint2, atlasStay2, atlasGoTo2, atlasAttack2));
 
         enemiesWave3.add(new Enemy(
-                300,
+                200,
                 coreTower.getHitBox(),
                 1650,
                 480 - 260,
@@ -212,7 +212,7 @@ public class GameScreenLvl5 implements Screen {
         //shopService2 = new ShopService(slotTowerArray, defensiveTowerArray, shop2);
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
-        debugInfo = new DebugInfo();
+        //debugInfo = new DebugInfo();
     }
 
     @Override
@@ -276,7 +276,7 @@ public class GameScreenLvl5 implements Screen {
 
         if (Gdx.input.justTouched()) {
             camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
+            //debugInfo.addInfo(touchPoint.x + " " + touchPoint.y);
 
             if (!shop.isActive()) {
                 workerService.workerClickProcessing(touchPoint);
@@ -314,7 +314,7 @@ public class GameScreenLvl5 implements Screen {
                 meowGame.changeScreen(MeowGame.CHANGELVL);
             }
         }
-        debugInfo.draw(batch);
+        //debugInfo.draw(batch);
 
         batch.end();
 
@@ -338,7 +338,9 @@ public class GameScreenLvl5 implements Screen {
 
     @Override
     public void pause() {
-
+        for (Worker worker : workers) {
+            worker.stopSound();
+        }
     }
 
     @Override
@@ -348,7 +350,9 @@ public class GameScreenLvl5 implements Screen {
 
     @Override
     public void hide() {
-
+        for (Worker worker : workers) {
+            worker.stopSound();
+        }
     }
 
     @Override
@@ -394,7 +398,7 @@ public class GameScreenLvl5 implements Screen {
         //shop2.dispose();
         waveService.dispose();
 
-        debugInfo.dispose();
+        //debugInfo.dispose();
     }
 }
 

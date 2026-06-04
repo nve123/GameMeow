@@ -372,7 +372,7 @@ public class Worker extends Unit {
     public void stopSound() {
         Sound sound = getStateSound();
         if (sound != null) {
-            sound.pause();
+            sound.stop();
         }
     }
 
@@ -386,7 +386,6 @@ public class Worker extends Unit {
 
     @Override
     public void dispose() {
-        stopSound();
         if (sleapSound != null) sleapSound.dispose();
         if (popBollunSound != null) popBollunSound.dispose();
         if (meowSound != null) meowSound.dispose();

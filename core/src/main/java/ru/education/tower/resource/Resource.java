@@ -14,7 +14,7 @@ public class Resource {
     private float width;
     private float height;
     private Rectangle workBox;
-    private Texture debugResourceTexture;
+    //private Texture debugResourceTexture;
 
     public Resource(float x, float y, ResourceType type, Rectangle workBox) {
         switch (type) {
@@ -37,7 +37,7 @@ public class Resource {
         this.x = x;
         this.y = y;
         this.type = type;
-        this.debugResourceTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
+        //this.debugResourceTexture = new Texture(Gdx.files.internal("debug/tmp.png"));
         hitBox = new Rectangle(x, y, this.width, this.height);
         this.workBox = workBox;
     }
@@ -74,12 +74,12 @@ public class Resource {
     public void draw(SpriteBatch batch) {
         batch.draw(texture, x, y, width, height);
 
-        batch.draw(debugResourceTexture, workBox.x, workBox.y, workBox.width, workBox.height);
+        //batch.draw(debugResourceTexture, workBox.x, workBox.y, workBox.width, workBox.height);
         //batch.draw(new Texture(Gdx.files.internal("tmp.png")), hitBox.x, hitBox.y, hitBox.width, hitBox.height);
     }
 
     public void dispose() {
         texture.dispose();
-        debugResourceTexture.dispose();
+        //debugResourceTexture.dispose();
     }
 }
