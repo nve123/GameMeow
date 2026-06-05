@@ -2,12 +2,15 @@ package ru.education.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import ru.education.MeowGame;
 import ru.education.service.MemoryService;
@@ -19,6 +22,7 @@ public class SettingsScreen implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private SettingsUserInterface settingsUserInterface;
+    private Music backgroundMusic;
 
     public SettingsScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -30,6 +34,12 @@ public class SettingsScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         background = new Texture(Gdx.files.internal("backgrounds/change_lvl_back.png"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
+        if (SettingsUserInterface.isMusicOn) {
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(0.2f);
+            backgroundMusic.play();
+        }
         settingsUserInterface =new SettingsUserInterface(camera, meowGame);
 
     }
@@ -51,7 +61,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void pause() {
-
+        backgroundMusic.stop();
     }
 
     @Override
@@ -61,12 +71,13 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-
+        backgroundMusic.stop();
     }
 
     @Override
     public void dispose() {
         background.dispose();
         settingsUserInterface.dispose();
+        background.dispose();
     }
 }

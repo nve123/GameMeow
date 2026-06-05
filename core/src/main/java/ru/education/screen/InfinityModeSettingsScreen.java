@@ -2,12 +2,14 @@ package ru.education.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.education.MeowGame;
 import ru.education.ui.InfSettingsUserInterface;
+import ru.education.ui.SettingsUserInterface;
 
 public class InfinityModeSettingsScreen implements Screen {
     private final MeowGame meowGame;
@@ -15,6 +17,7 @@ public class InfinityModeSettingsScreen implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private InfSettingsUserInterface infSettingsUserInterface;
+    private Music backgroundMusic;
 
     public InfinityModeSettingsScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -26,6 +29,12 @@ public class InfinityModeSettingsScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         background = new Texture(Gdx.files.internal("backgrounds/change_lvl_back.png"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));
+        if (SettingsUserInterface.isMusicOn) {
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(0.2f);
+            backgroundMusic.play();
+        }
         infSettingsUserInterface = new InfSettingsUserInterface(camera, meowGame);
     }
 
@@ -46,7 +55,7 @@ public class InfinityModeSettingsScreen implements Screen {
 
     @Override
     public void pause() {
-
+        backgroundMusic.stop();
     }
 
     @Override
@@ -56,11 +65,13 @@ public class InfinityModeSettingsScreen implements Screen {
 
     @Override
     public void hide() {
-
+        backgroundMusic.stop();
     }
 
     @Override
     public void dispose() {
         background.dispose();
+        backgroundMusic.dispose();
     }
+
 }

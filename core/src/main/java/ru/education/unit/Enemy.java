@@ -18,7 +18,7 @@ import java.util.Stack;
 
 public class Enemy extends Unit {
 
-    public static final int TIME_TO_START = 30;
+    public static final int TIME_TO_START = 60;
     private Stack<Rectangle> path;
     private float x;
     private float firstX;

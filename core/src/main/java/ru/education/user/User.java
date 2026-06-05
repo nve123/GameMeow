@@ -8,10 +8,10 @@ import ru.education.shop.Price;
 
 public class User {
     private static User instance;
-    private int gold = 10000;
-    private int ore = 20000;
-    private int wood = 15000;
-    private int hp = 10000;
+    private int gold = 0;
+    private int ore = 0;
+    private int wood = 0;
+    private int hp = 100;
 
     private User() {
     }

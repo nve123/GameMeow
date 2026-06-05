@@ -32,6 +32,7 @@ import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
 import ru.education.ui.GameUserInterface;
 import ru.education.ui.InfSettingsUserInterface;
+import ru.education.ui.SettingsUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
@@ -117,10 +118,12 @@ public class InfinityModeScreen implements Screen {
         atlasWalk = new TextureAtlas("animations/cat_walk.atlas");
         atlasWork = new TextureAtlas("animations/cat_work.atlas");
         atlasGoFrom = new TextureAtlas("animations/cat_go_to.atlas");*/
-        //backgroundMusic = null;
-        //backgroundMusic.setLooping(true);
-        //backgroundMusic.setVolume(0.0f);
-        //backgroundMusic.play();
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));
+        if (SettingsUserInterface.isMusicOn) {
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(0.0f);
+            backgroundMusic.play();
+        }
 
 
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
@@ -386,7 +389,7 @@ public class InfinityModeScreen implements Screen {
         shopService = new ShopService(slotTowerArray, defensiveTowerArray, shop);
         workerService = new WorkerService(resourceList, workers, activeWorkers);
 
-        ///debugInfo = new DebugInfo();
+        //debugInfo = new DebugInfo();
     }
 
     @Override
@@ -520,10 +523,11 @@ public class InfinityModeScreen implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
+            backgroundMusic.stop();
             User.getInstance().setHp(100);
-            User.getInstance().setGold(10000);
-            User.getInstance().setOre(20000);
-            User.getInstance().setWood(15000);
+            User.getInstance().setGold(0);
+            User.getInstance().setOre(0);
+            User.getInstance().setWood(0);
             meowGame.changeScreen(MeowGame.MENU);
         }
     }
@@ -546,6 +550,7 @@ public class InfinityModeScreen implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        backgroundMusic.stop();
     }
 
     @Override
@@ -558,11 +563,12 @@ public class InfinityModeScreen implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        backgroundMusic.stop();
     }
 
     @Override
     public void dispose() {
-        //backgroundMusic.dispose();
+        backgroundMusic.dispose();
 
         for (Worker worker : workers) {
             worker.stopSound();

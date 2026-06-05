@@ -41,7 +41,7 @@ public class MenuScreen implements Screen {
         batch = meowGame.getSpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/backGr_Music.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));
         if (SettingsUserInterface.isMusicOn) {
             if (!backgroundMusic.isPlaying()) {
                 backgroundMusic.setLooping(true);

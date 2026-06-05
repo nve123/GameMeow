@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.education.MeowGame;
 import ru.education.ui.ChangeLevelUserInterface;
+import ru.education.ui.SettingsUserInterface;
 
 public class ChangeLevelScreen implements Screen {
     private final MeowGame meowGame;
@@ -28,10 +29,12 @@ public class ChangeLevelScreen implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
         background = new Texture(Gdx.files.internal("backgrounds/choice_lvl_back.png"));
-        backgroundMusic = null;
-        //backgroundMusic.setLooping(true);
-        //backgroundMusic.setVolume(0.0f);
-        //backgroundMusic.play();
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
+        if (SettingsUserInterface.isMusicOn) {
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(0.2f);
+            backgroundMusic.play();
+        }
 
         changeLevelUserInterface = new ChangeLevelUserInterface(
             meowGame,
@@ -58,7 +61,7 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void pause() {
-
+        backgroundMusic.stop();
     }
 
     @Override
@@ -68,12 +71,12 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void hide() {
-
+        backgroundMusic.stop();
     }
 
     @Override
     public void dispose() {
-        //backgroundMusic.dispose();
+        backgroundMusic.dispose();
         background.dispose();
         changeLevelUserInterface.dispose();
     }

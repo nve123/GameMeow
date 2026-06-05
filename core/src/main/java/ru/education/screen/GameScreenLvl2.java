@@ -29,6 +29,7 @@ import ru.education.tower.SlotTower;
 import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
 import ru.education.ui.GameUserInterface;
+import ru.education.ui.SettingsUserInterface;
 import ru.education.unit.Enemy;
 import ru.education.unit.Worker;
 import ru.education.user.User;
@@ -90,10 +91,12 @@ public class GameScreenLvl2 implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
         background = new Texture(Gdx.files.internal("backgrounds/game_back_lvl2.png"));
-        //backgroundMusic = null;
-        //backgroundMusic.setLooping(true);
-        //backgroundMusic.setVolume(0.0f);
-        //backgroundMusic.play();
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
+        if (SettingsUserInterface.isMusicOn) {
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(0.2f);
+            backgroundMusic.play();
+        }
 
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
 
@@ -131,6 +134,9 @@ public class GameScreenLvl2 implements Screen {
         atlasWork = new TextureAtlas("animations/hat_cat_work.atlas");
         atlasGoFrom = new TextureAtlas("animations/hat_cat_go_to.atlas");
 
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
+        workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
         workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
         workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
         workers.add(new Worker(coreTower, atlasFly, atlasFall, atlasSleep, atlasClicked, atlasWalk, atlasWork, atlasGoFrom));
@@ -291,10 +297,11 @@ public class GameScreenLvl2 implements Screen {
                 for (Worker worker : workers) {
                     worker.stopSound();
                 }
-                User.getInstance().setHp(10000);
-                User.getInstance().setGold(10000);
-                User.getInstance().setOre(20000);
-                User.getInstance().setWood(15000);
+                backgroundMusic.stop();
+                User.getInstance().setHp(100);
+                User.getInstance().setGold(0);
+                User.getInstance().setOre(0);
+                User.getInstance().setWood(0);
                 meowGame.unlockLevel((byte) 2);
                 meowGame.changeScreen(MeowGame.CHANGELVL);
             }
@@ -309,10 +316,11 @@ public class GameScreenLvl2 implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
-            User.getInstance().setHp(10000);
-            User.getInstance().setGold(10000);
-            User.getInstance().setOre(20000);
-            User.getInstance().setWood(15000);
+            backgroundMusic.stop();
+            User.getInstance().setHp(100);
+            User.getInstance().setGold(0);
+            User.getInstance().setOre(0);
+            User.getInstance().setWood(0);
             meowGame.changeScreen(MeowGame.MENU);
         }
     }
@@ -327,6 +335,7 @@ public class GameScreenLvl2 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        backgroundMusic.stop();
     }
 
     @Override
@@ -339,6 +348,7 @@ public class GameScreenLvl2 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        backgroundMusic.stop();
     }
 
     @Override
@@ -347,7 +357,7 @@ public class GameScreenLvl2 implements Screen {
             worker.stopSound();
             worker.dispose();
         }
-        //backgroundMusic.dispose();
+        backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();
