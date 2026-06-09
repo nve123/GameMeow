@@ -20,6 +20,7 @@ public class Enemy extends Unit {
 
     public static final int TIME_TO_START = 60;
     private Stack<Rectangle> path;
+    private Stack<Rectangle> firstPath;
     private float x;
     private float firstX;
     private float y;
@@ -28,6 +29,7 @@ public class Enemy extends Unit {
     private int firstHp;
     private final BitmapFont font = new BitmapFont();
     private Rectangle curDestination;
+    private Rectangle firstDestination;
 
     public enum StateEnemy {
         STAY, GO_TO, ATTACK
@@ -67,7 +69,13 @@ public class Enemy extends Unit {
         for (int i = pathPoints.size - 1; i > 0; i--) {
             path.push(pathPoints.get(i));
         }
+        firstPath = new Stack<>();
+        firstPath.push(destination);
+        for (int i = pathPoints.size - 1; i > 0; i--) {
+            firstPath.push(pathPoints.get(i));
+        }
         curDestination = pathPoints.get(0);
+        firstDestination = pathPoints.get(0);
         calcDeltaXAndDeltaY(curDestination);
         timeLastAttack = -1;
     }
@@ -96,6 +104,7 @@ public class Enemy extends Unit {
             path.push(pathPoints.get(i));
         }
         curDestination = pathPoints.get(0);
+        firstDestination = pathPoints.get(0);
         calcDeltaXAndDeltaY(curDestination);
         timeLastAttack = -1;
     }
@@ -239,6 +248,8 @@ public class Enemy extends Unit {
         hp = firstHp + addHp;
         timeInState = 0;
         setCurrentState(StateEnemy.STAY);
+        curDestination = firstDestination;
+        path = firstPath;
     }
 
     @Override

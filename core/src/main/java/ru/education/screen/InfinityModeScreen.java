@@ -436,39 +436,39 @@ public class InfinityModeScreen implements Screen {
                     wave.reviveWave(addHp);
                     timer.resetTime();
                     if (numBack == 1) {
-                        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), WORLD_WIDTH - 100 + countX + 50, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, enemyPathPoint));
+                        enemiesWave0.add(new Enemy(10 + addHp,  coreTower.getHitBox(), WORLD_WIDTH - 100 + countX + 50, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, enemyPathPoint));
                     } else if (numBack == 2) {
-                        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554 + countX + 50, 417, enemyPathPoint));
+                        enemiesWave0.add(new Enemy(10 + addHp, coreTower.getHitBox(), 1554 + countX + 50, 417, enemyPathPoint));
                     } else if (numBack == 3) {
                         int randomNumber = MathUtil.getRandomNumber(1, 3);
                         if (randomNumber == 1) {
-                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX1 + 50, 480 - 467, enemyPathPoint1));
+                            enemiesWave0.add(new Enemy(10 + addHp, coreTower.getHitBox(), 1650 + countX1 + 50, 480 - 467, enemyPathPoint1));
                             countX1 += 50;
                         } else if (randomNumber == 2) {
-                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX2 + 50, 480 - 260, enemyPathPoint2));
+                            enemiesWave0.add(new Enemy(10 + addHp, coreTower.getHitBox(), 1650 + countX2 + 50, 480 - 260, enemyPathPoint2));
                             countX2 += 50;
                         } else {
-                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1650 + countX3 + 50, 480 - 26, enemyPathPoint3));
+                            enemiesWave0.add(new Enemy(10 + addHp, coreTower.getHitBox(), 1650 + countX3 + 50, 480 - 26, enemyPathPoint3));
                             countX3 += 50;
                         }
                     } else if (numBack == 4) {
                         int randomNumber = MathUtil.getRandomNumber(1, 2);
                         if (randomNumber == 1) {
-                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1545, 480 + countY1, enemyPathPoint1));
+                            enemiesWave0.add(new Enemy(10 + addHp, coreTower.getHitBox(), 1545, 480 + countY1, enemyPathPoint1));
                             countY1 += 50;
                         } else if (randomNumber == 2) {
-                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1545, 0 - 50 - countY1, enemyPathPoint2));
+                            enemiesWave0.add(new Enemy(10 + addHp, coreTower.getHitBox(), 1545, 0 - 50 - countY1, enemyPathPoint2));
                             countY2 += 50;
                         }
                     }
                     else if (numBack == 5) {
                         int randomNumber = MathUtil.getRandomNumber(1, 2);
                         if (randomNumber == 1) {
-                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1600 + countX1, 480 + 50 + countY1, enemyPathPoint1));
+                            enemiesWave0.add(new Enemy(10 + addHp, coreTower.getHitBox(), 1600 + countX1, 480 + 50 + countY1, enemyPathPoint1));
                             countY1 += 50;
                             countX1 += 50;
                         } else if (randomNumber == 2) {
-                            enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1600 + countX2, 0 - 50 - countY2 , enemyPathPoint2));
+                            enemiesWave0.add(new Enemy(10 + addHp, coreTower.getHitBox(), 1600 + countX2, 0 - 50 - countY2 , enemyPathPoint2));
                             countY2 += 50;
                             countX2 += 50;
                         }
@@ -512,7 +512,7 @@ public class InfinityModeScreen implements Screen {
                 batch,
                 User.getInstance().fullInfo(),
                 800 + 24 + 50 + 30,
-                480 - 50
+                480 + 50
             );
         }
         if (Gdx.input.justTouched()) {
@@ -531,7 +531,7 @@ public class InfinityModeScreen implements Screen {
 
         //debugInfo.draw(batch);
 
-        timer.draw(batch, font, 1400, 0);
+        timer.draw(batch, font, 1400, 20);
         timer.tick(deltaTime);
 
         batch.end();
