@@ -84,6 +84,9 @@ public class GameScreenLvl5 implements Screen {
     @Override
     public void show() {
         User.getInstance().setHp(100);
+        User.getInstance().setGold(0);
+        User.getInstance().setOre(0);
+        User.getInstance().setWood(0);
         batch = meowGame.getSpriteBatch();
 
         camera = new OrthographicCameraWithLeftRightState();
@@ -144,7 +147,7 @@ public class GameScreenLvl5 implements Screen {
         enemyPathPoint1.add(new Rectangle(950 , 480 - 260- 10, 10, 10));
         enemyPathPoint2 = new Array<>();
         enemyPathPoint2.add(new Rectangle(1180, 480 - 10, 10, 10));
-        enemyPathPoint2.add(new Rectangle(950 , 480 - 260 - 10, 10, 10));
+        enemyPathPoint2.add(new Rectangle(930 , 480 - 260 - 10, 10, 10));
 
         Array<Enemy> enemiesWave0 = new Array<>();
         Array<Enemy> enemiesWave1 = new Array<>();

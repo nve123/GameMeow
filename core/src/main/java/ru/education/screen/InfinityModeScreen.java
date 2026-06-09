@@ -98,6 +98,9 @@ public class InfinityModeScreen implements Screen {
     @Override
     public void show() {
         User.getInstance().setHp(100);
+        User.getInstance().setGold(0);
+        User.getInstance().setOre(0);
+        User.getInstance().setWood(0);
         batch = meowGame.getSpriteBatch();
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);

@@ -84,6 +84,9 @@ public class GameScreenLvl4 implements Screen {
     @Override
     public void show() {
         User.getInstance().setHp(100);
+        User.getInstance().setGold(0);
+        User.getInstance().setOre(0);
+        User.getInstance().setWood(0);
         batch = meowGame.getSpriteBatch();
 
         camera = new OrthographicCameraWithLeftRightState();
@@ -178,7 +181,7 @@ public class GameScreenLvl4 implements Screen {
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1542, 0 - 150, enemyPathPoint2, atlasStay2, atlasGoTo2, atlasAttack2));
 
         enemiesWave3.add(new Enemy(
-                300,
+                200,
                 coreTower.getHitBox(),
                 1542,
                 480,
