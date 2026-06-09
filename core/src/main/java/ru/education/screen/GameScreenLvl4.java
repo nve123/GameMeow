@@ -178,7 +178,7 @@ public class GameScreenLvl4 implements Screen {
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1542, 0 - 150, enemyPathPoint2, atlasStay2, atlasGoTo2, atlasAttack2));
 
         enemiesWave3.add(new Enemy(
-                200,
+                300,
                 coreTower.getHitBox(),
                 1542,
                 480,
@@ -305,7 +305,6 @@ public class GameScreenLvl4 implements Screen {
                     enemy.draw(batch);
                 }
                 enemy.setTimeInState(deltaTime);
-                timer.tick(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 waveService.nextWave();
@@ -330,6 +329,7 @@ public class GameScreenLvl4 implements Screen {
         }
         //debugInfo.draw(batch);
         timer.draw(batch, font, 1400, 80);
+        timer.tick(deltaTime);
 
         batch.end();
 

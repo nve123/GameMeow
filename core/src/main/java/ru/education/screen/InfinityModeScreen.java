@@ -426,7 +426,6 @@ public class InfinityModeScreen implements Screen {
                     enemy.draw(batch);
                 }
                 enemy.setTimeInState(deltaTime);
-                timer.tick(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 for (Wave wave : waves) {
@@ -514,6 +513,7 @@ public class InfinityModeScreen implements Screen {
         //debugInfo.draw(batch);
 
         timer.draw(batch, font, 1400, 0);
+        timer.tick(deltaTime);
 
         batch.end();
 

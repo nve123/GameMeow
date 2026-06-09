@@ -301,7 +301,6 @@ public class GameScreenLvl3 implements Screen {
                     enemy.draw(batch);
                 }
                 enemy.setTimeInState(deltaTime);
-                timer.tick(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 waveService.nextWave();
@@ -326,6 +325,7 @@ public class GameScreenLvl3 implements Screen {
         }
         //debugInfo.draw(batch);
         timer.draw(batch, font, 1400, 70);
+        timer.tick(deltaTime);
 
 
         batch.end();

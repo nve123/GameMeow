@@ -265,8 +265,8 @@ public class GameScreenLvl2 implements Screen {
                 font.draw(
                     batch,
                     User.getInstance().fullInfo(),
-                    coreTower.getX() + 30,
-                    coreTower.getY() + coreTower.getTexture().getHeight()
+                    coreTower.getX() + 30 - 50,
+                    coreTower.getY() + coreTower.getTexture().getHeight() + 50 + 10
                 );
             } else {
                 shop.draw(batch);
@@ -281,7 +281,6 @@ public class GameScreenLvl2 implements Screen {
                     enemy.draw(batch);
                 }
                 enemy.setTimeInState(deltaTime);
-                timer.tick(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 waveService.nextWave();
@@ -311,6 +310,7 @@ public class GameScreenLvl2 implements Screen {
         //debugInfo.draw(batch);
 
         timer.draw(batch, font, 1400, 20);
+        timer.tick(deltaTime);
 
         batch.end();
 
