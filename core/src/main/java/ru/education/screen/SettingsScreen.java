@@ -22,7 +22,6 @@ public class SettingsScreen implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private SettingsUserInterface settingsUserInterface;
-    private Music backgroundMusic;
 
     public SettingsScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -33,13 +32,7 @@ public class SettingsScreen implements Screen {
         batch = meowGame.getSpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
-        background = new Texture(Gdx.files.internal("backgrounds/change_lvl_back.png"));
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
-        if (SettingsUserInterface.isMusicOn) {
-            backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.2f);
-            backgroundMusic.play();
-        }
+        background = new Texture(Gdx.files.internal("backgrounds/settings_back.png"));
         settingsUserInterface =new SettingsUserInterface(camera, meowGame);
 
     }
@@ -61,7 +54,6 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void pause() {
-        backgroundMusic.stop();
     }
 
     @Override
@@ -71,7 +63,6 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-        backgroundMusic.stop();
     }
 
     @Override

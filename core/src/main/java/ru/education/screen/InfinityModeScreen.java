@@ -21,6 +21,7 @@ import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.debug.DebugInfo;
 import ru.education.service.ShopService;
+import ru.education.service.TimerService;
 import ru.education.service.WaveService;
 import ru.education.service.WorkerService;
 import ru.education.shop.ItemType;
@@ -46,7 +47,7 @@ public class InfinityModeScreen implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private GameUserInterface gameUserInterface;
-
+    private TimerService timer;
     private Core coreTower;
     private Array<Resource> resourceList;
     private Texture tmpTexture;
@@ -66,7 +67,6 @@ public class InfinityModeScreen implements Screen {
     private Array<Rectangle> enemyPathPoint;
     //private ShopService shopService2;
     private WaveService waveService;
-    public Music backgroundMusic;
     //private Enemy enemy;
     private Array<Rectangle> enemyPathPoint1;
     private Array<Rectangle> enemyPathPoint2;
@@ -118,12 +118,6 @@ public class InfinityModeScreen implements Screen {
         atlasWalk = new TextureAtlas("animations/cat_walk.atlas");
         atlasWork = new TextureAtlas("animations/cat_work.atlas");
         atlasGoFrom = new TextureAtlas("animations/cat_go_to.atlas");*/
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));
-        if (SettingsUserInterface.isMusicOn) {
-            backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.0f);
-            backgroundMusic.play();
-        }
 
 
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
@@ -363,7 +357,8 @@ public class InfinityModeScreen implements Screen {
             enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1600, 480 + 50, enemyPathPoint1));
             enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1600, 0 - 50 , enemyPathPoint2));
         }
-
+        timer = new TimerService();
+        timer.setActive(true);
 
         wave0 = new Wave(enemiesWave0);
 
@@ -431,10 +426,12 @@ public class InfinityModeScreen implements Screen {
                     enemy.draw(batch);
                 }
                 enemy.setTimeInState(deltaTime);
+                timer.tick(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 for (Wave wave : waves) {
                     wave.reviveWave(addHp);
+                    timer.resetTime();
                     if (numBack == 1) {
                         enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), WORLD_WIDTH - 100 + countX + 50, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, enemyPathPoint));
                     } else if (numBack == 2) {
@@ -516,6 +513,8 @@ public class InfinityModeScreen implements Screen {
 
         //debugInfo.draw(batch);
 
+        timer.draw(batch, font, 1400, 0);
+
         batch.end();
 
         workerService.generateWorker(curTime);
@@ -523,7 +522,6 @@ public class InfinityModeScreen implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
-            backgroundMusic.stop();
             User.getInstance().setHp(100);
             User.getInstance().setGold(0);
             User.getInstance().setOre(0);
@@ -549,9 +547,7 @@ public class InfinityModeScreen implements Screen {
     public void pause() {
         for (Worker worker : workers) {
             worker.stopSound();
-        }
-        backgroundMusic.stop();
-    }
+        }}
 
     @Override
     public void resume() {
@@ -563,12 +559,10 @@ public class InfinityModeScreen implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
-        backgroundMusic.stop();
     }
 
     @Override
     public void dispose() {
-        backgroundMusic.dispose();
 
         for (Worker worker : workers) {
             worker.stopSound();

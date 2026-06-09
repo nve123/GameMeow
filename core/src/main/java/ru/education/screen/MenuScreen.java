@@ -42,15 +42,6 @@ public class MenuScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));
-        if (SettingsUserInterface.isMusicOn) {
-            if (!backgroundMusic.isPlaying()) {
-                backgroundMusic.setLooping(true);
-                backgroundMusic.setVolume(0.2f);
-                backgroundMusic.play();
-            }
-        } else {
-            backgroundMusic.stop();
-        }
 
         background = new Texture(Gdx.files.internal("backgrounds/menu_back.png"));
 
@@ -59,7 +50,6 @@ public class MenuScreen implements Screen {
             new BtnStartListener() {
                 @Override
                 public void onClick() {
-                    backgroundMusic.stop();
                     meowGame.changeScreen(MeowGame.CHANGELVL);
                 }
             },

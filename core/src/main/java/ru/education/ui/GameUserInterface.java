@@ -79,7 +79,58 @@ public class GameUserInterface {
 
     }
 
-    public void drawUI() {
+    public GameUserInterface(OrthographicCameraWithLeftRightState camera, Screen screen, MeowGame meowGame, Stage stage) {
+        this.meowGame = meowGame;
+        this.camera = camera;
+        this.screen = screen;
+        this.stage = stage;
+
+        Drawable leftArrowDrawable = new TextureRegionDrawable(new Texture("UI/btn_to_left.png"));
+        Drawable rightArrowDrawable = new TextureRegionDrawable(new Texture("UI/btn_to_right.png"));
+        returnBtn = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_return.png")));
+        btnGoToLeftScreen = new ImageButton(leftArrowDrawable);
+        btnGoToRightScreen = new ImageButton(rightArrowDrawable);
+
+        btnGoToLeftScreen.setPosition(
+            MeowGame.SCREEN_WIDTH + 24,
+            MeowGame.SCREEN_HEIGHT - btnGoToLeftScreen.getHeight() - 50
+        );
+        btnGoToRightScreen.setPosition(
+            MeowGame.SCREEN_WIDTH - btnGoToRightScreen.getWidth() - 24,
+            MeowGame.SCREEN_HEIGHT - btnGoToRightScreen.getHeight() - 50
+        );
+
+        btnGoToLeftScreen.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (camera.position.x > MeowGame.SCREEN_WIDTH / 2f) {
+                    camera.moveCameraToLeft(MeowGame.SCREEN_WIDTH);
+                }
+            }
+        });
+
+        btnGoToRightScreen.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (camera.position.x < GameScreenLvl1.WORLD_WIDTH - MeowGame.SCREEN_WIDTH / 2f) {
+                    camera.moveCameraToRight(MeowGame.SCREEN_WIDTH);
+                }
+            }
+        });
+        returnBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                meowGame.changeScreen(meowGame.MENU);
+            }
+        });
+        returnBtn.setPosition(0, MeowGame.SCREEN_HEIGHT - 50);
+
+        stage.addActor(btnGoToLeftScreen);
+        stage.addActor(btnGoToRightScreen);
+        stage.addActor(returnBtn);
+    }
+
+        public void drawUI() {
         stage.act();
         stage.draw();
     }

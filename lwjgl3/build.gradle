@@ -14,9 +14,9 @@ plugins {
   id "application"
 }
 apply plugin: 'io.github.fourlastor.construo'
-
-
 import io.github.fourlastor.construo.Target
+
+
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 mainClassName = 'ru.education.lwjgl3.Lwjgl3Launcher'
@@ -25,18 +25,21 @@ eclipse.project.name = appName + '-lwjgl3'
 java.sourceCompatibility = 21
 java.targetCompatibility = 21
 if (JavaVersion.current().isJava9Compatible()) {
-        compileJava.options.release.set(21)
+  compileJava.options.release.set(21)
 }
 
 dependencies {
   implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
   implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+  implementation "io.github.berstanio:gdx-svmhelper-backend-lwjgl3:$graalHelperVersion"
+  implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
   implementation project(':core')
 
-  if(enableGraalNative == 'true') {
-    implementation "io.github.berstanio:gdx-svmhelper-backend-lwjgl3:$graalHelperVersion"
 
-    }
+  if(enableGraalNative == 'true') {
+    implementation "com.badlogicgames.gdx:gdx-freetype-platform:1.13.1:natives-desktop"
+
+  }
 }
 
 def os = System.properties['os.name'].toLowerCase()

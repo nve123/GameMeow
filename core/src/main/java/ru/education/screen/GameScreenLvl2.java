@@ -18,7 +18,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
+import ru.education.fontBuilder.FontBuilder;
 import ru.education.service.ShopService;
+import ru.education.service.TimerService;
 import ru.education.service.WaveService;
 import ru.education.service.WorkerService;
 import ru.education.shop.ItemType;
@@ -42,7 +44,7 @@ public class GameScreenLvl2 implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private GameUserInterface gameUserInterface;
-
+    private TimerService timer;
     private Core coreTower;
     private Array<Resource> resourceList;
     private Texture tmpTexture;
@@ -62,7 +64,6 @@ public class GameScreenLvl2 implements Screen {
     private Array<Rectangle> enemyPathPoint;
     //private ShopService shopService2;
     private WaveService waveService;
-    public Music backgroundMusic;
     //private Enemy enemy;
     TextureAtlas atlasAttack;
     TextureAtlas atlasGoTo;
@@ -91,12 +92,6 @@ public class GameScreenLvl2 implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
         background = new Texture(Gdx.files.internal("backgrounds/game_back_lvl2.png"));
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
-        if (SettingsUserInterface.isMusicOn) {
-            backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.2f);
-            backgroundMusic.play();
-        }
 
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
 
@@ -111,7 +106,7 @@ public class GameScreenLvl2 implements Screen {
         coreTower = new Core(
             170,
             226,
-            MeowGame.SCREEN_WIDTH  - 226 - 10, 0,
+            MeowGame.SCREEN_WIDTH  - 226 - 10, 0 + 30,
             hitBoxCoreTower
         );
 
@@ -158,20 +153,22 @@ public class GameScreenLvl2 implements Screen {
         atlasGoTo2 = new TextureAtlas("animations/slime_walk.atlas");
         atlasAttack2 = new TextureAtlas("animations/slime_attack.atlas");
 
-        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
-        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1580, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave0.add(new Enemy(10, coreTower.getHitBox(), 1630, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
 
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
-        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1580, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1630, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave1.add(new Enemy(10, coreTower.getHitBox(), 1680, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
 
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1604, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1654, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1704, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
-        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1754, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1580, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1630, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1680, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1730, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
+        enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1780, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
 
-        enemiesWave3.add(new Enemy(140, coreTower.getHitBox(), 1554, 417, enemyPathPoint, atlasStay  = new TextureAtlas("animations/eye_stay.atlas"),atlasGoTo = new TextureAtlas("animations/eye_walk.atlas"), atlasAttack = new TextureAtlas("animations/eye_attack.atlas")));
+        enemiesWave3.add(new Enemy(140, coreTower.getHitBox(), 1580, 417, enemyPathPoint, atlasStay  = new TextureAtlas("animations/eye_stay.atlas"),atlasGoTo = new TextureAtlas("animations/eye_walk.atlas"), atlasAttack = new TextureAtlas("animations/eye_attack.atlas")));
+        timer = new TimerService();
+        timer.setActive(true);
 
         Wave wave0 = new Wave(enemiesWave0);
         Wave wave1 = new Wave(enemiesWave1);
@@ -184,7 +181,7 @@ public class GameScreenLvl2 implements Screen {
         waveService = new WaveService(waves);
 
 
-        font = new BitmapFont();
+        font = FontBuilder.generate(8, Color.BLACK, "fonts/Curtsweeper-Regular.otf");
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
         shop.addItem(ItemType.TOWER);
@@ -284,20 +281,24 @@ public class GameScreenLvl2 implements Screen {
                     enemy.draw(batch);
                 }
                 enemy.setTimeInState(deltaTime);
+                timer.tick(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 waveService.nextWave();
+                timer.resetTime();
             }
             else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 1) {
                 waveService.nextWave();
+                timer.resetTime();
             }
             else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
                 waveService.nextWave();
+                timer.resetTime();
             }else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 3) {
                 for (Worker worker : workers) {
                     worker.stopSound();
                 }
-                backgroundMusic.stop();
+
                 User.getInstance().setHp(100);
                 User.getInstance().setGold(0);
                 User.getInstance().setOre(0);
@@ -309,6 +310,8 @@ public class GameScreenLvl2 implements Screen {
 
         //debugInfo.draw(batch);
 
+        timer.draw(batch, font, 1400, 20);
+
         batch.end();
 
         workerService.generateWorker(curTime);
@@ -316,7 +319,7 @@ public class GameScreenLvl2 implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
-            backgroundMusic.stop();
+
             User.getInstance().setHp(100);
             User.getInstance().setGold(0);
             User.getInstance().setOre(0);
@@ -335,12 +338,11 @@ public class GameScreenLvl2 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
-        backgroundMusic.stop();
+
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
@@ -348,7 +350,7 @@ public class GameScreenLvl2 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
-        backgroundMusic.stop();
+
     }
 
     @Override
@@ -357,7 +359,7 @@ public class GameScreenLvl2 implements Screen {
             worker.stopSound();
             worker.dispose();
         }
-        backgroundMusic.dispose();
+
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();

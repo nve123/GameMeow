@@ -3,6 +3,8 @@ package ru.education;
 import static ru.education.ui.InfSettingsUserInterface.numBack;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
@@ -48,6 +50,7 @@ public class MeowGame extends Game {
     private Array<Boolean> lockedLvls;
     private BitmapFont font;
     public static byte numLvl;
+    public Music backgroundMusic;
 
 
     @Override
@@ -79,6 +82,13 @@ public class MeowGame extends Game {
 
         SettingsUserInterface.isMusicOn = MemoryService.loadIsMusicOn();
         SettingsUserInterface.isSoundOn = MemoryService.loadIsSoundOn();
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
+        if (SettingsUserInterface.isMusicOn) {
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(0.2f);
+            backgroundMusic.play();
+        }
 
         spriteBatch = new SpriteBatch();
         font = new BitmapFont();
@@ -146,6 +156,8 @@ public class MeowGame extends Game {
         super.dispose();
 
         MemoryService.saveUnlocks(lockedLvls);
+        backgroundMusic.stop();
+        backgroundMusic.dispose();
 
         spriteBatch.dispose();
         font.dispose();

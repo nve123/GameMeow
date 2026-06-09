@@ -15,7 +15,7 @@ public class TowerUtil {
 
     }
     public static DefensiveTower getDefensiveTower(float x, float y, byte numLvl) {
-        if (numLvl == 1) {
+        if (numLvl == 1 || numLvl == 3) {
             TowerStateAttribute towerStateAttributeDefault = new TowerStateAttribute(
                 new Texture("towers_assets/plaints_default_tower.png"),
                 100,
@@ -131,7 +131,7 @@ public class TowerUtil {
             stateAttributeEnumMap.put(TowerState.SPEED_UP, towerStateAttributeSpeedUp);
             stateAttributeEnumMap.put(TowerState.DMGPLSPLS, towerStateAttributeDmgPlsPls);
             return new DefensiveTower(x, y, stateAttributeEnumMap, 200, 300);
-        } else if (numLvl == 3) {
+        } /*else if (numLvl == 3) {
             TowerStateAttribute towerStateAttributeDefault = new TowerStateAttribute(
                 new Texture("towers_assets/winter_default_tower.png"),
                 100,
@@ -189,7 +189,7 @@ public class TowerUtil {
             stateAttributeEnumMap.put(TowerState.SPEED_UP, towerStateAttributeSpeedUp);
             stateAttributeEnumMap.put(TowerState.DMGPLSPLS, towerStateAttributeDmgPlsPls);
             return new DefensiveTower(x, y, stateAttributeEnumMap, 200, 300);
-        } else {
+        }*/ else {
             TowerStateAttribute towerStateAttributeDefault = new TowerStateAttribute(
                 new Texture("towers_assets/mushroom_default_tower.png"),
                 100,

@@ -11,13 +11,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
+import ru.education.fontBuilder.FontBuilder;
 import ru.education.service.ShopService;
+import ru.education.service.TimerService;
 import ru.education.service.WorkerService;
 import ru.education.shop.ItemType;
 import ru.education.shop.Shop;
@@ -26,6 +31,7 @@ import ru.education.tower.DefensiveTower;
 import ru.education.tower.SlotTower;
 import ru.education.tower.resource.Resource;
 import ru.education.tower.resource.ResourceType;
+import ru.education.tutorial.Tutorial;
 import ru.education.ui.ChangeLevelUserInterface;
 import ru.education.ui.GameUserInterface;
 import ru.education.ui.SettingsUserInterface;
@@ -40,7 +46,7 @@ public class GameScreenLvl1 implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private GameUserInterface gameUserInterface;
-
+    private TimerService timer;
     private Core coreTower;
     private Array<Resource> resourceList;
     private Texture tmpTexture;
@@ -58,10 +64,12 @@ public class GameScreenLvl1 implements Screen {
     private WorkerService workerService;
     private Array<Rectangle> enemyPathPoint;
     private ChangeLevelUserInterface changeLevelUserInterface;
-    public Music backgroundMusic;
-    TextureAtlas atlasStay;
-    TextureAtlas atlasGoTo;
-    TextureAtlas atlasAttack;
+    private TextureAtlas atlasStay;
+    private TextureAtlas atlasGoTo;
+    private TextureAtlas atlasAttack;
+    private Tutorial tutorial;
+    private Stage stage;
+
 
     public GameScreenLvl1(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -73,16 +81,13 @@ public class GameScreenLvl1 implements Screen {
         camera = new OrthographicCameraWithLeftRightState();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
         changeLevelUserInterface = new ChangeLevelUserInterface(meowGame, camera);
+        Viewport fitViewport = new StretchViewport(MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT, camera);
+        stage = new Stage(fitViewport);
+        Gdx.input.setInputProcessor(stage);
 
         background = new Texture(Gdx.files.internal("backgrounds/game_back_lvl1.png"));
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
-        if (SettingsUserInterface.isMusicOn) {
-            backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.2f);
-            backgroundMusic.play();
-        }
 
-        gameUserInterface = new GameUserInterface(camera, this, meowGame);
+        gameUserInterface = new GameUserInterface(camera, this, meowGame, stage);
 
         Rectangle hitBoxCoreTower = new Rectangle(
             (MeowGame.SCREEN_WIDTH - 170 * 2) + 170 - 30,
@@ -99,6 +104,8 @@ public class GameScreenLvl1 implements Screen {
             MeowGame.SCREEN_HEIGHT / 2f - 226 / 4,
             hitBoxCoreTower
         );
+
+        timer = new TimerService();
 
         Resource resourceGold, resourceOre, resourceWood;
         Rectangle workBoxGold = new Rectangle(50 - 25 + 170 - 20 - 50, 480 / 2f - 165 / 2f, 15f, 15f);
@@ -121,7 +128,7 @@ public class GameScreenLvl1 implements Screen {
         touchPoint = new Vector3();
 
         enemyPathPoint = new Array<>();
-        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2,MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
+        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
 
         enemy = new Enemy(
             10,
@@ -134,7 +141,10 @@ public class GameScreenLvl1 implements Screen {
             atlasAttack = new TextureAtlas("animations/slime_attack.atlas")
         );
 
-        font = new BitmapFont();
+
+        timer.setActive(true);
+
+        font = FontBuilder.generate(8, Color.BLACK, "fonts/Curtsweeper-Regular.otf");
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
         shop.addItem(ItemType.TOWER);
@@ -148,6 +158,31 @@ public class GameScreenLvl1 implements Screen {
         slotTowerArray.add(new SlotTower(MeowGame.SCREEN_WIDTH + 150 + 100 + 50 + 100 + 50, 480 / 2f - 50 - 100));
 
         defensiveTowerArray = new Array<>();
+
+        tutorial = new Tutorial(
+            50,
+            50,
+            "   1. Tap cat to knock it down.\n" +
+                "\n" +
+                "   2. Tap sleeping cat, send it to a \n" +
+                " resource (gold, ore, wood).\n" +
+                "\n" +
+                "   3. Gather resources to buy defensive \n" +
+                " towers.\n" +
+                "\n" +
+                "   4. Go to battle screen: arrow in the \n" +
+                " right corner.\n" +
+                "\n" +
+                "   5. Buy towers in the shop at the  \n" +
+                " bottom, place in empty slot.\n" +
+                "\n" +
+                "      Tap to close this message                      ",
+            380,
+            700,
+            new Texture("backgrounds/change_back.png"),
+            camera,
+            stage
+        );
 
         curTime = 0f;
 
@@ -183,12 +218,10 @@ public class GameScreenLvl1 implements Screen {
             }
         }
 
-
         if (!enemy.isAlive()) {
             for (Worker worker : workers) {
                 worker.stopSound();
             }
-            backgroundMusic.stop();
             User.getInstance().setHp(100);
             User.getInstance().setGold(0);
             User.getInstance().setOre(0);
@@ -238,19 +271,20 @@ public class GameScreenLvl1 implements Screen {
                 || enemy.getX() < MeowGame.SCREEN_WIDTH && camera.isLeftState()) {
                 enemy.draw(batch);
             }
-            enemy.setTimeInState(deltaTime);
+            if (!tutorial.isTutorialOn()) {
+                enemy.setTimeInState(deltaTime);
+                timer.tick(deltaTime);
+            }
         }
+        if (!tutorial.isTutorialOn()) workerService.generateWorker(curTime);
 
-        //debugInfo.draw(batch);
+        timer.draw(batch, font, 1400, 20);
 
         batch.end();
-
-        workerService.generateWorker(curTime);
 
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
-            backgroundMusic.stop();
             User.getInstance().setHp(100);
             User.getInstance().setGold(0);
             User.getInstance().setOre(0);
@@ -265,8 +299,8 @@ public class GameScreenLvl1 implements Screen {
             worker.stopSound();
             worker.dispose();
         }
-        backgroundMusic.dispose();
         background.dispose();
+        tutorial.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();
         font.dispose();
@@ -306,12 +340,10 @@ public class GameScreenLvl1 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
-        backgroundMusic.stop();
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
@@ -319,6 +351,5 @@ public class GameScreenLvl1 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
-        backgroundMusic.stop();
     }
 }

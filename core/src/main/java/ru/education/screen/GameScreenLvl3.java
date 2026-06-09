@@ -16,7 +16,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.debug.DebugInfo;
+import ru.education.fontBuilder.FontBuilder;
 import ru.education.service.ShopService;
+import ru.education.service.TimerService;
 import ru.education.service.WaveService;
 import ru.education.service.WorkerService;
 import ru.education.shop.ItemType;
@@ -40,7 +42,7 @@ public class GameScreenLvl3 implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private GameUserInterface gameUserInterface;
-
+    private TimerService timer;
     private Core coreTower;
     private Array<Resource> resourceList;
     private Texture tmpTexture;
@@ -62,7 +64,6 @@ public class GameScreenLvl3 implements Screen {
     private Array<Rectangle> enemyPathPoint3;
     //private ShopService shopService2;
     private WaveService waveService;
-    public Music backgroundMusic;
     //private Enemy enemy;
     TextureAtlas atlasAttack;
     TextureAtlas atlasGoTo;
@@ -91,12 +92,6 @@ public class GameScreenLvl3 implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
         background = new Texture(Gdx.files.internal("backgrounds/game_back_lvl3.png"));
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
-        if (SettingsUserInterface.isMusicOn) {
-            backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.2f);
-            backgroundMusic.play();
-        }
 
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
 
@@ -117,8 +112,8 @@ public class GameScreenLvl3 implements Screen {
         );
 
         Resource resourceGold, resourceOre, resourceWood;
-        Rectangle workBoxGold = new Rectangle(130 - 25 + 170 - 20 - 50, 0, 15f, 15f);
-        resourceGold = new Resource(130, 0, ResourceType.GOLD, workBoxGold);
+        Rectangle workBoxGold = new Rectangle(130 - 25 + 170 - 20 - 50, 0 + 20, 15f, 15f);
+        resourceGold = new Resource(130, 0 + 20, ResourceType.GOLD, workBoxGold);
         Rectangle workBoxOre = new Rectangle(130 - 25 + 146 - 20 - 10 - 10, 480 - 120, 15f, 15f);
         resourceOre = new Resource(130, 480 - 120, ResourceType.ORE, workBoxOre);
         Rectangle workBoxWood = new Rectangle(34 - 25 + 150 - 20 - 20, 480 - 300, 15f, 15f);
@@ -184,6 +179,8 @@ public class GameScreenLvl3 implements Screen {
                 enemyPathPoint2
             )
         );
+        timer = new TimerService();
+        timer.setActive(true);
 
         Wave wave0 = new Wave(enemiesWave0);
         Wave wave1 = new Wave(enemiesWave1);
@@ -196,7 +193,7 @@ public class GameScreenLvl3 implements Screen {
         waveService = new WaveService(waves);
 
 
-        font = new BitmapFont();
+        font = FontBuilder.generate(8, Color.BLACK, "fonts/Curtsweeper-Regular.otf");
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
         shop.addItem(ItemType.TOWER);
@@ -304,18 +301,21 @@ public class GameScreenLvl3 implements Screen {
                     enemy.draw(batch);
                 }
                 enemy.setTimeInState(deltaTime);
+                timer.tick(deltaTime);
             }
             if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 0) {
                 waveService.nextWave();
+                timer.resetTime();
             } else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 1) {
                 waveService.nextWave();
+                timer.resetTime();
             } else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 2) {
                 waveService.nextWave();
+                timer.resetTime();
             } else if (!waveService.getCurWave().isAliveWave() && waveService.getCurNumberWave() == 3) {
                 for (Worker worker : workers) {
                     worker.stopSound();
                 }
-                backgroundMusic.stop();
                 User.getInstance().setHp(100);
                 User.getInstance().setGold(0);
                 User.getInstance().setOre(0);
@@ -325,6 +325,8 @@ public class GameScreenLvl3 implements Screen {
             }
         }
         //debugInfo.draw(batch);
+        timer.draw(batch, font, 1400, 70);
+
 
         batch.end();
 
@@ -333,7 +335,6 @@ public class GameScreenLvl3 implements Screen {
         gameUserInterface.drawUI();
 
         if (User.getInstance().getHp() < 0) {
-            backgroundMusic.stop();
             User.getInstance().setHp(100);
             User.getInstance().setGold(0);
             User.getInstance().setOre(0);
@@ -352,7 +353,6 @@ public class GameScreenLvl3 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
-        backgroundMusic.stop();
     }
 
     @Override
@@ -365,7 +365,6 @@ public class GameScreenLvl3 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
-        backgroundMusic.stop();
     }
 
     @Override
@@ -374,7 +373,6 @@ public class GameScreenLvl3 implements Screen {
             worker.stopSound();
             worker.dispose();
         }
-        backgroundMusic.dispose();
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();

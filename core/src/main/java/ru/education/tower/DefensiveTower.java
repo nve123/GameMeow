@@ -185,7 +185,9 @@ public class DefensiveTower extends Tower {
                 );
                 if (enemyHitBox.contains(x, y)) {
                     enemy.getDmg(attributeEnumMap.get(curState).getDmg());
-                    shotSound.play(0.2f);
+                    if (SettingsUserInterface.isSoundOn) {
+                        shotSound.play(0.2f);
+                    }
                 }
                 inTarget = true;
             }

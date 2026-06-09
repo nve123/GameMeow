@@ -17,7 +17,7 @@ public class ChangeLevelScreen implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private ChangeLevelUserInterface changeLevelUserInterface;
-    public Music backgroundMusic;
+
 
     public ChangeLevelScreen(MeowGame meowGame) {this.meowGame = meowGame;}
 
@@ -29,12 +29,6 @@ public class ChangeLevelScreen implements Screen {
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
 
         background = new Texture(Gdx.files.internal("backgrounds/choice_lvl_back.png"));
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
-        if (SettingsUserInterface.isMusicOn) {
-            backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.2f);
-            backgroundMusic.play();
-        }
 
         changeLevelUserInterface = new ChangeLevelUserInterface(
             meowGame,
@@ -61,7 +55,6 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void pause() {
-        backgroundMusic.stop();
     }
 
     @Override
@@ -71,12 +64,10 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void hide() {
-        backgroundMusic.stop();
     }
 
     @Override
     public void dispose() {
-        backgroundMusic.dispose();
         background.dispose();
         changeLevelUserInterface.dispose();
     }
