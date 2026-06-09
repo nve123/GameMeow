@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.debug.DebugInfo;
+import ru.education.fontBuilder.FontBuilder;
 import ru.education.service.ShopService;
 import ru.education.service.TimerService;
 import ru.education.service.WaveService;
@@ -371,7 +372,7 @@ public class InfinityModeScreen implements Screen {
         waveService = new WaveService(waves);
 
 
-        font = new BitmapFont();
+        font = FontBuilder.generate(10, Color.WHITE, "fonts/Curtsweeper-Regular.otf", true);
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
         shop.addItem(ItemType.TOWER);
@@ -487,17 +488,32 @@ public class InfinityModeScreen implements Screen {
             for (Resource resource : resourceList) {
                 resource.draw(batch);
             }
-            font.draw(
-                batch,
-                User.getInstance().fullInfo(),
-                MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
-                coreTower.getY()
-            );
+            if (numBack != 2) {
+                font.draw(
+                    batch,
+                    User.getInstance().fullInfo(),
+                    MeowGame.SCREEN_WIDTH - coreTower.getTexture().getWidth() * 2,
+                    coreTower.getY() - 10
+                );
+            } else {
+                font.draw(
+                    batch,
+                    User.getInstance().fullInfo(),
+                    coreTower.getX() + 30 - 50,
+                    coreTower.getY() + coreTower.getTexture().getHeight() + 50 + 10
+                );
+            }
         } else {
             shop.draw(batch);
             for (SlotTower slotTower : slotTowerArray) {
                 slotTower.draw(batch);
             }
+            font.draw(
+                batch,
+                User.getInstance().fullInfo(),
+                800 + 24 + 50 + 30,
+                480 - 50
+            );
         }
         if (Gdx.input.justTouched()) {
             camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));

@@ -184,7 +184,7 @@ public class GameScreenLvl2 implements Screen {
         waveService = new WaveService(waves);
 
 
-        font = FontBuilder.generate(8, Color.BLACK, "fonts/Curtsweeper-Regular.otf");
+        font = FontBuilder.generate(10, Color.WHITE, "fonts/Curtsweeper-Regular.otf", true);
 
         shop = new Shop(MeowGame.SCREEN_WIDTH + 24, 24);
         shop.addItem(ItemType.TOWER);
@@ -276,6 +276,12 @@ public class GameScreenLvl2 implements Screen {
                 for (SlotTower slotTower : slotTowerArray) {
                     slotTower.draw(batch);
                 }
+                font.draw(
+                    batch,
+                    User.getInstance().fullInfo(),
+                    800 + 24 + 50 + 30,
+                    480 - 50
+                );
             }
             if (enemy.isAlive()) {
                 enemy.nextXY();

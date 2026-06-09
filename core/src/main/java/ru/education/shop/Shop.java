@@ -1,9 +1,12 @@
 package ru.education.shop;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+
+import ru.education.fontBuilder.FontBuilder;
 
 public class Shop implements Disposable {
     private final float x;
@@ -21,7 +24,7 @@ public class Shop implements Disposable {
         isActive = false;
 
         xNext = x;
-        font = new BitmapFont();
+        font = FontBuilder.generate(8, Color.WHITE, "fonts/Curtsweeper-Regular.otf", true);
 
         items = new Array<>();
     }
@@ -51,8 +54,8 @@ public class Shop implements Disposable {
             font.draw(
                 batch,
                 "g:" + item.getPrice().getGold() +
-                    "\no:" + item.getPrice().getOre() +
-                    "\nw:" + item.getPrice().getWood(),
+                    "\n\no:" + item.getPrice().getOre() +
+                    "\n\nw:" + item.getPrice().getWood(),
                 item.getX(),
                 item.getY() + item.getHitBox().height + 50f
             );
