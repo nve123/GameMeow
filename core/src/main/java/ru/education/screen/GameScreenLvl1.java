@@ -165,16 +165,16 @@ public class GameScreenLvl1 implements Screen {
             "   1. Tap cat to knock it down.\n" +
                 "\n" +
                 "   2. Tap sleeping cat, send it to a \n" +
-                " resource (gold, ore, wood).\n" +
+                "  resource (gold, ore, wood).\n" +
                 "\n" +
                 "   3. Gather resources to buy defensive \n" +
-                " towers.\n" +
+                "  towers.\n" +
                 "\n" +
                 "   4. Go to battle screen: arrow in the \n" +
-                " right corner.\n" +
+                "  right corner.\n" +
                 "\n" +
                 "   5. Buy towers in the shop at the  \n" +
-                " bottom, place in empty slot.\n" +
+                "  bottom, place in empty slot.\n" +
                 "\n" +
                 "      Tap to close this message                      ",
             380,

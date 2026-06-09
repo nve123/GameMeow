@@ -70,8 +70,8 @@ public class MeowGame extends Game {
             lockedLvls.add(false);
             lockedLvls.add(true);
             lockedLvls.add(true);
-            lockedLvls.add(false);
-            lockedLvls.add(false);
+            lockedLvls.add(true);
+            lockedLvls.add(true);
         } else {
             lockedLvls.add(MemoryService.loadUnlocks((byte) 0));
             lockedLvls.add(MemoryService.loadUnlocks((byte) 1));

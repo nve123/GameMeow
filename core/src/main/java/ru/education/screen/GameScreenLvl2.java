@@ -166,7 +166,7 @@ public class GameScreenLvl2 implements Screen {
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1730, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
         enemiesWave2.add(new Enemy(10, coreTower.getHitBox(), 1780, 417, enemyPathPoint, atlasStay2, atlasGoTo2, atlasAttack2));
 
-        enemiesWave3.add(new Enemy(140, coreTower.getHitBox(), 1580, 417, enemyPathPoint, atlasStay  = new TextureAtlas("animations/eye_stay.atlas"),atlasGoTo = new TextureAtlas("animations/eye_walk.atlas"), atlasAttack = new TextureAtlas("animations/eye_attack.atlas")));
+        enemiesWave3.add(new Enemy(100, coreTower.getHitBox(), 1580, 417, enemyPathPoint, atlasStay  = new TextureAtlas("animations/eye_stay.atlas"),atlasGoTo = new TextureAtlas("animations/eye_walk.atlas"), atlasAttack = new TextureAtlas("animations/eye_attack.atlas")));
         timer = new TimerService();
         timer.setActive(true);
 
