@@ -21,6 +21,7 @@ import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.debug.DebugInfo;
 import ru.education.fontBuilder.FontBuilder;
+import ru.education.service.MemoryService;
 import ru.education.service.ShopService;
 import ru.education.service.TimerService;
 import ru.education.service.WaveService;
@@ -112,16 +113,8 @@ public class InfinityModeScreen implements Screen {
         countY1 = 50;
         countY2 = 50;
         addHp = 5;
-        InfSettingsUserInterface infSettingsUserInterface = new InfSettingsUserInterface(camera, meowGame);
 
         background = back;
-        /*atlasFly = new TextureAtlas("animations/cat_fly.atlas");
-        atlasFall = new TextureAtlas("animations/cat_fall.atlas");
-        atlasSleep = new TextureAtlas("animations/cat_sleep.atlas");
-        atlasClicked = new TextureAtlas("animations/cat_shine.atlas");
-        atlasWalk = new TextureAtlas("animations/cat_walk.atlas");
-        atlasWork = new TextureAtlas("animations/cat_work.atlas");
-        atlasGoFrom = new TextureAtlas("animations/cat_go_to.atlas");*/
 
 
         gameUserInterface = new GameUserInterface(camera, this, meowGame);
@@ -255,13 +248,10 @@ public class InfinityModeScreen implements Screen {
         if (numBack == 2) {
             enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 29 - 30, 10, 10));
             enemyPathPoint.add(new Rectangle(840 - 10 - 30, 480 - 214 - 23, 10, 10));
-            enemyPathPoint.add(new Rectangle(1554 - 30, 480 - 214 - 20, 10, 10));
-            enemyPathPoint.add(new Rectangle(1554 - 5 - 30, 480 - 417 - 10, 10, 10));
-            enemyPathPoint.add(new Rectangle(695 - 10 - 30, 480 - 417 - 10, 10, 10));
-            enemyPathPoint.add(new Rectangle(695 - 10 - 30, 480 - 44 - 10, 10, 10));
-            enemyPathPoint.add(new Rectangle(132 - 10 - 30, 480 - 44 - 10, 10, 10));
+            enemyPathPoint.add(new Rectangle(1554- 30, 480 - 214 - 20, 10, 10));
+            enemyPathPoint.add(new Rectangle(1554 - 30, 480 - 417 - 10, 10, 10));
         } else if (numBack == 1) {
-            enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
+            enemyPathPoint.add(new Rectangle((MeowGame.SCREEN_WIDTH - 170 * 2) + 170 - 30, (MeowGame.SCREEN_HEIGHT / 2f - 226 / 4) + 226 / 5, 10, 10));
         } else if (numBack == 3) {
             enemyPathPoint1 = new Array<>();
             enemyPathPoint1.add(new Rectangle(795 - 10 - 30, 480 - 467 - 5, 10, 10));
@@ -545,13 +535,13 @@ public class InfinityModeScreen implements Screen {
             User.getInstance().setGold(0);
             User.getInstance().setOre(0);
             User.getInstance().setWood(0);
-            meowGame.changeScreen(MeowGame.MENU);
+            meowGame.changeScreen(MeowGame.LOSE);
         }
     }
 
     @Override
     public void resize(int width, int height) {
-
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     public void setBackground(Texture background1) {
@@ -566,7 +556,9 @@ public class InfinityModeScreen implements Screen {
     public void pause() {
         for (Worker worker : workers) {
             worker.stopSound();
-        }}
+        }
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
+    }
 
     @Override
     public void resume() {
@@ -578,11 +570,12 @@ public class InfinityModeScreen implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void dispose() {
-
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
         for (Worker worker : workers) {
             worker.stopSound();
             worker.dispose();

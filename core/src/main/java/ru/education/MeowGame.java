@@ -17,6 +17,7 @@ import ru.education.screen.GameScreenLvl4;
 import ru.education.screen.GameScreenLvl5;
 import ru.education.screen.InfinityModeScreen;
 import ru.education.screen.InfinityModeSettingsScreen;
+import ru.education.screen.LoseScreen;
 import ru.education.screen.MenuScreen;
 import ru.education.screen.SettingsScreen;
 import ru.education.service.MemoryService;
@@ -36,7 +37,9 @@ public class MeowGame extends Game {
     public static final String SETTINGS = "Settings";
     public static final String INFMODESETTINGS = "InfModeSettings";
     public static final String INFMODE = "InfMode";
+    public static final String LOSE = "lose";
     private MenuScreen menuScreen;
+    private LoseScreen loseScreen;
     private GameScreenLvl1 gameScreenLvl1;
     private GameScreenLvl2 gameScreenLvl2;
     private GameScreenLvl3 gameScreenLvl3;
@@ -50,7 +53,7 @@ public class MeowGame extends Game {
     private Array<Boolean> lockedLvls;
     private BitmapFont font;
     public static byte numLvl;
-    public Music backgroundMusic;
+    public static Music backgroundMusic;
 
 
     @Override
@@ -65,8 +68,9 @@ public class MeowGame extends Game {
         settingsScreen = new SettingsScreen(this);
         infinityModeSettingsScreen = new InfinityModeSettingsScreen(this);
         infinityModeScreen = new InfinityModeScreen(this);
+        loseScreen = new LoseScreen(this);
         lockedLvls = new Array<>(5);
-        if (MemoryService.getPreferences() == null) {
+        if (MemoryService.isFirstStart()) {
             lockedLvls.add(false);
             lockedLvls.add(true);
             lockedLvls.add(true);
@@ -112,6 +116,7 @@ public class MeowGame extends Game {
                 numLvl = 1;
             }
             case MENU            -> setScreen(menuScreen);
+            case LOSE            -> setScreen(loseScreen);
             case GAMELVL2        -> {
                 setScreen(gameScreenLvl2);
                 numLvl = 2;
@@ -129,7 +134,10 @@ public class MeowGame extends Game {
                 numLvl = 5;
             }
             case CHANGELVL       -> setScreen(changeLevelScreen);
-            case SETTINGS        -> setScreen(settingsScreen);
+            case SETTINGS        ->{
+                backgroundMusic.stop();
+                setScreen(settingsScreen);
+            }
             case INFMODESETTINGS -> setScreen(infinityModeSettingsScreen);
             case INFMODE         -> {
                 setScreen(infinityModeScreen);
@@ -149,7 +157,6 @@ public class MeowGame extends Game {
     public void lockLevel(byte numberLevel) {
         lockedLvls.set(numberLevel, true);
     }
-
 
     @Override
     public void dispose() {
@@ -172,6 +179,7 @@ public class MeowGame extends Game {
         infinityModeScreen.dispose();
         changeLevelScreen.dispose();
         settingsScreen.dispose();
+        loseScreen.dispose();
 
     }
 }

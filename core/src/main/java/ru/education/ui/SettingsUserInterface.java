@@ -1,6 +1,9 @@
 package ru.education.ui;
 
+import static ru.education.MeowGame.backgroundMusic;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -56,6 +59,9 @@ public class SettingsUserInterface {
         isSoundOn = MemoryService.loadIsMusicOn();
         isMusicOn = MemoryService.loadIsMusicOn();
 
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));;
+
+
         musicSettingBtn.setPosition(
             MeowGame.SCREEN_WIDTH / 2f - 100,
             MeowGame.SCREEN_HEIGHT / 2f + 100
@@ -71,20 +77,27 @@ public class SettingsUserInterface {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 meowGame.changeScreen(meowGame.MENU);
+                if (SettingsUserInterface.isMusicOn) {
+                    backgroundMusic.setLooping(true);
+                    backgroundMusic.setVolume(0.2f);
+                    backgroundMusic.play();
+                }
             }
         });
 
         resetBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                meowGame.lockLevel((byte) 1);
-                meowGame.lockLevel((byte) 2);
-                meowGame.lockLevel((byte) 3);
-                meowGame.lockLevel((byte) 4);
-                meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 1));
-                meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 2));
-                meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 3));
-                meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 4));
+                if (meowGame.getLockedLvls() != null) {
+                    meowGame.lockLevel((byte) 1);
+                    meowGame.lockLevel((byte) 2);
+                    meowGame.lockLevel((byte) 3);
+                    meowGame.lockLevel((byte) 4);
+                    meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 1));
+                    meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 2));
+                    meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 3));
+                    meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 4));
+                }
             }
         });
 
@@ -105,6 +118,11 @@ public class SettingsUserInterface {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         meowGame.changeScreen(meowGame.MENU);
+                        if (SettingsUserInterface.isMusicOn) {
+                            backgroundMusic.setLooping(true);
+                            backgroundMusic.setVolume(0.2f);
+                            backgroundMusic.play();
+                        }
                     }
                 });
             }
@@ -116,6 +134,12 @@ public class SettingsUserInterface {
                     musicSettingBtn.getStyle().imageUp = new TextureRegionDrawable(new Texture("UI/btn_music_off.png"));
                 }
                     isMusicOn = MemoryService.loadIsMusicOn();
+                backgroundMusic.stop();
+                if (SettingsUserInterface.isMusicOn) {
+                    backgroundMusic.setLooping(true);
+                    backgroundMusic.setVolume(0.2f);
+                    backgroundMusic.play();
+                }
             }
             if (soundSettingBtn.isPressed()) {
                 MemoryService.saveSoundSettings(!MemoryService.loadIsSoundOn());
@@ -130,10 +154,16 @@ public class SettingsUserInterface {
                 resetBtn.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        meowGame.lockLevel((byte) 1);
-                        meowGame.lockLevel((byte) 2);
-                        meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 1));
-                        meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 2));
+                        if (meowGame.getLockedLvls() != null) {
+                            meowGame.lockLevel((byte) 1);
+                            meowGame.lockLevel((byte) 2);
+                            meowGame.lockLevel((byte) 3);
+                            meowGame.lockLevel((byte) 4);
+                            meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 1));
+                            meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 2));
+                            meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 3));
+                            meowGame.getLockedLvls().add(MemoryService.loadUnlocks((byte) 4));
+                        }
                     }
                 });
             }
@@ -148,6 +178,8 @@ public class SettingsUserInterface {
 
     public void dispose() {
         stage.dispose();
+        backgroundMusic.stop();
+        backgroundMusic.dispose();
     }
 }
 

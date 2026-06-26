@@ -47,7 +47,7 @@ public class AnimationUtil {
         }
 
 
-        // если фиксить зацикливание то тут усть 2й конструктор с параметром playMode
+        // если фиксить зацикливание то тут есть 2й конструктор с параметром playMode
         return new Animation<>(timeAnimation / numberOfFrame, frameArray);
     }
 

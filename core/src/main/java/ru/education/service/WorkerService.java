@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Random;
 
 import ru.education.tower.resource.Resource;
+import ru.education.tower.resource.ResourceState;
 import ru.education.unit.Worker;
 
 public class WorkerService {
@@ -32,24 +33,42 @@ public class WorkerService {
     public void workerClickProcessing(Vector3 touchPoint) {
         for (Worker worker : activeWorkerArray) {
             if (worker.contains(touchPoint.x, touchPoint.y)) {
-                worker.clicked();
+                worker.clicked(resourceArray);
             } else {
                 if (worker.getCurrentState() == Worker.StateWorker.CLICKED) {
                     boolean startWorking = false;
-
                     for (Resource resource : resourceArray) {
-
                         if (resource.contains(touchPoint.x, touchPoint.y)) {
                             worker.setWorkingPlace(resource);
                             worker.setCurrentState(Worker.StateWorker.GO_TO);
                             worker.setDestination(resource.getWorkBox());
                             startWorking = true;
+                            for (int i = 0; i < resourceArray.size; i++) {
+                                resourceArray.get(i).setCurState(ResourceState.DEFAULT);
+                            }
                         }
                     }
 
-                    if (!startWorking) worker.setCurrentState(Worker.StateWorker.SLEEP);
+                    if (!startWorking) {
+                        worker.setCurrentState(Worker.StateWorker.SLEEP);
+                        if (isAnyClicked()) {
+                            for (int i = 0; i < resourceArray.size; i++) {
+                                resourceArray.get(i).setCurState(ResourceState.DEFAULT);
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private boolean isAnyClicked() {
+        boolean noClicked = true;
+        for (int i = 0; i < activeWorkerArray.size; i++) {
+            if (activeWorkerArray.get(i).getCurrentState() == Worker.StateWorker.CLICKED) {
+                noClicked = false;
+            }
+        }
+        return noClicked;
     }
 }

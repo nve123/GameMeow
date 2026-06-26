@@ -10,13 +10,16 @@ import com.badlogic.gdx.utils.Array;
 
 import ru.education.MeowGame;
 import ru.education.service.MemoryService;
+import ru.education.service.WorkerService;
 import ru.education.tower.Core;
 import ru.education.tower.resource.Resource;
+import ru.education.tower.resource.ResourceState;
 import ru.education.ui.SettingsUserInterface;
 import ru.education.user.User;
 import ru.education.util.AnimationUtil;
 import ru.education.util.MathUtil;
 
+import java.nio.file.Watchable;
 import java.util.EnumMap;
 
 public class Worker extends Unit {
@@ -325,7 +328,7 @@ public class Worker extends Unit {
 
     }
 
-    public void clicked() {
+    public void clicked(Array<Resource> resourceArray) {
         switch (currentState) {
             case FLY:
                 if (isAlive) {
@@ -342,6 +345,9 @@ public class Worker extends Unit {
                 break;
             case SLEEP:
                 setCurrentState(StateWorker.CLICKED);
+                for (Resource resource : resourceArray) {
+                    resource.setCurState(ResourceState.SHINE);
+                }
                 break;
         }
     }

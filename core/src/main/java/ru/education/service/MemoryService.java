@@ -8,37 +8,46 @@ import ru.education.user.User;
 
 public class MemoryService {
     private static final Preferences preferences = Gdx.app.getPreferences("User saves");
+    public static final String LOOK_LVL_1 = "Look lvl 1";
+    public static final String LOOK_LVL_2 = "Look lvl 2";
+    public static final String LOOK_LVL_3 = "Look lvl 3";
+    public static final String LOOK_LVL_4 = "Look lvl 4";
+    public static final String LOOK_LVL_5 = "Look lvl 5";
+    public static final String IS_SOUND_ON = "isSoundOn";
+    public static final String IS_MUSIC_ON = "isMusicOn";
 
     public static void saveUnlocks(Array<Boolean> lockedLvls) {
         boolean isUnlockLvl1 = lockedLvls.get(0);
-        preferences.putBoolean("Look lvl 1", isUnlockLvl1);
+
+        preferences.putBoolean(LOOK_LVL_1, isUnlockLvl1);
         boolean isUnlockLvl2 = lockedLvls.get(1);
-        preferences.putBoolean("Look lvl 2", isUnlockLvl2);
+        preferences.putBoolean(LOOK_LVL_2, isUnlockLvl2);
         boolean isUnlockLvl3 = lockedLvls.get(2);
-        preferences.putBoolean("Look lvl 3", isUnlockLvl3);
+        preferences.putBoolean(LOOK_LVL_3, isUnlockLvl3);
         boolean isUnlockLvl4 = lockedLvls.get(3);
-        preferences.putBoolean("Look lvl 4", isUnlockLvl4);
+        preferences.putBoolean(LOOK_LVL_4, isUnlockLvl4);
         boolean isUnlockLvl5 = lockedLvls.get(4);
-        preferences.putBoolean("Look lvl 5", isUnlockLvl5);
+        preferences.putBoolean(LOOK_LVL_5, isUnlockLvl5);
         preferences.flush();
     }
 
     public static boolean loadUnlocks(Byte index) {
         switch (index) {
             case 0 -> {
-                return preferences.getBoolean("Look lvl 1");
+                return preferences.getBoolean(LOOK_LVL_1);
             }
             case 1 -> {
-                return preferences.getBoolean("Look lvl 2");
+                return preferences.getBoolean(LOOK_LVL_2);
             }
             case 2 -> {
-                return preferences.getBoolean("Look lvl 3");
+                return preferences.getBoolean(LOOK_LVL_3);
             }
             case 3 -> {
-                return preferences.getBoolean("Look lvl 4");
+                return preferences.getBoolean(LOOK_LVL_4);
 
-            }case 4 -> {
-                return preferences.getBoolean("Look lvl 5");
+            }
+            case 4 -> {
+                return preferences.getBoolean(LOOK_LVL_5);
             }
         }
 
@@ -48,22 +57,27 @@ public class MemoryService {
     public static Preferences getPreferences() {
         return preferences;
     }
+
     public static void saveSoundSettings(boolean isOn) {
-        preferences.putBoolean("isSoundOn", isOn);
+        preferences.putBoolean(IS_SOUND_ON, isOn);
         preferences.flush();
     }
 
     public static boolean loadIsSoundOn() {
-        return preferences.getBoolean("isSoundOn", true);
+        return preferences.getBoolean(IS_SOUND_ON, true);
     }
 
     public static void saveMusicSettings(boolean isOn) {
-        preferences.putBoolean("isMusicOn", isOn);
+        preferences.putBoolean(IS_MUSIC_ON, isOn);
         preferences.flush();
     }
 
     public static boolean loadIsMusicOn() {
-        return preferences.getBoolean("isMusicOn", true);
+        return preferences.getBoolean(IS_MUSIC_ON, true);
+    }
+
+    public static boolean isFirstStart() {
+        return !MemoryService.getPreferences().contains(LOOK_LVL_2);
     }
 }
 

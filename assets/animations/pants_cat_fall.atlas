@@ -1,5 +1,5 @@
 pants_cat_fall.png
-size: 1440, 100
+size: 1500, 100
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
@@ -76,3 +76,6 @@ Fly_PAD.pox
 Fly_PAD.pox
   bounds: 1380, 0, 60, 100
   index: 24
+Fly_PAD.pox
+  bounds: 1440, 0, 60, 100
+  index: 25

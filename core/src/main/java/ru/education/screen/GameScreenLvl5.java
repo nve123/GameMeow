@@ -17,6 +17,7 @@ import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.debug.DebugInfo;
 import ru.education.fontBuilder.FontBuilder;
+import ru.education.service.MemoryService;
 import ru.education.service.ShopService;
 import ru.education.service.TimerService;
 import ru.education.service.WaveService;
@@ -341,13 +342,13 @@ public class GameScreenLvl5 implements Screen {
             User.getInstance().setGold(0);
             User.getInstance().setOre(0);
             User.getInstance().setWood(0);
-            meowGame.changeScreen(MeowGame.MENU);
+            meowGame.changeScreen(MeowGame.LOSE);
         }
     }
 
     @Override
     public void resize(int width, int height) {
-
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
@@ -355,6 +356,7 @@ public class GameScreenLvl5 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
@@ -367,10 +369,12 @@ public class GameScreenLvl5 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void dispose() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
         background.dispose();
         gameUserInterface.dispose();
         tmpTexture.dispose();

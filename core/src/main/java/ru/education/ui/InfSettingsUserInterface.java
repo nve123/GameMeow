@@ -55,13 +55,16 @@ public class InfSettingsUserInterface {
     private final Stage stage;
     private final OrthographicCamera camera;
     private final InfinityModeScreen infinityModeScreen;
-    public static Texture back = new Texture(Gdx.files.internal("backgrounds/game_back_lvl1.png"));
-    public static byte numBack = 1;
-    public static byte catBack = 1;
+    public static Texture back;
+    public static byte numBack;
+    public static byte catBack;
 
     public InfSettingsUserInterface(OrthographicCamera camera, MeowGame meowGame) {
         this.meowGame = new MeowGame();
         this.camera = camera;
+        back = new Texture(Gdx.files.internal("backgrounds/game_back_lvl1.png"));
+        numBack = 1;
+        catBack = 1;
         infinityModeScreen = new InfinityModeScreen(meowGame);
         textureDefoultBtnChangeBack1 = new TextureRegionDrawable(new Texture("UI/change_back1.png"));
         textureDefoultBtnChangeBack2 = new TextureRegionDrawable(new Texture("UI/change_back2.png"));

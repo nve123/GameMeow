@@ -30,7 +30,6 @@ public class MenuScreen implements Screen {
     private Animation<TextureRegion> cat, enemy;
     protected Array<TextureAtlas> textureAtlasArray;
     private float curTime;
-    public Music backgroundMusic;
 
     public MenuScreen(MeowGame meowGame) {
         this.meowGame = meowGame;
@@ -41,7 +40,6 @@ public class MenuScreen implements Screen {
         batch = meowGame.getSpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, MeowGame.SCREEN_WIDTH, MeowGame.SCREEN_HEIGHT);
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/da882ce11f7c88f.mp3"));
 
         background = new Texture(Gdx.files.internal("backgrounds/menu_back.png"));
 
@@ -53,8 +51,7 @@ public class MenuScreen implements Screen {
                     meowGame.changeScreen(MeowGame.CHANGELVL);
                 }
             },
-            meowGame,
-            backgroundMusic
+            meowGame
         );
 
         initAnimation();
@@ -120,7 +117,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        backgroundMusic.dispose();
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
         background.dispose();
         menuUserInterface.dispose();
         for (TextureAtlas atlas : textureAtlasArray) {
@@ -130,6 +127,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
@@ -138,9 +136,11 @@ public class MenuScreen implements Screen {
 
     @Override
     public void resume() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void hide() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 }

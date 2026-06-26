@@ -49,11 +49,12 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void pause() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
@@ -63,10 +64,12 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void dispose() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
         background.dispose();
         settingsUserInterface.dispose();
         background.dispose();

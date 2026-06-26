@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.education.MeowGame;
+import ru.education.service.MemoryService;
 import ru.education.ui.ChangeLevelUserInterface;
 import ru.education.ui.SettingsUserInterface;
 
@@ -50,11 +51,12 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void pause() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
@@ -64,10 +66,12 @@ public class ChangeLevelScreen implements Screen {
 
     @Override
     public void hide() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void dispose() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
         background.dispose();
         changeLevelUserInterface.dispose();
     }

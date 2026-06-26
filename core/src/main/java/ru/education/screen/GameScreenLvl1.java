@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -21,6 +22,7 @@ import ru.education.debug.DebugInfo;
 import ru.education.MeowGame;
 import ru.education.camera.OrthographicCameraWithLeftRightState;
 import ru.education.fontBuilder.FontBuilder;
+import ru.education.service.MemoryService;
 import ru.education.service.ShopService;
 import ru.education.service.TimerService;
 import ru.education.service.WorkerService;
@@ -68,6 +70,8 @@ public class GameScreenLvl1 implements Screen {
     private TextureAtlas atlasGoTo;
     private TextureAtlas atlasAttack;
     private Tutorial tutorial;
+    private Image tutorialImage1;
+    private Image tutorialImage2;
     private Stage stage;
 
 
@@ -89,7 +93,11 @@ public class GameScreenLvl1 implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         background = new Texture(Gdx.files.internal("backgrounds/game_back_lvl1.png"));
-
+        tutorialImage1 = new Image(new Texture(Gdx.files.internal("UI/tut_img_1.png")));
+        tutorialImage2 = new Image(new Texture(Gdx.files.internal("UI/tut_img_2.png")));
+        tutorialImage1.setPosition(800 + 50 + 25, 0 + 50 + 12);
+        tutorialImage2.setPosition(MeowGame.SCREEN_WIDTH - 50 -50 - 24,
+            MeowGame.SCREEN_HEIGHT - 50 -50 - 50);
         gameUserInterface = new GameUserInterface(camera, this, meowGame, stage);
 
         Rectangle hitBoxCoreTower = new Rectangle(
@@ -131,7 +139,7 @@ public class GameScreenLvl1 implements Screen {
         touchPoint = new Vector3();
 
         enemyPathPoint = new Array<>();
-        enemyPathPoint.add(new Rectangle(MeowGame.SCREEN_WIDTH - 170 * 2, MeowGame.SCREEN_HEIGHT / 2f - 226 / 4 + 40, 10, 10));
+        enemyPathPoint.add(new Rectangle((MeowGame.SCREEN_WIDTH - 170 * 2) + 170 - 30, (MeowGame.SCREEN_HEIGHT / 2f - 226 / 4) + 226 / 5, 10, 10));
 
         enemy = new Enemy(
             10,
@@ -285,6 +293,10 @@ public class GameScreenLvl1 implements Screen {
                 timer.tick(deltaTime);
             }
         }
+        if (User.getInstance().getGold() >= 10 && User.getInstance().getOre() >= 20 && User.getInstance().getWood() >= 15 && defensiveTowerArray.isEmpty()){
+            tutorialImage1.draw(batch, 255f);
+            tutorialImage2.draw(batch, 255f);
+        }
         if (!tutorial.isTutorialOn()) workerService.generateWorker(curTime);
 
         timer.draw(batch, font, 1400, 20);
@@ -298,12 +310,13 @@ public class GameScreenLvl1 implements Screen {
             User.getInstance().setGold(0);
             User.getInstance().setOre(0);
             User.getInstance().setWood(0);
-            meowGame.changeScreen(MeowGame.MENU);
+            meowGame.changeScreen(MeowGame.LOSE);
         }
     }
 
     @Override
     public void dispose() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
         for (Worker worker : workers) {
             worker.stopSound();
             worker.dispose();
@@ -341,7 +354,7 @@ public class GameScreenLvl1 implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
@@ -349,6 +362,7 @@ public class GameScreenLvl1 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
@@ -360,5 +374,7 @@ public class GameScreenLvl1 implements Screen {
         for (Worker worker : workers) {
             worker.stopSound();
         }
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
+
 }

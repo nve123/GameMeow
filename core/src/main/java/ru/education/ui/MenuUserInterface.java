@@ -17,22 +17,24 @@ import ru.education.MeowGame;
 public class MenuUserInterface {
     private final ImageButton btnStart;
     private final MeowGame meowGame;
-    private final Music backgroundMusic;
     private final Stage stage;
     private final ImageButton btnSettings;
     private final ImageButton btnInf;
+    private final ImageButton btnExit;
     private final OrthographicCamera camera;
     private final BtnStartListener btnStartListener;
 
-    public MenuUserInterface(OrthographicCamera camera, BtnStartListener btnStartListener, MeowGame meowGame,Music backgroundMusic) {
-        this.backgroundMusic = backgroundMusic;
+    public MenuUserInterface(OrthographicCamera camera, BtnStartListener btnStartListener, MeowGame meowGame) {
         this.meowGame = meowGame;
         this.camera = camera;
         this.btnStartListener = btnStartListener;
 
         Texture btnStartTexture = new Texture("UI/btn_start.png");
+        Texture btnExitTexture = new Texture("UI/btn_exit.png");
         Drawable btnStartDrawable = new TextureRegionDrawable(btnStartTexture);
+        Drawable btnExitDrawable = new TextureRegionDrawable(btnExitTexture);
         btnStart = new ImageButton(btnStartDrawable);
+        btnExit = new ImageButton(btnExitDrawable);
         btnSettings = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_settings.png")));
         btnInf = new ImageButton(new TextureRegionDrawable(new Texture("UI/btn_start_Infinity.png")));
 
@@ -45,13 +47,16 @@ public class MenuUserInterface {
             MeowGame.SCREEN_WIDTH / 2f - btnStartTexture.getWidth() / 2f + 10,
             MeowGame.SCREEN_HEIGHT / 2f - btnStartTexture.getHeight() / 2f - 65 - 100
         );
+        btnExit.setPosition(
+            MeowGame.SCREEN_WIDTH - btnExitTexture.getWidth() - 12,
+            MeowGame.SCREEN_HEIGHT - btnExitTexture.getHeight() - 12
+        );
 
-        btnSettings.setPosition(0, MeowGame.SCREEN_HEIGHT - 50);
+        btnSettings.setPosition(0 + 12, MeowGame.SCREEN_HEIGHT - 50 - 12);
 
         btnSettings.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                pauseMusic(backgroundMusic);
                 meowGame.changeScreen(MeowGame.SETTINGS);
             }
         });
@@ -59,8 +64,13 @@ public class MenuUserInterface {
         btnInf.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                pauseMusic(backgroundMusic);
                 meowGame.changeScreen(MeowGame.INFMODESETTINGS);
+            }
+        });
+        btnExit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
             }
         });
 
@@ -79,6 +89,7 @@ public class MenuUserInterface {
         stage.addActor(btnStart);
         stage.addActor(btnSettings);
         stage.addActor(btnInf);
+        stage.addActor(btnExit);
     }
 
     public void drawUI() {

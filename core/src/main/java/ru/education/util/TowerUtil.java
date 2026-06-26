@@ -137,7 +137,7 @@ public class TowerUtil {
                 100,
                 125,
                 2,
-                5,
+                5,.
                 new Rectangle(x, y, 70, 125)
             );
             TowerStateAttribute towerStateAttributeClicked = new TowerStateAttribute(

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.education.MeowGame;
 import ru.education.fontBuilder.FontBuilder;
+import ru.education.service.MemoryService;
 import ru.education.ui.InfSettingsUserInterface;
 import ru.education.ui.SettingsUserInterface;
 
@@ -49,11 +50,12 @@ public class InfinityModeSettingsScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void pause() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
@@ -62,10 +64,12 @@ public class InfinityModeSettingsScreen implements Screen {
 
     @Override
     public void hide() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
     }
 
     @Override
     public void dispose() {
+        MemoryService.saveUnlocks(meowGame.getLockedLvls());
         background.dispose();
         font.dispose();
     }
